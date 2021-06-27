@@ -1,0 +1,90 @@
+
+GMTK2021RE - 0psd - Boss 1.png
+size: 1710,1197
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Attack f1
+  rotate: false
+  xy: 1264, 400
+  size: 397, 396
+  orig: 397, 396
+  offset: 0, 0
+  index: -1
+Attack f2
+  rotate: false
+  xy: 464, 408
+  size: 398, 388
+  orig: 398, 388
+  offset: 0, 0
+  index: -1
+Attack f3
+  rotate: false
+  xy: 910, 798
+  size: 398, 397
+  orig: 398, 397
+  offset: 0, 0
+  index: -1
+Attack f4
+  rotate: false
+  xy: 1310, 798
+  size: 398, 397
+  orig: 398, 397
+  offset: 0, 0
+  index: -1
+Hurt f1
+  rotate: false
+  xy: 2, 10
+  size: 436, 396
+  orig: 436, 396
+  offset: 0, 0
+  index: -1
+Hurt f2
+  rotate: false
+  xy: 2, 408
+  size: 460, 388
+  orig: 460, 388
+  offset: 0, 0
+  index: -1
+Hurt f3
+  rotate: false
+  xy: 2, 798
+  size: 460, 397
+  orig: 460, 397
+  offset: 0, 0
+  index: -1
+Hurt f4
+  rotate: false
+  xy: 464, 798
+  size: 444, 397
+  orig: 444, 397
+  offset: 0, 0
+  index: -1
+Idle f1
+  rotate: false
+  xy: 1240, 2
+  size: 397, 396
+  orig: 397, 396
+  offset: 0, 0
+  index: -1
+Idle f2
+  rotate: false
+  xy: 864, 408
+  size: 398, 388
+  orig: 398, 388
+  offset: 0, 0
+  index: -1
+Idle f3
+  rotate: false
+  xy: 440, 9
+  size: 398, 397
+  orig: 398, 397
+  offset: 0, 0
+  index: -1
+Idle f4
+  rotate: false
+  xy: 840, 9
+  size: 398, 397
+  orig: 398, 397
+  offset: 0, 0
+  index: -1

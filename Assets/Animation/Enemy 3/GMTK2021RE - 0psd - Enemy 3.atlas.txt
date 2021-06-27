@@ -1,0 +1,13 @@
+
+GMTK2021RE - 0psd - Enemy 3.png
+size: 154,244
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Pillar
+  rotate: false
+  xy: 2, 2
+  size: 150, 240
+  orig: 150, 240
+  offset: 0, 0
+  index: -1

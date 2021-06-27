@@ -1,0 +1,61 @@
+
+GMTK2021RE - 0psd - Title Screen Background.png
+size: 1926,1635
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+GMTK2021RE - Background Mountains
+  rotate: false
+  xy: 2, 1416
+  size: 1922, 217
+  orig: 1922, 217
+  offset: 0, 0
+  index: -1
+GMTK2021RE - Boss 1 Idle f1
+  rotate: false
+  xy: 534, 525
+  size: 529, 527
+  orig: 529, 527
+  offset: 0, 0
+  index: -1
+GMTK2021RE - Boss 1 Idle f2
+  rotate: false
+  xy: 2, 535
+  size: 530, 517
+  orig: 530, 517
+  offset: 0, 0
+  index: -1
+GMTK2021RE - Boss 1 Idle f3
+  rotate: false
+  xy: 1065, 523
+  size: 530, 529
+  orig: 530, 529
+  offset: 0, 0
+  index: -1
+GMTK2021RE - Boss 1 Idle f4
+  rotate: true
+  xy: 2, 2
+  size: 531, 529
+  orig: 531, 529
+  offset: 0, 0
+  index: -1
+Livello 0
+  rotate: false
+  xy: 2, 1054
+  size: 1922, 360
+  orig: 1922, 360
+  offset: 0, 0
+  index: -1
+
+GMTK2021RE - 0psd - Title Screen Background2.png
+size: 1926,1086
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+GMTK2021RE - Background 2
+  rotate: false
+  xy: 2, 2
+  size: 1922, 1082
+  orig: 1922, 1082
+  offset: 0, 0
+  index: -1

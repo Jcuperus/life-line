@@ -1,0 +1,20 @@
+
+GMTK2021RE - 0psd - Game Over Popup v3.png
+size: 730,346
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Livello 0
+  rotate: false
+  xy: 2, 64
+  size: 726, 280
+  orig: 726, 280
+  offset: 0, 0
+  index: -1
+Livello 2
+  rotate: false
+  xy: 2, 2
+  size: 373, 60
+  orig: 373, 60
+  offset: 0, 0
+  index: -1

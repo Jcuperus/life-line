@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895c9f5c117bff947a580feb490c7364, type: 3}
+  m_Name: PlayerHit
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 95d387d35e00a9d47a4e8392a5fd833f, type: 3}
+  - {fileID: 8300000, guid: c15cf83bcfd166c4ab54bee25c3ded3b, type: 3}
+  - {fileID: 8300000, guid: 1546e528a8b76d044905ef06fa548719, type: 3}
+  volumeMin: 1
+  volumeMax: 1.5
+  pitchMin: 0.5
+  pitchMax: 1.5

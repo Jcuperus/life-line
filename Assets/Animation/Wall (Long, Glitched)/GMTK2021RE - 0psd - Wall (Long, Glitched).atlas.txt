@@ -1,0 +1,34 @@
+
+GMTK2021RE - 0psd - Wall (Long, Glitched).png
+size: 1298,1086
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+f1
+  rotate: false
+  xy: 2, 2
+  size: 322, 1082
+  orig: 322, 1082
+  offset: 0, 0
+  index: -1
+f2
+  rotate: false
+  xy: 326, 2
+  size: 322, 1082
+  orig: 322, 1082
+  offset: 0, 0
+  index: -1
+f3
+  rotate: false
+  xy: 650, 2
+  size: 322, 1082
+  orig: 322, 1082
+  offset: 0, 0
+  index: -1
+f4
+  rotate: false
+  xy: 974, 2
+  size: 322, 1082
+  orig: 322, 1082
+  offset: 0, 0
+  index: -1

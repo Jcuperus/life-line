@@ -1,0 +1,41 @@
+
+GMTK2021RE - 0psd - Task Completed Popup v2.png
+size: 730,619
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Quit
+  rotate: false
+  xy: 605, 551
+  size: 122, 66
+  orig: 122, 66
+  offset: 0, 0
+  index: -1
+Restart
+  rotate: false
+  xy: 230, 557
+  size: 373, 60
+  orig: 373, 60
+  offset: 0, 0
+  index: -1
+Task Completed
+  rotate: false
+  xy: 2, 484
+  size: 599, 71
+  orig: 599, 71
+  offset: 0, 0
+  index: -1
+To Title
+  rotate: false
+  xy: 2, 558
+  size: 226, 59
+  orig: 226, 59
+  offset: 0, 0
+  index: -1
+Window
+  rotate: false
+  xy: 2, 2
+  size: 726, 480
+  orig: 726, 480
+  offset: 0, 0
+  index: -1

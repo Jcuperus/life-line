@@ -1,0 +1,55 @@
+
+GMTK2021RE - 0psd - Player.png
+size: 747,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cracks
+  rotate: false
+  xy: 261, 90
+  size: 178, 164
+  orig: 178, 164
+  offset: 0, 0
+  index: -1
+frag1
+  rotate: true
+  xy: 441, 11
+  size: 92, 136
+  orig: 92, 136
+  offset: 0, 0
+  index: -1
+frag2
+  rotate: false
+  xy: 441, 105
+  size: 188, 149
+  orig: 188, 149
+  offset: 0, 0
+  index: -1
+frag3
+  rotate: false
+  xy: 261, 8
+  size: 149, 80
+  orig: 149, 80
+  offset: 0, 0
+  index: -1
+frag4
+  rotate: true
+  xy: 579, 2
+  size: 101, 135
+  orig: 101, 135
+  offset: 0, 0
+  index: -1
+frag5
+  rotate: false
+  xy: 631, 115
+  size: 114, 139
+  orig: 114, 139
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 2, 31
+  size: 257, 223
+  orig: 257, 223
+  offset: 0, 0
+  index: -1
