@@ -20,7 +20,6 @@ public class PickupSpawnPoint : MonoBehaviour
     /****************** METHODS *******************/
     private void SpawnPickup(int room, int index = -1)
     {
-        if (GameManager.Instance.GetPickups.Length == 0) return; //TODO: remove temporary workaround when pickups are set
         
         if (room == roomID & Random.Range(0, 2) > 0)
         {
