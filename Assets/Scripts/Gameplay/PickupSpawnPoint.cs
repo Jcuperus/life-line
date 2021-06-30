@@ -20,10 +20,13 @@ public class PickupSpawnPoint : MonoBehaviour
     /****************** METHODS *******************/
     private void SpawnPickup(int room, int index = -1)
     {
-        if (room == roomID & Random.Range(0, 2)>0)
+        if (GameManager.Instance.GetPickups.Length == 0) return; //TODO: remove temporary workaround when pickups are set
+        
+        if (room == roomID & Random.Range(0, 2) > 0)
         {
             if (index == -1) { index = Random.Range(0, GameManager.Instance.GetPickups.Length); }
             //TODO: something is causing a nullReference here
+            Debug.Log(index);
             Instantiate(GameManager.Instance.GetPickups[index], transform.position, Quaternion.identity);
             StartCoroutine(DropHealth());
         }
