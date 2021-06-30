@@ -1,11 +1,15 @@
 using UnityEngine;
-
+/// <summary>
+/// Behaviour class for all types of projectiles in the game.
+/// </summary>
+// Note: should this be a base class that's split up between friendly and enemy projectiles, or otherwise differentiated? 
 public class Projectile : MonoBehaviour
 {
+    /**************** VARIABLES *******************/
     public Vector2 direction = Vector3.zero;
     public float playerBulletSpeed = 5f, enemyBulletSpeed = 2f;
+    [Space]
     private bool playerIsOwner = false;
-    private Rigidbody2D body;
     public bool PlayerIsOwner { get => playerIsOwner; 
         set 
         {
@@ -16,26 +20,33 @@ public class Projectile : MonoBehaviour
                 gameObject.layer = 7;
             }
         } }
-    public bool ricochet
+    private bool ricochet = false;
+    public bool Ricochet
     {
-        get => ricochet_;
+        get => ricochet;
         set
         {
-            ricochet_ = value;
+            ricochet = value;
             if (value == true)
             {
                 GetComponent<SpriteRenderer>().sprite = bouncySprite;
             }
         }
     }
-    private bool ricochet_ = false;
+    [Space]
     [SerializeField] private Sprite friendlySprite;
     [SerializeField] private Sprite enemySprite;
     [SerializeField] private Sprite bouncySprite;
+    
+    private Rigidbody2D body;
+    /**********************************************/
+    /******************* INIT *********************/
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
     }
+    /**********************************************/
+    /******************* LOOP *********************/
     private void FixedUpdate()
     {
         float speed = playerIsOwner ? playerBulletSpeed : enemyBulletSpeed;
@@ -46,23 +57,25 @@ public class Projectile : MonoBehaviour
         body.velocity+=(speed * Time.deltaTime * direction);
         transform.localRotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(direction));
     }
-
+    /**********************************************/
+    /***************** METHODS ********************/
     private void OnCollisionEnter2D(Collision2D collision)
     {
-            if (ricochet)
+            if (Ricochet)
             {
                 direction = Vector2.Reflect(direction, collision.transform.right);
 
-                ricochet = false;
+                Ricochet = false;
             }
             else
             {
                 Destroy(gameObject);
             }
 
-            if (collision.gameObject.TryGetComponent(out ProjectileHit projectileHit))
+            if (collision.gameObject.TryGetComponent(out IProjectileHit projectileHit))
             { 
                 projectileHit.OnProjectileHit(this);
             }
     }
+    /**********************************************/
 }

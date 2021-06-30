@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Base class from which all enemy monobehaviours should be derived.
 /// </summary>
-public abstract class AbstractEnemy : MonoBehaviour, ProjectileHit
+public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
 {
     /**************** VARIABLES *******************/
     [Header("Stats")]

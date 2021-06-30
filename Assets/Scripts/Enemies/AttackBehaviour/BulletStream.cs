@@ -21,7 +21,7 @@ public class BulletStream : FireBehaviour
         {
             Projectile newProjectile = Object.Instantiate(projectile, position.position, Quaternion.Euler(0f, 0f, 0f));
             newProjectile.direction = (target.position - position.position).normalized;
-            newProjectile.ricochet = true;
+            newProjectile.Ricochet = true;
 
             yield return new WaitForSeconds(fireDelay);
         }

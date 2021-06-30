@@ -71,7 +71,7 @@ public class EnemyPillar : AbstractEnemy
         Projectile projectile = Instantiate(projectilePreFab);
         projectile.transform.position = transform.position + (Vector3) direction * 2f;
         projectile.direction = direction;
-        projectile.ricochet = true;
+        projectile.Ricochet = true;
     }
     private IEnumerator FireBulletCoroutine()
     {

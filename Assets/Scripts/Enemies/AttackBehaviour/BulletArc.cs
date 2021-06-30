@@ -37,7 +37,7 @@ public class BulletArc : FireBehaviour
                 Vector3 projectilePosition = position.position + circlePosition * circleRadius;
                 Projectile newProjectile = Object.Instantiate(projectile, projectilePosition, Quaternion.Euler(0f, 0f, 0f));
                 newProjectile.direction = (projectilePosition - position.position).normalized;
-                newProjectile.ricochet = true;
+                newProjectile.Ricochet = true;
             }
         }
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 /// <summary>
 /// Behaviour for the gameobjects that form the player's health bar
 /// </summary>
-public class HealthBarSegment : MonoBehaviour, IHealthBarNode, ProjectileHit
+public class HealthBarSegment : MonoBehaviour, IHealthBarNode, IProjectileHit
 {
     /**************** VARIABLES *******************/
     [SerializeField][Range(0,50)] private float moveSpeed = 10f;

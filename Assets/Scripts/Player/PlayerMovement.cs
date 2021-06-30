@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Behaviour script for player movement.
 /// </summary>
-public class PlayerMovement : MonoBehaviour, IHealthBarNode, ProjectileHit
+public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
 {
     /**************** VARIABLES *******************/
     #region variables
@@ -125,7 +125,7 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, ProjectileHit
         projectile.direction = shootDirection;
         if (GameManager.Instance.Ricochet > 0)
         {
-            projectile.ricochet = true;
+            projectile.Ricochet = true;
         }
     }
     private void AttachHealthBar(IHealthBarNode segment)
