@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 895c9f5c117bff947a580feb490c7364, type: 3}
+  m_Script: {fileID: 11500000, guid: 82e8896175af8a148ad9e40f875361d3, type: 3}
   m_Name: PlayerHit
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 95d387d35e00a9d47a4e8392a5fd833f, type: 3}
-  - {fileID: 8300000, guid: c15cf83bcfd166c4ab54bee25c3ded3b, type: 3}
   - {fileID: 8300000, guid: 1546e528a8b76d044905ef06fa548719, type: 3}
   volumeMin: 1
-  volumeMax: 1.5
-  pitchMin: 0.5
-  pitchMax: 1.5
+  volumeMax: 2
+  pitchMin: 1
+  pitchMax: 2

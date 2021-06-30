@@ -23,6 +23,7 @@ public class PickupSpawnPoint : MonoBehaviour
         if (room == roomID & Random.Range(0, 2)>0)
         {
             if (index == -1) { index = Random.Range(0, GameManager.Instance.GetPickups.Length); }
+            //TODO: something is causing a nullReference here
             Instantiate(GameManager.Instance.GetPickups[index], transform.position, Quaternion.identity);
             StartCoroutine(DropHealth());
         }

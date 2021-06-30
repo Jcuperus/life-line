@@ -111,8 +111,7 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
     
     private void FireProjectile()
     {
-        //TODO: shootingSounds is not initialized
-        if (shootingSounds != null) shootingSounds.Play(audioSource);
+        shootingSounds.Play(audioSource);
         
         Vector3 shootDirection;
         if (mouseAim)
