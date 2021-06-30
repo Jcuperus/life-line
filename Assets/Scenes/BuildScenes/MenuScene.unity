@@ -815,6 +815,22 @@ PrefabInstance:
       propertyPath: bossEnemy
       value: 
       objectReference: {fileID: 5034312787656549550, guid: 2ef25f680c969b1449f72898b7b576b6, type: 3}
+    - target: {fileID: 4733312640719507197, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
+      propertyPath: pickupTypes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733312640719507197, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
+      propertyPath: pickupTypes.Array.data[0]
+      value: 
+      objectReference: {fileID: 3901300753360558936, guid: df5fc79cbaffa5a46a8527576ca67346, type: 3}
+    - target: {fileID: 4733312640719507197, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
+      propertyPath: pickupTypes.Array.data[1]
+      value: 
+      objectReference: {fileID: 1112887174579828743, guid: 8e7bb3a61a15b444bb7b04e13053f6ce, type: 3}
+    - target: {fileID: 4733312640719507197, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
+      propertyPath: pickupTypes.Array.data[2]
+      value: 
+      objectReference: {fileID: 1679206123581784462, guid: 16564de89a78f2b40b5722fe7e5a2086, type: 3}
     - target: {fileID: 4733312640719507198, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
       propertyPath: m_Name
       value: GameManager
