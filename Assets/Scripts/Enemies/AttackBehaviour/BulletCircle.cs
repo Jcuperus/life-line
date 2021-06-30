@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
+
 public class BulletCircle : FireBehaviour
 {    
     /**************** VARIABLES *******************/
     private readonly int bulletAmount = 20;
     private readonly float circleRadius = 9.5f;
     /**********************************************/
+    
     /******************* INIT *********************/
-    public BulletCircle(Transform position, Projectile projectile) : base(position, projectile)
-    {
-    }
+    public BulletCircle(Transform position, Projectile projectile) : base(position, projectile) {}
     /**********************************************/
+    
     /****************** METHODS *******************/
     public override IEnumerator Execute()
     {

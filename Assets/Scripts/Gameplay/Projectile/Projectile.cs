@@ -9,9 +9,12 @@ public class Projectile : MonoBehaviour
     public Vector2 direction = Vector3.zero;
     public float playerBulletSpeed = 5f, enemyBulletSpeed = 2f;
     [Space]
+    
     private bool playerIsOwner = false;
-    public bool PlayerIsOwner { get => playerIsOwner; 
-        set 
+    public bool PlayerIsOwner
+    {
+        get => playerIsOwner;
+        set
         {
             playerIsOwner = value;
             if (value)
@@ -19,7 +22,9 @@ public class Projectile : MonoBehaviour
                 GetComponent<SpriteRenderer>().sprite = friendlySprite;
                 gameObject.layer = 7;
             }
-        } }
+        }
+    }
+    
     private bool ricochet = false;
     public bool Ricochet
     {
@@ -27,12 +32,13 @@ public class Projectile : MonoBehaviour
         set
         {
             ricochet = value;
-            if (value == true)
+            if (value)
             {
                 GetComponent<SpriteRenderer>().sprite = bouncySprite;
             }
         }
     }
+    
     [Space]
     [SerializeField] private Sprite friendlySprite;
     [SerializeField] private Sprite enemySprite;
@@ -40,12 +46,14 @@ public class Projectile : MonoBehaviour
     
     private Rigidbody2D body;
     /**********************************************/
+    
     /******************* INIT *********************/
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
     }
     /**********************************************/
+    
     /******************* LOOP *********************/
     private void FixedUpdate()
     {
@@ -54,10 +62,12 @@ public class Projectile : MonoBehaviour
         {
             speed *= .25f;
         }
-        body.velocity+=(speed * Time.deltaTime * direction);
+
+        body.velocity += speed * Time.deltaTime * direction;
         transform.localRotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(direction));
     }
     /**********************************************/
+    
     /***************** METHODS ********************/
     private void OnCollisionEnter2D(Collision2D collision)
     {

@@ -9,8 +9,9 @@ public class EnemyDoplhin : AbstractEnemy
     
     private float timer;
     /**********************************************/
+    
     /******************* LOOP *********************/
-    void Update()
+    private void Update()
     {
         {
             timer += Time.deltaTime;
@@ -22,11 +23,13 @@ public class EnemyDoplhin : AbstractEnemy
             }
         }
     }
-    void FixedUpdate()
+    
+    private void FixedUpdate()
     {
         body.velocity += moveSpeed * moveSpeed * Time.deltaTime * moveDirection;
     }
     /**********************************************/
+    
     /***************** METHODS ********************/
     protected override void OnAnimationComplete(TrackEntry trackEntry)
     {
@@ -37,6 +40,7 @@ public class EnemyDoplhin : AbstractEnemy
                 break;
         }
     }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -46,6 +50,7 @@ public class EnemyDoplhin : AbstractEnemy
             SetAnimation(attackAnimation, false, 1f);
         }
     }
+    
     public override void OnProjectileHit(Projectile projectile)
     {
         base.OnProjectileHit(projectile);

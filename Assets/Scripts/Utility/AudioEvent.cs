@@ -13,6 +13,7 @@ public class AudioEvent : ScriptableObject
 
     [SerializeField] [Range(0.1f, 10)] private float pitchMin;
     [SerializeField] [Range(0.1f, 10)] private float pitchMax;
+    
     public void Play(AudioSource audioSource)
     {
         if (clips.Length == 0) return;

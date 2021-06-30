@@ -12,6 +12,7 @@ public class EnemySun : AbstractEnemy
     [SerializeField] private AnimationReferenceAsset attackCAnimation;
     [SerializeField] private AnimationReferenceAsset hurtAnimation;
     [SerializeField] private AnimationReferenceAsset deathAnimation;
+    
     [Header("Projectile")]
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private float patternShootDelay = 5.5f;
@@ -19,6 +20,7 @@ public class EnemySun : AbstractEnemy
     private FireBehaviour[] attackBehaviours;
     private AnimationReferenceAsset[] attackAnimations;
     /**********************************************/
+    
     /******************* INIT *********************/
     protected override void Awake()
     {
@@ -36,6 +38,7 @@ public class EnemySun : AbstractEnemy
             attackAAnimation, attackBAnimation, attackCAnimation
         };
     }
+    
     private void Start()
     {
         currentState = AnimationState.Idle;
@@ -43,6 +46,7 @@ public class EnemySun : AbstractEnemy
         StartCoroutine(AttackCoroutine());
     }
     /**********************************************/
+    
     /***************** METHODS ********************/
     protected override void OnAnimationComplete(TrackEntry trackEntry)
     {
@@ -59,13 +63,13 @@ public class EnemySun : AbstractEnemy
                 break;
         }
     }
+    
     private IEnumerator AttackCoroutine()
     {
         int behaviourIndex = 0;
 
         while (gameObject.activeSelf)
         {
-            Debug.Log("sun attack");
             FireBehaviour currentBehaviour = attackBehaviours[behaviourIndex];
 
             StartCoroutine(currentBehaviour.Execute());
@@ -77,6 +81,7 @@ public class EnemySun : AbstractEnemy
             yield return new WaitForSeconds(patternShootDelay);
         }
     }
+    
     public override void OnProjectileHit(Projectile projectile)
     {
         base.OnProjectileHit(projectile);
@@ -87,7 +92,6 @@ public class EnemySun : AbstractEnemy
         }
         if (currentState == AnimationState.Death)
         {
-            Debug.Log("ded");
             SetAnimation(deathAnimation, false, 1f);
             canInterruptAnimation = false;
         }

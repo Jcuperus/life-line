@@ -9,12 +9,14 @@ public class EnemyBust : AbstractEnemy
     [SerializeField] private AnimationReferenceAsset idleAnimation;
     [SerializeField] private AnimationReferenceAsset attackAnimation;
     [SerializeField] private AnimationReferenceAsset deathAnimation;
+    
     [Header("Projectile")]
     [SerializeField] private Projectile projectilePreFab;
     [SerializeField] private float fireRate = 1f;
 
     private float timer;
     /**********************************************/
+    
     /******************* INIT *********************/
     private void Start()
     {
@@ -23,8 +25,9 @@ public class EnemyBust : AbstractEnemy
         SetAnimation(idleAnimation, true, 1f);
     }
     /**********************************************/
+    
     /******************* LOOP *********************/
-    void Update()
+    private void Update()
     {
         timer += Time.deltaTime;
         if (timer > 1)
@@ -34,11 +37,13 @@ public class EnemyBust : AbstractEnemy
             moveDirection = (target - transform.position).normalized;
         }
     }
-    void FixedUpdate()
+    
+    private void FixedUpdate()
     {
         body.velocity += moveSpeed * Time.deltaTime * moveDirection;
     }
     /**********************************************/
+    
     /***************** METHODS ********************/
     protected override void OnAnimationComplete(TrackEntry trackEntry)
     {
@@ -53,6 +58,7 @@ public class EnemyBust : AbstractEnemy
                 break;
         }
     }
+    
     private void FireBullet(Vector2 dir)
     {
         if (currentState == AnimationState.Death) return;
@@ -65,6 +71,7 @@ public class EnemyBust : AbstractEnemy
         projectile.transform.position = transform.position + (Vector3)dir * 2f;
         projectile.direction = dir;
     }
+    
     private IEnumerator FireBulletCoroutine()
     {
         while (gameObject.activeSelf)
@@ -73,6 +80,7 @@ public class EnemyBust : AbstractEnemy
             FireBullet(moveDirection);
         }
     }
+    
     public override void OnProjectileHit(Projectile projectile)
     {
         base.OnProjectileHit(projectile);

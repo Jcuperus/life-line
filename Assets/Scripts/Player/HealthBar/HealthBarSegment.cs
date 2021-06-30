@@ -1,6 +1,6 @@
 using UnityEngine;
 /// <summary>
-/// Behaviour for the gameobjects that form the player's health bar
+/// Behaviour for the gameObjects that form the player's health bar
 /// </summary>
 public class HealthBarSegment : MonoBehaviour, IHealthBarNode, IProjectileHit
 {
@@ -25,6 +25,7 @@ public class HealthBarSegment : MonoBehaviour, IHealthBarNode, IProjectileHit
     public float headOffset = 3f;
     public float offset = 1.5f;
     /**********************************************/
+    
     /******************* LOOP *********************/
     private void FixedUpdate()
     {
@@ -35,20 +36,24 @@ public class HealthBarSegment : MonoBehaviour, IHealthBarNode, IProjectileHit
         transform.SetPositionAndRotation(Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * moveSpeed), Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(moveDirection)));
     }
     /**********************************************/
+    
     /****************** METHODS *******************/
     private void SetPositionAtNode(IHealthBarNode node)
     {
         transform.position = GetOffsetPosition(node.Position);
     }
+    
     private float GetOffset()
     {
         return PreviousNode is PlayerMovement ? headOffset : offset;
     }
+    
     private Vector3 GetOffsetPosition(Vector3 position)
     {
         Vector3 direction = position - transform.position;
         return position - direction.normalized * GetOffset();
     }
+    
     public void AddTail(IHealthBarNode tail)
     {
         if (NextNode == null)
@@ -61,10 +66,12 @@ public class HealthBarSegment : MonoBehaviour, IHealthBarNode, IProjectileHit
             NextNode.AddTail(tail);
         }
     }
+    
     public void OnProjectileHit(Projectile projectile)
     {
         // do nothing
     }
+    
     public void PassHit()
     {
         if (NextNode == null)

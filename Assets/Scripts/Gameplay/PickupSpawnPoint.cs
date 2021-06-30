@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 /// <summary>
-/// When attached to a gameobject, functions as spawnpoint for pickups.
+/// When attached to a gameObject, functions as spawn point for pickups.
 /// </summary>
 // Note: might do this differently, such as with a plane, which indicates an area in which pickups may be spawned at random, instead of in the same location each time
 public class PickupSpawnPoint : MonoBehaviour
@@ -9,12 +9,14 @@ public class PickupSpawnPoint : MonoBehaviour
     /**************** VARIABLES *******************/
     [SerializeField] private int roomID;
     /**********************************************/
+    
     /******************* LOOP *********************/
     private void Start()
     {
         EventBroker.SpawnPickupEvent += SpawnPickup;
     }
     /**********************************************/
+    
     /****************** METHODS *******************/
     private void SpawnPickup(int room, int index = -1)
     {
@@ -25,6 +27,7 @@ public class PickupSpawnPoint : MonoBehaviour
             StartCoroutine(DropHealth());
         }
     }
+    
     private IEnumerator DropHealth()
     {
         for (int i = 0; i < 5; i++)

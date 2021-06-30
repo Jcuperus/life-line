@@ -8,12 +8,14 @@ public class BulletStream : FireBehaviour
     private readonly float fireDelay = 0.5f;
     private readonly Transform target;
     /**********************************************/
+    
     /******************* INIT *********************/
     public BulletStream(Transform position, Projectile projectile, Transform target) : base(position, projectile)
     {
         this.target = target;
     }
     /**********************************************/
+    
     /***************** METHODS ********************/
     public override IEnumerator Execute()
     {

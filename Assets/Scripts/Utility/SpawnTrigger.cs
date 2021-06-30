@@ -7,6 +7,7 @@ public class SpawnTrigger : MonoBehaviour
     /**************** VARIABLES *******************/
     [SerializeField] private int roomID;
     /**********************************************/
+    
     /***************** METHODS ********************/
     private void OnTriggerEnter2D(Collider2D collision)
     {

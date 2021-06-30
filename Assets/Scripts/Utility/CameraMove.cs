@@ -7,16 +7,19 @@ public class CameraMove : MonoBehaviour
     /**************** VARIABLES *******************/
     [SerializeField] private Transform followTransform;
     /**********************************************/
+    
     /******************* INIT *********************/
     private void Awake()
     {
         EventBroker.LevelReadyEvent += FindPlayer;
     }
+    
     private void FindPlayer()
     {
         followTransform = FindObjectOfType<PlayerMovement>().transform;
     }
     /**********************************************/
+    
     /******************* LOOP *********************/
     private void LateUpdate()
     {

@@ -12,6 +12,7 @@ public class EnemySpawnPoint : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private SkeletonAnimation animator;
     [SerializeField] private AnimationReferenceAsset spawnAnimation;
+    
     [Header("Config")]
     [SerializeField] private Vector3 spawnOffset = Vector3.zero;
     [SerializeField] private int roomID;
@@ -19,12 +20,14 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private bool canInterruptAnimation = true;
     /**********************************************/
+    
     /******************* INIT *********************/
     public void Start()
     {
         EventBroker.SpawnEnemyEvent += StartSpawningWaves;
     }
     /**********************************************/
+    
     /***************** METHODS ********************/
     private void StartSpawningWaves(int room)
     {
@@ -42,6 +45,7 @@ public class EnemySpawnPoint : MonoBehaviour
             
         }
     }
+    
     private IEnumerator SpawnWaves()
     {
         Debug.Log(GameManager.Instance.Rooms[roomID].waves.Length + " waves");
@@ -61,6 +65,7 @@ public class EnemySpawnPoint : MonoBehaviour
 
         }
     }
+    
     private IEnumerator SpawnEnemies(AbstractEnemy enemy, float freq, int n)
     {
         for (int i = 0; i < n; i++)
@@ -72,7 +77,8 @@ public class EnemySpawnPoint : MonoBehaviour
             spawnedEnemy.transform.position = this.transform.position + spawnOffset;
         }
     }
-    protected void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
+    
+    private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
     {
         if (!canInterruptAnimation) return;
 
@@ -80,6 +86,7 @@ public class EnemySpawnPoint : MonoBehaviour
         trackEntry.TimeScale = timeScale;
         trackEntry.Complete += OnAnimationComplete;
     }
+    
     protected virtual void OnAnimationComplete(TrackEntry trackEntry) { }
     /**********************************************/
 }

@@ -1,23 +1,24 @@
 using System.Collections;
 using UnityEngine;
+
 /// <summary>
 /// Behaviour script for player movement.
 /// </summary>
 public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
 {
     /**************** VARIABLES *******************/
-    #region variables
+    [SerializeField] private int startingHealthAmount = 5;
+    
     [Header("Movement Parameters")]
     [SerializeField] private float maxSpeed = 50f;
     [SerializeField] private float maxAcceleration = 75f, maxDeceleration = 75f;
     [SerializeField] private float projectileSpawnOffset = 2f;
     [SerializeField] private float attachmentDelay = 1.5f;
-    [Space]
-    [SerializeField] private int startingHealthAmount = 5;
-    [Space]   
+
     [Header("Settings")]
     public bool inputMode = false;
     public bool mouseAim = false;
+    
     [Header("Prefabs & Assets")]
     [SerializeField] private AudioEvent damageSounds;
     [SerializeField] private AudioEvent shootingSounds;
@@ -28,27 +29,32 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
 
     private Rigidbody2D body;
     private AudioSource audioSource;
+    
     public IHealthBarNode PreviousNode { get; set; }
+    
+    
     public IHealthBarNode NextNode { get; set; }
+    
     public Vector3 Position
     {
         get => transform.position;
         set => transform.position = value;
     }
+    
     private Vector2 inputDir;
     private Vector2 desiredVelocity;
     private Vector2 velocity;
     private Vector2 lastVelocity;
     private bool canAttach = true;
-    #endregion
     /**********************************************/
+    
     /******************* INIT *********************/
-    #region init
-    void Awake()
+    private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
     }
+    
     private void Start()
     {
         for (int i = 0; i < startingHealthAmount; i++)
@@ -56,10 +62,9 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
             SpawnSegment();
         }
     }
-    #endregion
     /**********************************************/
+    
     /******************* LOOP *********************/
-    #region loop
     void Update()
     {
         inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -76,6 +81,7 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
             DetachHealthBar();
         }
     }
+    
     void FixedUpdate()
     {
         velocity = body.velocity;
@@ -94,18 +100,20 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
         }
         
     }
-    #endregion
     /**********************************************/
+    
     /***************** METHODS ********************/
-    #region methods
     public void SpawnSegment()
     {
         HealthBarSegment newSegment = Instantiate(healthBarNodePrefab, transform.parent, false);
         AddTail(newSegment);
     }
+    
     private void FireProjectile()
     {
-        shootingSounds.Play(audioSource);
+        //TODO: shootingSounds is not initialized
+        if (shootingSounds != null) shootingSounds.Play(audioSource);
+        
         Vector3 shootDirection;
         if (mouseAim)
         {
@@ -128,6 +136,7 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
             projectile.Ricochet = true;
         }
     }
+    
     private void AttachHealthBar(IHealthBarNode segment)
     {
         if (!canAttach) return;
@@ -142,6 +151,7 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
         NextNode = currentSegment;
         NextNode.PreviousNode = this;
     }
+    
     private void DetachHealthBar()
     {
         canAttach = false;
@@ -154,11 +164,13 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
 
         StartCoroutine(ReenableAttachment());
     }
+    
     private IEnumerator ReenableAttachment()
     {
         yield return new WaitForSeconds(attachmentDelay);
         canAttach = true;
     }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Pickup pickup))
@@ -168,6 +180,7 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
             GameManager.Instance.ResolvePickup(type);
         }
     }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -180,6 +193,7 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
             AttachHealthBar(healthBar);
         }
     }
+    
     public void AddTail(IHealthBarNode tail)
     {
         if (NextNode == null)
@@ -192,10 +206,12 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
             NextNode.AddTail(tail);
         }
     }
+    
     public void OnProjectileHit(Projectile projectile)
     {
         PassHit();
     }
+    
     public void PassHit()
     {
         damageSounds.Play(audioSource);
@@ -210,6 +226,5 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
             NextNode.PassHit();
         }
     }
-    #endregion
     /**********************************************/
 }

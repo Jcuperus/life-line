@@ -12,5 +12,6 @@ public interface IHealthBarNode
     public Vector3 Position { get; set; }
 
     public void AddTail(IHealthBarNode tail);
+    
     public void PassHit();
 }

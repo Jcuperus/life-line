@@ -1,13 +1,13 @@
 using UnityEngine;
 /// <summary>
-/// MonoBehaviour for gameobject containing simply the enum dictating which powerup is activated on acquiry. 
+/// MonoBehaviour for gameObject containing simply the enum dictating which powerUp is activated on pickup. 
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(CircleCollider2D))]
 public class Pickup : MonoBehaviour
 {
     /**************** VARIABLES *******************/
-    [SerializeField]private PickupType type = PickupType.NOTSET;
+    [SerializeField] private PickupType type = PickupType.NOTSET;
     public PickupType Type => type;
     /**********************************************/
 }

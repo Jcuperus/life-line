@@ -11,10 +11,12 @@ public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
     [SerializeField] protected float moveSpeed = 1f;
     [SerializeField] protected int health = 15;
     [Space]
+    
     [Header("Audio")]
     [SerializeField] protected AudioEvent hitSound;
     [SerializeField] protected AudioEvent fireSound;
     [SerializeField] protected AudioEvent deathSound;
+    
     [Header("Animation")]
     [SerializeField] protected SkeletonAnimation animator;
 
@@ -34,6 +36,7 @@ public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
         Death
     }
     /**********************************************/
+    
     /******************* INIT *********************/
     protected virtual void Awake()
     {
@@ -42,6 +45,7 @@ public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
         audioSource = GetComponent<AudioSource>();
     }
     /**********************************************/
+    
     /***************** METHODS ********************/
     protected void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
     {
@@ -51,13 +55,16 @@ public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
         trackEntry.TimeScale = timeScale;
         trackEntry.Complete += OnAnimationComplete;
     }
+    
     protected void DestroyEnemy()
     {
         StopAllCoroutines();
         GameManager.Instance.EnemiesAlive++;
         Destroy(gameObject);
     }
+    
     protected virtual void OnAnimationComplete(TrackEntry trackEntry) {}
+    
     public virtual void OnProjectileHit(Projectile projectile)
     {
         currentState = AnimationState.Hurt;

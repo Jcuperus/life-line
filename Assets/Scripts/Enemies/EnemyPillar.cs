@@ -9,6 +9,7 @@ public class EnemyPillar : AbstractEnemy
     [SerializeField] private AnimationReferenceAsset idleAnimation;
     [SerializeField] private AnimationReferenceAsset attackAnimation;
     [SerializeField] private AnimationReferenceAsset deathAnimation;
+    
     [Header("Projectile")]
     [SerializeField] private Projectile projectilePreFab;
     [SerializeField] private float fireRate = 1f;
@@ -16,6 +17,7 @@ public class EnemyPillar : AbstractEnemy
     
     private Vector3 target;
     /**********************************************/
+    
     /******************* INIT *********************/
     private void Start()
     {
@@ -24,8 +26,9 @@ public class EnemyPillar : AbstractEnemy
         SetAnimation(idleAnimation, true, 1f);
     }
     /**********************************************/
+    
     /******************* LOOP *********************/
-    void Update()
+    private void Update()
     {
         if (moveDistance > 0)
         {
@@ -34,7 +37,8 @@ public class EnemyPillar : AbstractEnemy
             moveDistance -= Time.deltaTime;
         }
     }
-    void FixedUpdate()
+    
+    private void FixedUpdate()
     {
         if (moveDistance > 0)
         {
@@ -46,6 +50,7 @@ public class EnemyPillar : AbstractEnemy
         }
     }
     /**********************************************/
+    
     /***************** METHODS ********************/
     protected override void OnAnimationComplete(TrackEntry trackEntry)
     {
@@ -60,6 +65,7 @@ public class EnemyPillar : AbstractEnemy
                 break;
         }
     }
+    
     private void FireBullet(Vector2 direction)
     {
         if (currentState == AnimationState.Death) return;
@@ -73,6 +79,7 @@ public class EnemyPillar : AbstractEnemy
         projectile.direction = direction;
         projectile.Ricochet = true;
     }
+    
     private IEnumerator FireBulletCoroutine()
     {
         while (gameObject.activeSelf)
@@ -81,6 +88,7 @@ public class EnemyPillar : AbstractEnemy
             FireBullet(moveDirection);
         }
     }
+    
     public override void OnProjectileHit(Projectile projectile)
     {
         base.OnProjectileHit(projectile);
