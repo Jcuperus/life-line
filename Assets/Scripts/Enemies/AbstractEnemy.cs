@@ -1,18 +1,23 @@
 using Spine;
 using Spine.Unity;
 using UnityEngine;
-
+/// <summary>
+/// Base class from which all enemy monobehaviours should be derived.
+/// </summary>
 public abstract class AbstractEnemy : MonoBehaviour, ProjectileHit
 {
+    /**************** VARIABLES *******************/
+    [Header("Stats")]
     [SerializeField] protected float moveSpeed = 1f;
     [SerializeField] protected int health = 15;
-    
+    [Space]
+    [Header("Audio")]
+    [SerializeField] protected AudioEvent hitSound;
+    [SerializeField] protected AudioEvent fireSound;
+    [SerializeField] protected AudioEvent deathSound;
+    [Header("Animation")]
     [SerializeField] protected SkeletonAnimation animator;
 
-    [SerializeField] protected AudioEven hitSound;
-    [SerializeField] protected AudioEven fireSound;
-    [SerializeField] protected AudioEven deathSound;
-    
     protected AudioSource audioSource;
     protected Vector2 moveDirection;
     protected Rigidbody2D body;
@@ -28,14 +33,16 @@ public abstract class AbstractEnemy : MonoBehaviour, ProjectileHit
         Attacking,
         Death
     }
-
+    /**********************************************/
+    /******************* INIT *********************/
     protected virtual void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerMovement>();
         audioSource = GetComponent<AudioSource>();
     }
-
+    /**********************************************/
+    /***************** METHODS ********************/
     protected void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
     {
         if (!canInterruptAnimation) return;
@@ -44,16 +51,13 @@ public abstract class AbstractEnemy : MonoBehaviour, ProjectileHit
         trackEntry.TimeScale = timeScale;
         trackEntry.Complete += OnAnimationComplete;
     }
-
     protected void DestroyEnemy()
     {
         StopAllCoroutines();
-        GameManager.Instance.enemiesAlive++;
+        GameManager.Instance.EnemiesAlive++;
         Destroy(gameObject);
     }
-
     protected virtual void OnAnimationComplete(TrackEntry trackEntry) {}
-
     public virtual void OnProjectileHit(Projectile projectile)
     {
         currentState = AnimationState.Hurt;
@@ -66,6 +70,5 @@ public abstract class AbstractEnemy : MonoBehaviour, ProjectileHit
             deathSound.Play(audioSource);
         }
     }
-    
-    
+    /**********************************************/
 }

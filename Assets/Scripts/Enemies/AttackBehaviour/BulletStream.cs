@@ -1,18 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletStream : FireBehaviour
 {
-    private int bulletAmount = 6;
-    private float fireDelay = 0.5f;
-    private Transform target;
-    
+    /**************** VARIABLES *******************/
+    private readonly int bulletAmount = 6;
+    private readonly float fireDelay = 0.5f;
+    private readonly Transform target;
+    /**********************************************/
+    /******************* INIT *********************/
     public BulletStream(Transform position, Projectile projectile, Transform target) : base(position, projectile)
     {
         this.target = target;
     }
-
+    /**********************************************/
+    /***************** METHODS ********************/
     public override IEnumerator Execute()
     {
         for (int i = 0; i < bulletAmount; i++)
@@ -24,4 +26,5 @@ public class BulletStream : FireBehaviour
             yield return new WaitForSeconds(fireDelay);
         }
     }
+    /**********************************************/
 }

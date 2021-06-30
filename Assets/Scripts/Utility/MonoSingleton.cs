@@ -1,10 +1,8 @@
 using UnityEngine;
-
 /// <summary>
 /// Inherit from this base class to create a singleton.
-/// e.g. public class MyClassName : Singleton<MyClassName> {}
-/// </summary>
 /// From http://wiki.unity3d.com/index.php/Singleton
+/// </summary>
 public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     // Check to see if we're about to be destroyed.
@@ -51,13 +49,10 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-
     private void OnApplicationQuit()
     {
         m_ShuttingDown = true;
     }
-
-
     private void OnDestroy()
     {
         m_ShuttingDown = true;

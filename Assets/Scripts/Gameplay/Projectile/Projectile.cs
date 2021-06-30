@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour
     private void FixedUpdate()
     {
         float speed = playerIsOwner ? playerBulletSpeed : enemyBulletSpeed;
-        if (!playerIsOwner & GameManager.Instance.bulletTime > 0)
+        if (!playerIsOwner & GameManager.Instance.BulletTime > 0)
         {
             speed *= .25f;
         }

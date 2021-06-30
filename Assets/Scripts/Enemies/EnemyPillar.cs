@@ -1,26 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
 
 public class EnemyPillar : AbstractEnemy
 {
+    /**************** VARIABLES *******************/
+    [SerializeField] private AnimationReferenceAsset idleAnimation;
+    [SerializeField] private AnimationReferenceAsset attackAnimation;
+    [SerializeField] private AnimationReferenceAsset deathAnimation;
+    [Header("Projectile")]
     [SerializeField] private Projectile projectilePreFab;
     [SerializeField] private float fireRate = 1f;
     [SerializeField] private float moveDistance = 2f;
     
-    [SerializeField] private AnimationReferenceAsset idleAnimation;
-    [SerializeField] private AnimationReferenceAsset attackAnimation;
-    [SerializeField] private AnimationReferenceAsset deathAnimation;
-    
     private Vector3 target;
+    /**********************************************/
+    /******************* INIT *********************/
     private void Start()
     {
         StartCoroutine(FireBulletCoroutine());
         currentState = AnimationState.Idle;
         SetAnimation(idleAnimation, true, 1f);
     }
+    /**********************************************/
+    /******************* LOOP *********************/
     void Update()
     {
         if (moveDistance > 0)
@@ -41,7 +45,8 @@ public class EnemyPillar : AbstractEnemy
             body.velocity = Vector2.zero;
         }
     }
-    
+    /**********************************************/
+    /***************** METHODS ********************/
     protected override void OnAnimationComplete(TrackEntry trackEntry)
     {
         switch (currentState)
@@ -55,7 +60,6 @@ public class EnemyPillar : AbstractEnemy
                 break;
         }
     }
-
     private void FireBullet(Vector2 direction)
     {
         if (currentState == AnimationState.Death) return;
@@ -69,7 +73,6 @@ public class EnemyPillar : AbstractEnemy
         projectile.direction = direction;
         projectile.ricochet = true;
     }
-
     private IEnumerator FireBulletCoroutine()
     {
         while (gameObject.activeSelf)
@@ -78,7 +81,6 @@ public class EnemyPillar : AbstractEnemy
             FireBullet(moveDirection);
         }
     }
-    
     public override void OnProjectileHit(Projectile projectile)
     {
         base.OnProjectileHit(projectile);
@@ -89,4 +91,5 @@ public class EnemyPillar : AbstractEnemy
             canInterruptAnimation = false;
         }
     }
+    /**********************************************/
 }

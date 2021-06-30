@@ -1,29 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
 
 public class EnemyBust : AbstractEnemy
 {
-    [SerializeField] private Projectile projectilePreFab;
-    [SerializeField] private float fireRate = 1f;
-    
+    /**************** VARIABLES *******************/
     [SerializeField] private AnimationReferenceAsset idleAnimation;
     [SerializeField] private AnimationReferenceAsset attackAnimation;
     [SerializeField] private AnimationReferenceAsset deathAnimation;
-    
-    private float timer;
+    [Header("Projectile")]
+    [SerializeField] private Projectile projectilePreFab;
+    [SerializeField] private float fireRate = 1f;
 
-    #region loop
-    
+    private float timer;
+    /**********************************************/
+    /******************* INIT *********************/
     private void Start()
     {
         StartCoroutine(FireBulletCoroutine());
         currentState = AnimationState.Idle;
         SetAnimation(idleAnimation, true, 1f);
     }
-    
+    /**********************************************/
+    /******************* LOOP *********************/
     void Update()
     {
         timer += Time.deltaTime;
@@ -34,13 +34,12 @@ public class EnemyBust : AbstractEnemy
             moveDirection = (target - transform.position).normalized;
         }
     }
-    
     void FixedUpdate()
     {
         body.velocity += moveSpeed * Time.deltaTime * moveDirection;
     }
-    #endregion
-
+    /**********************************************/
+    /***************** METHODS ********************/
     protected override void OnAnimationComplete(TrackEntry trackEntry)
     {
         switch (currentState)
@@ -54,7 +53,6 @@ public class EnemyBust : AbstractEnemy
                 break;
         }
     }
-    
     private void FireBullet(Vector2 dir)
     {
         if (currentState == AnimationState.Death) return;
@@ -67,7 +65,6 @@ public class EnemyBust : AbstractEnemy
         projectile.transform.position = transform.position + (Vector3)dir * 2f;
         projectile.direction = dir;
     }
-
     private IEnumerator FireBulletCoroutine()
     {
         while (gameObject.activeSelf)
@@ -76,7 +73,6 @@ public class EnemyBust : AbstractEnemy
             FireBullet(moveDirection);
         }
     }
-
     public override void OnProjectileHit(Projectile projectile)
     {
         base.OnProjectileHit(projectile);
@@ -87,4 +83,5 @@ public class EnemyBust : AbstractEnemy
             canInterruptAnimation = false;
         }
     }
+    /**********************************************/
 }

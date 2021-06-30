@@ -1,4 +1,6 @@
-
+/// <summary>
+/// Class which allows various objects in the project to communicate with one another without needing many refrences back and forth.
+/// </summary>
 public static class EventBroker
 {
     public delegate void SpawnEnemyAction(int room);

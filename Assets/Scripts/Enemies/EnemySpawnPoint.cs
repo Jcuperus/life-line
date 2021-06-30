@@ -1,23 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
 using Spine.Unity;
 using Spine;
 using UnityEngine;
 
+/// <summary>
+/// Behaviour for glitched walls, functioning as enemy spawn points. 
+/// </summary>
 public class EnemySpawnPoint : MonoBehaviour
 {
+    /**************** VARIABLES *******************/
+    [Header("Animation")]
     [SerializeField] private SkeletonAnimation animator;
-
     [SerializeField] private AnimationReferenceAsset spawnAnimation;
+    [Header("Config")]
     [SerializeField] private Vector3 spawnOffset = Vector3.zero;
-    
+    [SerializeField] private int roomID;
+    public int RoomID => roomID;
+
     private bool canInterruptAnimation = true;
-    public int roomID;
-    private int waveN;
+    /**********************************************/
+    /******************* INIT *********************/
     public void Start()
     {
         EventBroker.SpawnEnemyEvent += StartSpawningWaves;
     }
+    /**********************************************/
+    /***************** METHODS ********************/
     private void StartSpawningWaves(int room)
     {
         if (room == roomID)
@@ -60,7 +68,7 @@ public class EnemySpawnPoint : MonoBehaviour
             yield return new WaitForSeconds(freq);
             SetAnimation(spawnAnimation, false, .5f);
             AbstractEnemy spawnedEnemy = Instantiate(enemy);
-            GameManager.Instance.enemiesAlive--;
+            GameManager.Instance.EnemiesAlive--;
             spawnedEnemy.transform.position = this.transform.position + spawnOffset;
         }
     }
@@ -73,4 +81,5 @@ public class EnemySpawnPoint : MonoBehaviour
         trackEntry.Complete += OnAnimationComplete;
     }
     protected virtual void OnAnimationComplete(TrackEntry trackEntry) { }
+    /**********************************************/
 }

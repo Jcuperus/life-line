@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
-
 public class EnemyDoplhin : AbstractEnemy
 {
+    /**************** VARIABLES *******************/
     [SerializeField] private AnimationReferenceAsset attackAnimation;
     [SerializeField] private AnimationReferenceAsset deathAnimation;
     
     private float timer;
-
+    /**********************************************/
+    /******************* LOOP *********************/
     void Update()
     {
         {
@@ -27,8 +26,8 @@ public class EnemyDoplhin : AbstractEnemy
     {
         body.velocity += moveSpeed * moveSpeed * Time.deltaTime * moveDirection;
     }
-    
-    
+    /**********************************************/
+    /***************** METHODS ********************/
     protected override void OnAnimationComplete(TrackEntry trackEntry)
     {
         switch (currentState)
@@ -38,7 +37,6 @@ public class EnemyDoplhin : AbstractEnemy
                 break;
         }
     }
-    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -48,7 +46,6 @@ public class EnemyDoplhin : AbstractEnemy
             SetAnimation(attackAnimation, false, 1f);
         }
     }
-    
     public override void OnProjectileHit(Projectile projectile)
     {
         base.OnProjectileHit(projectile);
@@ -59,4 +56,5 @@ public class EnemyDoplhin : AbstractEnemy
             canInterruptAnimation = false;
         }
     }
+    /**********************************************/
 }

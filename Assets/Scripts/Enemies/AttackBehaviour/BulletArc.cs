@@ -1,21 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletArc : FireBehaviour
 {
-    private Transform target;
-    private int bulletAmount = 5;
-    private int salvoAmount = 4;
-    private float fireDelay = 0.5f;
-    private float bulletDistance = 15f;
-    private float circleRadius = 9.5f;
-    
+    /**************** VARIABLES *******************/
+    private readonly Transform target;
+    private readonly int bulletAmount = 5;
+    private readonly int salvoAmount = 4;
+    private readonly float fireDelay = 0.5f;
+    private readonly float bulletDistance = 15f;
+    private readonly float circleRadius = 9.5f;
+    /**********************************************/
+    /******************* INIT *********************/
     public BulletArc(Transform position, Projectile projectile, Transform target) : base(position, projectile)
     {
         this.target = target;
     }
-
+    /**********************************************/
+    /***************** METHODS ********************/
     public override IEnumerator Execute()
     {
         Vector3 direction = (target.position - position.position).normalized;
@@ -39,4 +41,5 @@ public class BulletArc : FireBehaviour
             }
         }
     }
+    /**********************************************/
 }

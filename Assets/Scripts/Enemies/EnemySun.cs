@@ -1,27 +1,25 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
-
 public class EnemySun : AbstractEnemy
 {
-    [SerializeField] private Projectile projectilePrefab;
-    [SerializeField] private float patternShootDelay = 5.5f;
-    
+    /**************** VARIABLES *******************/
     [SerializeField] private AnimationReferenceAsset idleAnimation;
     [SerializeField] private AnimationReferenceAsset attackAAnimation;
     [SerializeField] private AnimationReferenceAsset attackBAnimation;
     [SerializeField] private AnimationReferenceAsset attackCAnimation;
     [SerializeField] private AnimationReferenceAsset hurtAnimation;
     [SerializeField] private AnimationReferenceAsset deathAnimation;
+    [Header("Projectile")]
+    [SerializeField] private Projectile projectilePrefab;
+    [SerializeField] private float patternShootDelay = 5.5f;
 
     private FireBehaviour[] attackBehaviours;
     private AnimationReferenceAsset[] attackAnimations;
-
+    /**********************************************/
+    /******************* INIT *********************/
     protected override void Awake()
     {
         base.Awake();
@@ -38,7 +36,14 @@ public class EnemySun : AbstractEnemy
             attackAAnimation, attackBAnimation, attackCAnimation
         };
     }
-
+    private void Start()
+    {
+        currentState = AnimationState.Idle;
+        SetAnimation(idleAnimation, true, 1f);
+        StartCoroutine(AttackCoroutine());
+    }
+    /**********************************************/
+    /***************** METHODS ********************/
     protected override void OnAnimationComplete(TrackEntry trackEntry)
     {
         switch (currentState)
@@ -54,14 +59,6 @@ public class EnemySun : AbstractEnemy
                 break;
         }
     }
-
-    private void Start()
-    {
-        currentState = AnimationState.Idle;
-        SetAnimation(idleAnimation, true, 1f);
-        StartCoroutine(AttackCoroutine());
-    }
-
     private IEnumerator AttackCoroutine()
     {
         int behaviourIndex = 0;
@@ -80,7 +77,6 @@ public class EnemySun : AbstractEnemy
             yield return new WaitForSeconds(patternShootDelay);
         }
     }
-
     public override void OnProjectileHit(Projectile projectile)
     {
         base.OnProjectileHit(projectile);
@@ -96,4 +92,5 @@ public class EnemySun : AbstractEnemy
             canInterruptAnimation = false;
         }
     }
+    /**********************************************/
 }

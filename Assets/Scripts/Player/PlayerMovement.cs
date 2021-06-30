@@ -1,58 +1,53 @@
-#region namespaces
-
 using System.Collections;
 using UnityEngine;
-
-#endregion
-
 /// <summary>
 /// Behaviour script for player movement.
 /// </summary>
-public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
+public class PlayerMovement : MonoBehaviour, IHealthBarNode, ProjectileHit
 {
-    /**********************************************/
-    /*                VARIABLES                   */
-    /**********************************************/
+    /**************** VARIABLES *******************/
     #region variables
+    [Header("Movement Parameters")]
+    [SerializeField] private float maxSpeed = 50f;
+    [SerializeField] private float maxAcceleration = 75f, maxDeceleration = 75f;
+    [SerializeField] private float projectileSpawnOffset = 2f;
+    [SerializeField] private float attachmentDelay = 1.5f;
+    [Space]
+    [SerializeField] private int startingHealthAmount = 5;
+    [Space]   
+    [Header("Settings")]
+    public bool inputMode = false;
+    public bool mouseAim = false;
+    [Header("Prefabs & Assets")]
+    [SerializeField] private AudioEvent damageSounds;
+    [SerializeField] private AudioEvent shootingSounds;
+    [SerializeField] private AudioEvent deathSounds;
+    [Space]
+    [SerializeField] private HealthBarSegment healthBarNodePrefab;
+    [SerializeField] private Projectile projectilePrefab;
+
     private Rigidbody2D body;
-    public HealthBarNode PreviousNode { get; set; }
-    public HealthBarNode NextNode { get; set; }
-    [SerializeField] private AudioEven damageSounds;
-    [SerializeField] private AudioEven shootingSounds;
-    [SerializeField] private AudioEven deathSounds;
+    private AudioSource audioSource;
+    public IHealthBarNode PreviousNode { get; set; }
+    public IHealthBarNode NextNode { get; set; }
     public Vector3 Position
     {
         get => transform.position;
         set => transform.position = value;
     }
-
-    [SerializeField] private float maxSpeed = 50f;
-    [SerializeField] private float maxAcceleration = 75f, maxDeceleration = 75f;
-    [SerializeField] private float projectileSpawnOffset = 2f;
-    [SerializeField] private float attachmentDelay = 1.5f;
-    [SerializeField] private int startingHealthAmount = 5;
-    [SerializeField] private HealthBarSegment healthBarNodePrefab;
-    [SerializeField] private Projectile projectilePrefab;
-
-    public bool inputMode = false;
-    public bool mouseAim = false;
-    
     private Vector2 inputDir;
     private Vector2 desiredVelocity;
     private Vector2 velocity;
     private Vector2 lastVelocity;
     private bool canAttach = true;
-    [SerializeField] private AudioSource audioSource;
-    
     #endregion
     /**********************************************/
-    /*                   INIT                     */
-    /**********************************************/
+    /******************* INIT *********************/
     #region init
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-
+        audioSource = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -63,8 +58,7 @@ public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
     }
     #endregion
     /**********************************************/
-    /*                   LOOP                     */
-    /**********************************************/
+    /******************* LOOP *********************/
     #region loop
     void Update()
     {
@@ -102,18 +96,15 @@ public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
     }
     #endregion
     /**********************************************/
-    /*                 METHODS                    */
-    /**********************************************/
+    /***************** METHODS ********************/
     #region methods
     public void SpawnSegment()
     {
         HealthBarSegment newSegment = Instantiate(healthBarNodePrefab, transform.parent, false);
         AddTail(newSegment);
     }
-
     private void FireProjectile()
     {
-        
         shootingSounds.Play(audioSource);
         Vector3 shootDirection;
         if (mouseAim)
@@ -132,17 +123,16 @@ public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
         projectile.transform.position = transform.position + shootDirection * projectileSpawnOffset;
 
         projectile.direction = shootDirection;
-        if (GameManager.Instance.ricochet > 0)
+        if (GameManager.Instance.Ricochet > 0)
         {
             projectile.ricochet = true;
         }
     }
-    
-    private void AttachHealthBar(HealthBarNode segment)
+    private void AttachHealthBar(IHealthBarNode segment)
     {
         if (!canAttach) return;
         
-        HealthBarNode currentSegment = segment;
+        IHealthBarNode currentSegment = segment;
         
         while (currentSegment.PreviousNode != null)
         {
@@ -152,10 +142,9 @@ public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
         NextNode = currentSegment;
         NextNode.PreviousNode = this;
     }
-    
     private void DetachHealthBar()
     {
-                    canAttach = false;
+        canAttach = false;
         if (NextNode != null)
         {
             NextNode.PreviousNode = null;
@@ -163,27 +152,22 @@ public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
             PreviousNode = null;
         }
 
-
         StartCoroutine(ReenableAttachment());
-
     }
-
     private IEnumerator ReenableAttachment()
     {
         yield return new WaitForSeconds(attachmentDelay);
         canAttach = true;
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Pickup pickup))
         {
-            PickupType type = pickup.type;
+            PickupType type = pickup.Type;
             Destroy(pickup.gameObject);
             GameManager.Instance.ResolvePickup(type);
         }
     }
-    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -191,13 +175,12 @@ public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
             PassHit();
             collision.rigidbody.velocity = -collision.rigidbody.velocity;
         }
-        else if(NextNode == null && collision.gameObject.TryGetComponent(out HealthBarNode healthBar))
+        else if(NextNode == null && collision.gameObject.TryGetComponent(out IHealthBarNode healthBar))
         {
             AttachHealthBar(healthBar);
         }
     }
-
-    public void AddTail(HealthBarNode tail)
+    public void AddTail(IHealthBarNode tail)
     {
         if (NextNode == null)
         {
@@ -209,7 +192,6 @@ public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
             NextNode.AddTail(tail);
         }
     }
-
     public void OnProjectileHit(Projectile projectile)
     {
         PassHit();
@@ -228,6 +210,6 @@ public class PlayerMovement : MonoBehaviour, HealthBarNode, ProjectileHit
             NextNode.PassHit();
         }
     }
-
     #endregion
+    /**********************************************/
 }

@@ -2,15 +2,27 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// General Utility class which handles many of the runtime activiy and data containment. Needs preset configurations in a scene to function properly.
+/// </summary>
 public class GameManager : MonoSingleton<GameManager>
 {
-    [SerializeField] private Pickup[] listofPickupTypes;
-    public Pickup[] GetPickups => listofPickupTypes;
+    /**************** VARIABLES *******************/
+    #region VARIABLES
+    [Header("Assets & Prefabs")]
+    [SerializeField] private Pickup[] pickupTypes;
+    public Pickup[] GetPickups => pickupTypes;
+    [Space]
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject pauseScreen;
-    public bool waveBusy = false;
+    [Space]    
+    [SerializeField] private AudioClip[] music;
+    private AudioSource audioSource;
+    [Space]
+    #region Temporary Wave Construction
+    [Header("Temp Wave Construction")]
+    public bool waveBusy = false; // change this when changing spawn workflow
     [Serializable]
     public class SubWave
     {
@@ -29,93 +41,65 @@ public class GameManager : MonoSingleton<GameManager>
         public Wave[] waves;
     }
     [SerializeField] private Room[] rooms;
-    public AbstractEnemy BossEnemy => bossEnemy;
     [SerializeField] private AbstractEnemy bossEnemy;
+    public AbstractEnemy BossEnemy => bossEnemy;
     public Room[] Rooms => rooms;
-    public float bulletTime { get; private set; }
-    public float ricochet { get; private set; }
+    public GameObject[] barriers;
+    #endregion
 
+    // player powerup status:
+    public float BulletTime { get; private set; }
+    public float Ricochet { get; private set; }
+
+    // gamestate:
     public readonly GMNullState nullState = new GMNullState { };
     public readonly GMFailState failState = new GMFailState { };
     public readonly GMFailState winState = new GMFailState { };
-    public GameObject[] wall;
-    public int roomCount = 0;
+    public GMBaseState GameState { get; private set; }
     private bool paused = false;
-    [SerializeField] private AudioClip[] music;
-    private AudioSource audioSource;
-    public int enemiesAlive
+    // tracking rooms & waves
+    [HideInInspector] public int roomCount = 0;
+    private void SetRoom(int index)
     {
-        get { return enemiesAlive_; }
+        roomCount = index;
+    }
+    public int EnemiesAlive
+    {
+        get { return enemiesAlive; }
         set
         {
-            enemiesAlive_ = value;
-            if (enemiesAlive_ == 0)
+            enemiesAlive = value;
+            if (enemiesAlive == 0)
             {
-                Destroy(wall[roomCount]);
+                Destroy(barriers[roomCount]);
                 waveBusy = false;
             };
         }
     }
-    private int enemiesAlive_;
-    public GMBaseState gameState { get; private set; }
-    private void TransitionToState(GMBaseState state)
-    {
-        if (gameState != state)
-        {
-            gameState = state;
-            gameState.EnterState(this);
-        }
-        else
-        {
-            Debug.LogWarning("Redundant State Transition");
-        }
-    }
+    private int enemiesAlive;
+    // inscene references
     private PlayerMovement player;
-
+    #endregion
+    /**********************************************/
+    /****************** INIT **********************/
     private void Awake()
     {
         DontDestroyOnLoad(this);
         TransitionToState(nullState);
-        pauseScreen?.SetActive(false);
+        if(pauseScreen==null)pauseScreen.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
     }
     private void Start()
     {
-        SetMusic(0);
+        PlayMusic(0);
         EventBroker.SpawnEnemyEvent += SetRoom;
     }
-    private void SetRoom(int index)
-    {
-        roomCount = index;
-    }
-
-    public void StartLevel(string scene)
-    {
-        SceneManager.LoadScene(scene);
-        StartCoroutine(OnSceneStart(scene));
-    }
-    public void SetMusic(int id)
-    {
-        if (id == -1)
-        {
-            audioSource.clip = null;
-            return;
-        }
-        audioSource.clip = music[id];
-        audioSource.Play();
-    }
-    private IEnumerator OnSceneStart(string scene)
-    {
-        yield return new WaitUntil(()=>SceneManager.GetActiveScene().name==scene);
-        player = FindObjectOfType<PlayerSpawner>().SpawnPlayer();
-        SetMusic(1);
-        EventBroker.LevelReadyTrigger();
-    }
-
+    /**********************************************/
+    /****************** LOOP **********************/
     private void Update()
     {
-        if (gameState == failState)
+        if (GameState == failState)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -141,21 +125,21 @@ public class GameManager : MonoSingleton<GameManager>
                     pauseScreen.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
                 }
             }
-            if (bulletTime > 0)
+            if (BulletTime > 0)
             {
-                bulletTime -= Time.deltaTime;
+                BulletTime -= Time.deltaTime;
             }
-            else if (bulletTime < 0)
+            else if (BulletTime < 0)
             {
-                bulletTime = 0;
+                BulletTime = 0;
             }
-            if (ricochet > 0)
+            if (Ricochet > 0)
             {
-                ricochet -= Time.deltaTime;
+                Ricochet -= Time.deltaTime;
             }
-            else if (ricochet < 0)
+            else if (Ricochet < 0)
             {
-                ricochet = 0;
+                Ricochet = 0;
             }
         }
 
@@ -164,7 +148,42 @@ public class GameManager : MonoSingleton<GameManager>
             Application.Quit();
         }
     }
-
+    /**********************************************/
+    /***************** METHODS ********************/
+    private void TransitionToState(GMBaseState state)
+    {
+        if (GameState != state)
+        {
+            GameState = state;
+            GameState.EnterState(this);
+        }
+        else
+        {
+            Debug.LogWarning("Redundant State Transition");
+        }
+    }
+    public void StartLevel(string scene)
+    {
+        SceneManager.LoadScene(scene);
+        StartCoroutine(OnSceneStart(scene));
+    }
+    private IEnumerator OnSceneStart(string scene)
+    {
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == scene);
+        player = FindObjectOfType<PlayerSpawner>().SpawnPlayer();
+        PlayMusic(1);
+        EventBroker.LevelReadyTrigger();
+    }
+    public void PlayMusic(int id)
+    {
+        if (id == -1)
+        {
+            audioSource.clip = null;
+            return;
+        }
+        audioSource.clip = music[id];
+        audioSource.Play();
+    }
     public void ResolvePickup(PickupType pickup)
     {
         switch (pickup)
@@ -176,28 +195,29 @@ public class GameManager : MonoSingleton<GameManager>
                 //player.ApplySpeedMultiplier(1.5f, 5);
                 break;
             case PickupType.BulletTime:
-                bulletTime += 5;
+                BulletTime += 5;
                 break;
             case PickupType.Ricochet:
-                ricochet += 5;
+                Ricochet += 5;
                 break;
         }
     }
     public void Death()
     {
         TransitionToState(failState);
-        SetMusic(-1);
+        PlayMusic(-1);
         Instantiate(gameOverScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
-
     public void Victory()
     {
-        //TODO: play win sound/song
         TransitionToState(winState);
+        //TODO: play win sound/song
         Instantiate(winScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
+    /**********************************************/
 }
 
+/************** MACHINE STATES ****************/
 public abstract class GMBaseState
 {
     public abstract void EnterState(GameManager gm);
@@ -216,3 +236,4 @@ public class GMFailState : GMBaseState
         Time.timeScale = 0;
     }
 }
+/**********************************************/

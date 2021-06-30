@@ -1,60 +1,55 @@
-using System;
 using UnityEngine;
-
-public class HealthBarSegment : MonoBehaviour, HealthBarNode, ProjectileHit
+/// <summary>
+/// Behaviour for the gameobjects that form the player's health bar
+/// </summary>
+public class HealthBarSegment : MonoBehaviour, IHealthBarNode, ProjectileHit
 {
-    [SerializeField] private float moveSpeed = 10f;
-
-    private HealthBarNode _previousNode;
-    
-    public HealthBarNode PreviousNode
+    /**************** VARIABLES *******************/
+    [SerializeField][Range(0,50)] private float moveSpeed = 10f;
+    private IHealthBarNode previousNode;
+    public IHealthBarNode PreviousNode
     {
-        get => _previousNode;
+        get => previousNode;
         set
         {
-            _previousNode = value;
-            if (_previousNode != null) SetPositionAtNode(_previousNode);
+            previousNode = value;
+            if (previousNode != null) SetPositionAtNode(previousNode);
         }
     }
-
     public Vector3 Position
     {
         get => transform.position;
         set => transform.position = value;
     }
-
-    public HealthBarNode NextNode { get; set; }
-
+    public IHealthBarNode NextNode { get; set; }
     public float headOffset = 3f;
     public float offset = 1.5f;
-
+    /**********************************************/
+    /******************* LOOP *********************/
     private void FixedUpdate()
     {
         if (PreviousNode == null) return;
 
         Vector3 moveDirection = PreviousNode.Position - transform.position;
         Vector3 desiredPosition = PreviousNode.Position - moveDirection.normalized * GetOffset();
-        transform.rotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(moveDirection));
-        transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * moveSpeed);
+        transform.SetPositionAndRotation(Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * moveSpeed), Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(moveDirection)));
     }
-
-    private void SetPositionAtNode(HealthBarNode node)
+    /**********************************************/
+    /****************** METHODS *******************/
+    private void SetPositionAtNode(IHealthBarNode node)
     {
         transform.position = GetOffsetPosition(node.Position);
     }
-
     private float GetOffset()
     {
         return PreviousNode is PlayerMovement ? headOffset : offset;
     }
-
     private Vector3 GetOffsetPosition(Vector3 position)
     {
         Vector3 direction = position - transform.position;
         return position - direction.normalized * GetOffset();
     }
-
-    public void AddTail(HealthBarNode tail)
+    public void AddTail(IHealthBarNode tail)
     {
         if (NextNode == null)
         {
@@ -66,12 +61,10 @@ public class HealthBarSegment : MonoBehaviour, HealthBarNode, ProjectileHit
             NextNode.AddTail(tail);
         }
     }
-
     public void OnProjectileHit(Projectile projectile)
     {
-
+        // do nothing
     }
-
     public void PassHit()
     {
         if (NextNode == null)
@@ -84,4 +77,5 @@ public class HealthBarSegment : MonoBehaviour, HealthBarNode, ProjectileHit
             NextNode.PassHit();
         }
     }
+    /**********************************************/
 }
