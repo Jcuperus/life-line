@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Player.HealthBar
 {
-    
     public class HealthBar : MonoBehaviour
     {
+        [SerializeField] private HealthBarSegment segmentPrefab;
         [SerializeField] private float attachmentDelay = 1.5f;
         
         private const float HeadOffset = 2.5f, Offset = 2f;
@@ -45,6 +45,12 @@ namespace Player.HealthBar
         public void RemoveLast()
         {
             segments.RemoveLast();
+        }
+
+        public void SpawnSegment()
+        {
+            HealthBarSegment newSegment = Instantiate(segmentPrefab);
+            AddLast(newSegment.Node);
         }
         
         public static float GetOffset(LinkedListNode<GameObject> node)

@@ -1,4 +1,5 @@
 using UnityEngine;
+
 /// <summary>
 /// MonoBehaviour for object which instantiates a player prefab in the scene.
 /// </summary>

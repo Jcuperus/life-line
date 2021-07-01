@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Player.HealthBar;
 using UnityEngine;
@@ -9,6 +10,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour, IProjectileHit
 {
     /**************** VARIABLES *******************/
+    public event Action OnHealthPickup;
+    
     [SerializeField] private int startingHealthAmount = 5;
     
     [Header("Movement Parameters")]
@@ -26,7 +29,6 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
     [SerializeField] private AudioEvent deathSounds;
     
     [Space]
-    [SerializeField] private HealthBarSegment healthBarNodePrefab;
     [SerializeField] private Projectile projectilePrefab;
 
     private Rigidbody2D body;
@@ -35,7 +37,7 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
     private HealthBar healthBar;
     private LinkedListNode<GameObject> Node { get; set; }
     
-    private Vector2 inputDir;
+    private Vector2 inputDirection;
     private Vector2 desiredVelocity;
     private Vector2 velocity;
     private Vector2 lastVelocity;
@@ -50,13 +52,15 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
         Node = new LinkedListNode<GameObject>(gameObject);
         healthBar = GetComponent<HealthBar>();
         healthBar.AddFirst(Node);
+
+        GameManager.OnHealthPickup += () => healthBar.SpawnSegment();
     }
     
     private void Start()
     {
         for (int i = 0; i < startingHealthAmount; i++)
         {
-            SpawnSegment();
+            healthBar.SpawnSegment();
         }
     }
     /**********************************************/
@@ -64,15 +68,14 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
     /******************* LOOP *********************/
     private void Update()
     {
-        inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        inputDir = inputMode ? Vector2.ClampMagnitude(inputDir, 1f) : inputDir.normalized;
-        desiredVelocity = inputDir * maxSpeed;
+        inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        inputDirection = inputMode ? Vector2.ClampMagnitude(inputDirection, 1f) : inputDirection.normalized;
+        desiredVelocity = inputDirection * maxSpeed;
 
         if (Input.GetButtonDown("Fire1"))
         {
             FireProjectile();
-        }   
-
+        }
         if (Input.GetButtonDown("Jump"))
         {
             DetachHealthBar();
@@ -91,21 +94,14 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
         body.velocity = velocity;
         // body.velocity = maxSpeed * 10 * speedMultiplier * Time.deltaTime * inputDir;
 
-        if (inputDir.sqrMagnitude > 0f)
+        if (inputDirection.sqrMagnitude > 0f)
         {
-            transform.rotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(inputDir));
+            transform.rotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(inputDirection));
         }
-        
     }
     /**********************************************/
     
     /***************** METHODS ********************/
-    public void SpawnSegment()
-    {
-        HealthBarSegment newSegment = Instantiate(healthBarNodePrefab, transform.parent, false);
-        healthBar.AddLast(newSegment.Node);
-    }
-    
     private void FireProjectile()
     {
         shootingSounds.Play(audioSource);
