@@ -9,7 +9,7 @@ namespace Player.HealthBar
     public class HealthBarSegment : MonoBehaviour, IProjectileHit
     {
         /**************** VARIABLES *******************/
-        [SerializeField, Range(0,50)] private float moveSpeed = 10f;
+        [SerializeField, Range(0,100)] private float moveSpeed = 50f;
 
         public LinkedListNode<GameObject> Node { get; private set; }
         /**********************************************/

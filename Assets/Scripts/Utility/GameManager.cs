@@ -87,7 +87,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         DontDestroyOnLoad(this);
         TransitionToState(nullState);
-        if(pauseScreen==null)pauseScreen.SetActive(false);
+        if (pauseScreen == null) pauseScreen.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
     }
