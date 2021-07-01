@@ -58,6 +58,8 @@ public class GameManager : MonoSingleton<GameManager>
     // tracking rooms & waves
     [HideInInspector] public int roomCount = 0;
     
+    public static event Action OnHealthPickup;
+    
     private void SetRoom(int index)
     {
         roomCount = index;
@@ -87,7 +89,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         DontDestroyOnLoad(this);
         TransitionToState(nullState);
-        if(pauseScreen==null)pauseScreen.SetActive(false);
+        if (pauseScreen == null) pauseScreen.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
     }
@@ -195,7 +197,7 @@ public class GameManager : MonoSingleton<GameManager>
         switch (pickup)
         {
             case PickupType.HealthUp:
-                player.SpawnSegment();
+                OnHealthPickup?.Invoke();
                 break;
             case PickupType.SpeedUp:
                 //player.ApplySpeedMultiplier(1.5f, 5);

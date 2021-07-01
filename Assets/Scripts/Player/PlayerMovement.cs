@@ -1,19 +1,23 @@
-using System.Collections;
+using System;
+using System.Collections.Generic;
+using Player.HealthBar;
 using UnityEngine;
 
 /// <summary>
 /// Behaviour script for player movement.
 /// </summary>
-public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
+[RequireComponent(typeof(HealthBar))]
+public class PlayerMovement : MonoBehaviour, IProjectileHit
 {
     /**************** VARIABLES *******************/
+    public event Action OnHealthPickup;
+    
     [SerializeField] private int startingHealthAmount = 5;
     
     [Header("Movement Parameters")]
     [SerializeField] private float maxSpeed = 50f;
     [SerializeField] private float maxAcceleration = 75f, maxDeceleration = 75f;
     [SerializeField] private float projectileSpawnOffset = 2f;
-    [SerializeField] private float attachmentDelay = 1.5f;
 
     [Header("Settings")]
     public bool inputMode = false;
@@ -23,29 +27,20 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
     [SerializeField] private AudioEvent damageSounds;
     [SerializeField] private AudioEvent shootingSounds;
     [SerializeField] private AudioEvent deathSounds;
+    
     [Space]
-    [SerializeField] private HealthBarSegment healthBarNodePrefab;
     [SerializeField] private Projectile projectilePrefab;
 
     private Rigidbody2D body;
     private AudioSource audioSource;
     
-    public IHealthBarNode PreviousNode { get; set; }
+    private HealthBar healthBar;
+    private LinkedListNode<GameObject> Node { get; set; }
     
-    
-    public IHealthBarNode NextNode { get; set; }
-    
-    public Vector3 Position
-    {
-        get => transform.position;
-        set => transform.position = value;
-    }
-    
-    private Vector2 inputDir;
+    private Vector2 inputDirection;
     private Vector2 desiredVelocity;
     private Vector2 velocity;
     private Vector2 lastVelocity;
-    private bool canAttach = true;
     /**********************************************/
     
     /******************* INIT *********************/
@@ -53,36 +48,41 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
     {
         body = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        
+        Node = new LinkedListNode<GameObject>(gameObject);
+        healthBar = GetComponent<HealthBar>();
+        healthBar.AddFirst(Node);
+
+        GameManager.OnHealthPickup += () => healthBar.SpawnSegment();
     }
     
     private void Start()
     {
         for (int i = 0; i < startingHealthAmount; i++)
         {
-            SpawnSegment();
+            healthBar.SpawnSegment();
         }
     }
     /**********************************************/
     
     /******************* LOOP *********************/
-    void Update()
+    private void Update()
     {
-        inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        inputDir = inputMode ? Vector2.ClampMagnitude(inputDir, 1f) : inputDir.normalized;
-        desiredVelocity = inputDir * maxSpeed;
+        inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        inputDirection = inputMode ? Vector2.ClampMagnitude(inputDirection, 1f) : inputDirection.normalized;
+        desiredVelocity = inputDirection * maxSpeed;
 
         if (Input.GetButtonDown("Fire1"))
         {
             FireProjectile();
         }
-
         if (Input.GetButtonDown("Jump"))
         {
             DetachHealthBar();
         }
     }
     
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         velocity = body.velocity;
 
@@ -94,21 +94,14 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
         body.velocity = velocity;
         // body.velocity = maxSpeed * 10 * speedMultiplier * Time.deltaTime * inputDir;
 
-        if (inputDir.sqrMagnitude > 0f)
+        if (inputDirection.sqrMagnitude > 0f)
         {
-            transform.rotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(inputDir));
+            transform.rotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(inputDirection));
         }
-        
     }
     /**********************************************/
     
     /***************** METHODS ********************/
-    public void SpawnSegment()
-    {
-        HealthBarSegment newSegment = Instantiate(healthBarNodePrefab, transform.parent, false);
-        AddTail(newSegment);
-    }
-    
     private void FireProjectile()
     {
         shootingSounds.Play(audioSource);
@@ -136,38 +129,9 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
         }
     }
     
-    private void AttachHealthBar(IHealthBarNode segment)
-    {
-        if (!canAttach) return;
-        
-        IHealthBarNode currentSegment = segment;
-        
-        while (currentSegment.PreviousNode != null)
-        {
-            currentSegment = currentSegment.PreviousNode;
-        }
-
-        NextNode = currentSegment;
-        NextNode.PreviousNode = this;
-    }
-    
     private void DetachHealthBar()
     {
-        canAttach = false;
-        if (NextNode != null)
-        {
-            NextNode.PreviousNode = null;
-            NextNode = null;
-            PreviousNode = null;
-        }
-
-        StartCoroutine(ReenableAttachment());
-    }
-    
-    private IEnumerator ReenableAttachment()
-    {
-        yield return new WaitForSeconds(attachmentDelay);
-        canAttach = true;
+        if (healthBar.IsFirst(Node)) healthBar.RemoveFirst();
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -184,46 +148,35 @@ public class PlayerMovement : MonoBehaviour, IHealthBarNode, IProjectileHit
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            PassHit();
+            OnDamage();
             collision.rigidbody.velocity = -collision.rigidbody.velocity;
         }
-        else if(NextNode == null && collision.gameObject.TryGetComponent(out IHealthBarNode healthBar))
+        else if(collision.gameObject.CompareTag("HealthBar") && !healthBar.IsFirst(Node))
         {
-            AttachHealthBar(healthBar);
-        }
-    }
-    
-    public void AddTail(IHealthBarNode tail)
-    {
-        if (NextNode == null)
-        {
-            NextNode = tail;
-            tail.PreviousNode = this;
-        }
-        else
-        {
-            NextNode.AddTail(tail);
+            healthBar.AddFirst(Node);
         }
     }
     
     public void OnProjectileHit(Projectile projectile)
     {
-        PassHit();
+        OnDamage();
     }
-    
-    public void PassHit()
+
+    private void OnDamage()
     {
         damageSounds.Play(audioSource);
-        if (NextNode == null)
+
+        if (healthBar.Count > 1)
         {
             deathSounds.Play(audioSource);
-            //Death animation
             GameManager.Instance.Death();
         }
         else
         {
-            NextNode.PassHit();
+            healthBar.RemoveLast();
         }
+        
+        healthBar.RemoveLast();
     }
     /**********************************************/
 }
