@@ -12,13 +12,19 @@ public class EnemyBust : AbstractEnemy
     [SerializeField] private AnimationReferenceAsset deathAnimation;
     
     [Header("Projectile")]
-    [SerializeField] private Projectile projectilePreFab;
     [SerializeField] private float fireRate = 1f;
 
+    private ProjectileFactory projectileFactory;
     private float timer;
     /**********************************************/
     
     /******************* INIT *********************/
+    protected override void Awake()
+    {
+        base.Awake();
+        projectileFactory = ProjectileFactory.Instance;
+    }
+    
     private void Start()
     {
         StartCoroutine(FireBulletCoroutine());
@@ -60,17 +66,16 @@ public class EnemyBust : AbstractEnemy
         }
     }
     
-    private void FireBullet(Vector2 dir)
+    private void FireBullet(Vector2 direction)
     {
         if (currentState == AnimationState.Death) return;
         
         fireSound.Play(audioSource);
         currentState = AnimationState.Attacking;
         SetAnimation(attackAnimation, false, 2f);
-        
-        Projectile projectile = Instantiate(projectilePreFab);
-        projectile.transform.position = transform.position + (Vector3)dir * 2f;
-        projectile.direction = dir;
+
+        Vector3 projectilePosition = transform.position + (Vector3) direction * 2f;
+        projectileFactory.Instantiate(ProjectileFactory.ProjectileTypes.Enemy, projectilePosition, direction);
     }
     
     private IEnumerator FireBulletCoroutine()

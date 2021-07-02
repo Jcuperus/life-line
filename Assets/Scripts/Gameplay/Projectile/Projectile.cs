@@ -9,63 +9,37 @@ namespace Gameplay.Projectile
     public class Projectile : MonoBehaviour
     {
         /**************** VARIABLES *******************/
+        public ProjectileScriptableObject projectileConfiguration;
         public Vector2 direction = Vector2.zero;
-        public float playerBulletSpeed = 5f, enemyBulletSpeed = 2f;
-        [Space] private bool playerIsOwner = false;
-
-        public bool PlayerIsOwner
-        {
-            get => playerIsOwner;
-            set
-            {
-                playerIsOwner = value;
-                if (value)
-                {
-                    GetComponent<SpriteRenderer>().sprite = friendlySprite;
-                    gameObject.layer = 7;
-                }
-            }
-        }
-
-        private bool ricochet = false;
-
-        public bool Ricochet
-        {
-            get => ricochet;
-            set
-            {
-                ricochet = value;
-                if (value)
-                {
-                    GetComponent<SpriteRenderer>().sprite = bouncySprite;
-                }
-            }
-        }
-
-        [Space] [SerializeField] private Sprite friendlySprite;
-        [SerializeField] private Sprite enemySprite;
-        [SerializeField] private Sprite bouncySprite;
 
         private Rigidbody2D body;
+        private SpriteRenderer spriteRenderer;
+        private bool canRicochet;
         /**********************************************/
 
         /******************* INIT *********************/
         private void Awake()
         {
             body = GetComponent<Rigidbody2D>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = projectileConfiguration.projectileSprite;
+            canRicochet = projectileConfiguration.canRicochet;
+
+            float initialRotation = VectorHelper.GetAngleFromDirection(new Vector3(direction.x, 0f, direction.y));
+            transform.eulerAngles = Vector3.up * initialRotation;
         }
         /**********************************************/
 
         /******************* LOOP *********************/
         private void FixedUpdate()
         {
-            float speed = playerIsOwner ? playerBulletSpeed : enemyBulletSpeed;
-            if (!playerIsOwner & GameManager.Instance.BulletTime > 0)
+            float speed = projectileConfiguration.projectileSpeed;
+            if (!projectileConfiguration.playerIsOwner & GameManager.Instance.BulletTime > 0)
             {
                 speed *= .25f;
             }
 
-            body.velocity += speed * Time.deltaTime * direction;
+            body.velocity = speed * Time.deltaTime * direction;
             transform.localRotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(direction));
         }
         /**********************************************/
@@ -73,11 +47,10 @@ namespace Gameplay.Projectile
         /***************** METHODS ********************/
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (Ricochet)
+            if (canRicochet)
             {
                 direction = Vector2.Reflect(direction, collision.transform.right);
-
-                Ricochet = false;
+                canRicochet = false;
             }
             else
             {

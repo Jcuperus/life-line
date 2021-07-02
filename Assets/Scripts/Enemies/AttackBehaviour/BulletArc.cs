@@ -6,15 +6,15 @@ public class BulletArc : FireBehaviour
 {
     /**************** VARIABLES *******************/
     private readonly Transform target;
-    private readonly int bulletAmount = 5;
-    private readonly int salvoAmount = 4;
-    private readonly float fireDelay = 0.5f;
-    private readonly float bulletDistance = 15f;
-    private readonly float circleRadius = 9.5f;
+    private const int BulletAmount = 5;
+    private const int SalvoAmount = 4;
+    private const float FireDelay = 0.5f;
+    private const float BulletDistance = 15f;
+    private const float CircleRadius = 9.5f;
     /**********************************************/
     
     /******************* INIT *********************/
-    public BulletArc(Transform position, Projectile projectile, Transform target) : base(position, projectile)
+    public BulletArc(ProjectileFactory.ProjectileTypes projectileType, Transform transform, Transform target) : base(projectileType, transform)
     {
         this.target = target;
     }
@@ -23,23 +23,24 @@ public class BulletArc : FireBehaviour
     /***************** METHODS ********************/
     public override IEnumerator Execute()
     {
-        Vector3 direction = (target.position - position.position).normalized;
+        Vector3 currentPosition = transform.position;
+        Vector3 direction = (target.position - currentPosition).normalized;
         float arcCenterAngle = VectorHelper.GetAngleFromDirection(direction) + 90f; //TODO: need to fix this function
-        float arcLength = bulletDistance * bulletAmount;
-        float arcStartAngle = arcCenterAngle - arcLength * 0.5f + bulletDistance * 0.5f;
+        float arcLength = BulletDistance * BulletAmount;
+        float arcStartAngle = arcCenterAngle - arcLength * 0.5f + BulletDistance * 0.5f;
 
-        for (int j = 0; j < salvoAmount; j++)
+        for (int j = 0; j < SalvoAmount; j++)
         {
-            yield return new WaitForSeconds(fireDelay);
+            yield return new WaitForSeconds(FireDelay);
             
-            for (int i = 0; i < bulletAmount; i++)
+            for (int i = 0; i < BulletAmount; i++)
             {
-                float angle = (arcStartAngle + bulletDistance * i) * Mathf.Deg2Rad;
+                float angle = (arcStartAngle + BulletDistance * i) * Mathf.Deg2Rad;
                 var circlePosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle));
-                Vector3 projectilePosition = position.position + circlePosition * circleRadius;
-                Projectile newProjectile = Object.Instantiate(projectile, projectilePosition, Quaternion.Euler(0f, 0f, 0f));
-                newProjectile.direction = (projectilePosition - position.position).normalized;
-                newProjectile.Ricochet = true;
+                Vector3 projectilePosition = currentPosition + circlePosition * CircleRadius;
+                Vector2 projectileDirection = (projectilePosition - currentPosition).normalized;
+                projectileFactory.Instantiate(projectileType, projectilePosition,
+                    projectileDirection);
             }
         }
     }

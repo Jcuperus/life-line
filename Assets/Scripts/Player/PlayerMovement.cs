@@ -28,10 +28,8 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
     [SerializeField] private AudioEvent damageSounds;
     [SerializeField] private AudioEvent shootingSounds;
     [SerializeField] private AudioEvent deathSounds;
-    
-    [Space]
-    [SerializeField] private Projectile projectilePrefab;
 
+    private ProjectileFactory projectileFactory;
     private Rigidbody2D body;
     private AudioSource audioSource;
     
@@ -47,6 +45,7 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
     /******************* INIT *********************/
     private void Awake()
     {
+        projectileFactory = ProjectileFactory.Instance;
         body = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         
@@ -119,15 +118,11 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
             shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
         }
 
-        Projectile projectile = Instantiate(projectilePrefab);
-        projectile.PlayerIsOwner = true;
-        projectile.transform.position = transform.position + shootDirection * projectileSpawnOffset;
-
-        projectile.direction = shootDirection;
-        if (GameManager.Instance.Ricochet > 0)
-        {
-            projectile.Ricochet = true;
-        }
+        ProjectileFactory.ProjectileTypes projectileType = GameManager.Instance.Ricochet > 0
+            ? ProjectileFactory.ProjectileTypes.PlayerRicochet
+            : ProjectileFactory.ProjectileTypes.Player;
+        Vector3 projectilePosition = transform.position + shootDirection * projectileSpawnOffset;
+        projectileFactory.Instantiate(projectileType, projectilePosition, shootDirection);
     }
     
     private void DetachHealthBar()

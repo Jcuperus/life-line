@@ -8,15 +8,17 @@ using Gameplay.Projectile;
 public abstract class FireBehaviour
 {
     /**************** VARIABLES *******************/
-    protected readonly Projectile projectile;
-    protected readonly Transform position;
+    protected readonly ProjectileFactory.ProjectileTypes projectileType;
+    protected readonly Transform transform;
+    protected readonly ProjectileFactory projectileFactory;
     /**********************************************/
     
     /****************** METHODS *******************/
-    protected FireBehaviour(Transform position, Projectile projectile)
+    protected FireBehaviour(ProjectileFactory.ProjectileTypes projectileType, Transform transform)
     {
-        this.position = position;
-        this.projectile = projectile;
+        this.projectileType = projectileType;
+        this.transform = transform;
+        projectileFactory = ProjectileFactory.Instance;
     }
     
     public abstract IEnumerator Execute();

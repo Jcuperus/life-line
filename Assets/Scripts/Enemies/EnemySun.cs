@@ -16,7 +16,6 @@ public class EnemySun : AbstractEnemy
     [SerializeField] private AnimationReferenceAsset deathAnimation;
     
     [Header("Projectile")]
-    [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private float patternShootDelay = 5.5f;
 
     private FireBehaviour[] attackBehaviours;
@@ -30,9 +29,9 @@ public class EnemySun : AbstractEnemy
 
         attackBehaviours = new FireBehaviour[]
         {
-            new BulletStream(transform, projectilePrefab, player.transform),
-            new BulletArc(transform, projectilePrefab, player.transform),
-            new BulletCircle(transform, projectilePrefab)
+            new BulletStream(ProjectileFactory.ProjectileTypes.EnemyRicochet, transform, player.transform),
+            new BulletArc(ProjectileFactory.ProjectileTypes.Enemy, transform, player.transform),
+            new BulletCircle(ProjectileFactory.ProjectileTypes.EnemyRicochet, transform)
         };
 
         attackAnimations = new[]

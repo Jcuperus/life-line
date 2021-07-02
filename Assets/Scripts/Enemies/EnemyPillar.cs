@@ -12,14 +12,20 @@ public class EnemyPillar : AbstractEnemy
     [SerializeField] private AnimationReferenceAsset deathAnimation;
     
     [Header("Projectile")]
-    [SerializeField] private Projectile projectilePreFab;
     [SerializeField] private float fireRate = 1f;
     [SerializeField] private float moveDistance = 2f;
-    
+
+    private ProjectileFactory projectileFactory;
     private Vector3 target;
     /**********************************************/
     
     /******************* INIT *********************/
+    protected override void Awake()
+    {
+        base.Awake();
+        projectileFactory = ProjectileFactory.Instance;
+    }
+
     private void Start()
     {
         StartCoroutine(FireBulletCoroutine());
@@ -75,10 +81,8 @@ public class EnemyPillar : AbstractEnemy
         currentState = AnimationState.Attacking;
         SetAnimation(attackAnimation, false, 3f);
         
-        Projectile projectile = Instantiate(projectilePreFab);
-        projectile.transform.position = transform.position + (Vector3) direction * 2f;
-        projectile.direction = direction;
-        projectile.Ricochet = true;
+        Vector3 projectilePosition = transform.position + (Vector3) direction * 2f;
+        projectileFactory.Instantiate(ProjectileFactory.ProjectileTypes.EnemyRicochet, projectilePosition, direction);
     }
     
     private IEnumerator FireBulletCoroutine()

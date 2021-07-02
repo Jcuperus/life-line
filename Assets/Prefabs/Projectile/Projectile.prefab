@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2204760866131446123
 Transform:
   m_ObjectHideFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2204760866131446119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9248848, y: -7.597671, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -166,9 +166,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca73a181df0c58241a739a6234768f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 1, y: 0}
-  playerBulletSpeed: 300
-  enemyBulletSpeed: 50
-  friendlySprite: {fileID: 21300000, guid: 40879012f88cee24ca8d30f8fca01f8c, type: 3}
-  enemySprite: {fileID: 21300000, guid: 66ecda74b15bdb345b22a76262961b35, type: 3}
-  bouncySprite: {fileID: 21300000, guid: 53f714ec210610548b011ccbb3f5062d, type: 3}
+  projectileConfiguration: {fileID: 11400000, guid: b8afa169edbdca2468c5ca977772dd33, type: 2}
+  direction: {x: 0, y: 0}

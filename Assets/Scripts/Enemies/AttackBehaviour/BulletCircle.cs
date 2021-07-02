@@ -10,7 +10,7 @@ public class BulletCircle : FireBehaviour
     /**********************************************/
     
     /******************* INIT *********************/
-    public BulletCircle(Transform position, Projectile projectile) : base(position, projectile) {}
+    public BulletCircle(ProjectileFactory.ProjectileTypes projectileType, Transform transform) : base(projectileType, transform) {}
     /**********************************************/
     
     /****************** METHODS *******************/
@@ -18,15 +18,15 @@ public class BulletCircle : FireBehaviour
     {
         yield return null;
 
+        Vector3 currentPosition = transform.position;
         float segmentOffset = 360f * Mathf.Deg2Rad / bulletAmount;
         
         for (int i = 0; i < bulletAmount; i++)
         {
             var circlePosition = new Vector3(Mathf.Cos(segmentOffset * i), Mathf.Sin(segmentOffset * i));
-            Vector3 projectilePosition = position.position + circlePosition * circleRadius;
-            Projectile newProjectile = Object.Instantiate(projectile, projectilePosition, Quaternion.Euler(0f, 0f, 0f));
-            newProjectile.direction = (projectilePosition - position.position).normalized;
-            newProjectile.Ricochet = true;
+            Vector3 projectilePosition = currentPosition + circlePosition * circleRadius;
+            Vector2 direction = (projectilePosition - currentPosition).normalized;
+            projectileFactory.Instantiate(projectileType, projectilePosition, direction);
         }
     }
     /**********************************************/
