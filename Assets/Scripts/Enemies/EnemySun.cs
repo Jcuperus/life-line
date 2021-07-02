@@ -3,6 +3,8 @@ using Spine;
 using Spine.Unity;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Gameplay.Projectile;
+
 public class EnemySun : AbstractEnemy
 {
     /**************** VARIABLES *******************/

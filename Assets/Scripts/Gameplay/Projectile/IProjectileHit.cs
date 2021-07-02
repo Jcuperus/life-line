@@ -1,7 +1,10 @@
-/// <summary>
-/// Inherit from this interface to use the <see cref="OnProjectileHit(Projectile)"/> event.
-/// </summary>
-public interface IProjectileHit
+namespace Gameplay.Projectile
 {
-    public void OnProjectileHit(Projectile projectile);
+    /// <summary>
+    /// Inherit from this interface to use the <see cref="OnProjectileHit(Projectile)"/> event.
+    /// </summary>
+    public interface IProjectileHit
+    {
+        public void OnProjectileHit(Projectile projectile);
+    }
 }

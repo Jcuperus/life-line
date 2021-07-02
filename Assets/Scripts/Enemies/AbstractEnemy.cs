@@ -1,6 +1,8 @@
 using Spine;
 using Spine.Unity;
 using UnityEngine;
+using Gameplay.Projectile;
+
 /// <summary>
 /// Base class from which all enemy monobehaviours should be derived.
 /// </summary>

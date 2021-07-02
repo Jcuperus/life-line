@@ -1,6 +1,8 @@
 using Spine;
 using Spine.Unity;
 using UnityEngine;
+using Gameplay.Projectile;
+
 public class EnemyDoplhin : AbstractEnemy
 {
     /**************** VARIABLES *******************/

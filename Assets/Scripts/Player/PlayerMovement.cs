@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Player.HealthBar;
 using UnityEngine;
+using Gameplay.Projectile;
 
 /// <summary>
 /// Behaviour script for player movement.

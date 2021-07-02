@@ -2,6 +2,7 @@ using System.Collections;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
+using Gameplay.Projectile;
 
 public class EnemyBust : AbstractEnemy
 {

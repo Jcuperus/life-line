@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Gameplay.Projectile;
 
 /// <summary>
 /// Base class for enemy attack patterns, more easily allowing for complex and varied behaviours.

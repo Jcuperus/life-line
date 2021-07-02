@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Gameplay.Projectile;
 
 public class BulletArc : FireBehaviour
 {
