@@ -5,7 +5,6 @@ namespace Gameplay.Projectile
     /// <summary>
     /// Behaviour class for all types of projectiles in the game.
     /// </summary>
-    /// Note: should this be a base class that's split up between friendly and enemy projectiles, or otherwise differentiated? 
     public class Projectile : MonoBehaviour
     {
         /**************** VARIABLES *******************/
@@ -13,7 +12,6 @@ namespace Gameplay.Projectile
         public Vector2 direction = Vector2.zero;
 
         private Rigidbody2D body;
-        private SpriteRenderer spriteRenderer;
         private bool canRicochet;
         /**********************************************/
 
@@ -21,10 +19,11 @@ namespace Gameplay.Projectile
         private void Awake()
         {
             body = GetComponent<Rigidbody2D>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = projectileConfiguration.projectileSprite;
             canRicochet = projectileConfiguration.canRicochet;
 
+            var spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = projectileConfiguration.projectileSprite;
+            
             float initialRotation = VectorHelper.GetAngleFromDirection(new Vector3(direction.x, 0f, direction.y));
             transform.eulerAngles = Vector3.up * initialRotation;
         }
