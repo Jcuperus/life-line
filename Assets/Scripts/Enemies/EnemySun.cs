@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using Gameplay.Projectile;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemySun : AbstractEnemy
 {
@@ -19,6 +21,8 @@ public class EnemySun : AbstractEnemy
 
     private FireBehaviour[] attackBehaviours;
     private AnimationReferenceAsset[] attackAnimations;
+
+    public static event Action OnSunDefeated;
     /**********************************************/
     
     /******************* INIT *********************/
@@ -59,7 +63,7 @@ public class EnemySun : AbstractEnemy
                 break;
             case AnimationState.Death:
                 DestroyEnemy();
-                GameManager.Instance.Victory();
+                OnSunDefeated?.Invoke();
                 break;
         }
     }
@@ -71,7 +75,6 @@ public class EnemySun : AbstractEnemy
         while (gameObject.activeSelf)
         {
             FireBehaviour currentBehaviour = attackBehaviours[behaviourIndex];
-
             StartCoroutine(currentBehaviour.Execute());
             
             SetAnimation(attackAnimations[behaviourIndex], false, 1f);
