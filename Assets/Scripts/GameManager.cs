@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 /// <summary>
 /// General Utility class which handles many of the runtime activity and data containment. Needs preset configurations in a scene to function properly.
 /// </summary>
@@ -18,70 +19,19 @@ public class GameManager : MonoSingleton<GameManager>
     [Space]    
     [SerializeField] private AudioClip[] music;
     private AudioSource audioSource;
-    [Space]
-    
-    [Header("Temp Wave Construction")]
-    public bool waveBusy = false; // change this when changing spawn workflow
-    [Serializable]
-    public class SubWave
-    {
-        public AbstractEnemy type;
-        public int amount;
-        public float delay;
-    }
-    [Serializable]
-    public class Wave
-    {
-        public SubWave[] subWaves;
-    }
-    [Serializable]
-    public class Room
-    {
-        public Wave[] waves;
-    }
-    [SerializeField] private Room[] rooms;
-    [SerializeField] private AbstractEnemy bossEnemy;
-    public AbstractEnemy BossEnemy => bossEnemy;
-    public Room[] Rooms => rooms;
-    public GameObject[] barriers;
 
     // player power up status:
     public float BulletTime { get; private set; }
     public float Ricochet { get; private set; }
 
     // game state:
-    public readonly GMNullState nullState = new GMNullState { };
-    public readonly GMFailState failState = new GMFailState { };
-    public readonly GMFailState winState = new GMFailState { };
-    public GMBaseState GameState { get; private set; }
+    private readonly GMNullState nullState = new GMNullState();
+    private readonly GMFailState failState = new GMFailState();
+    private readonly GMFailState winState = new GMFailState();
+    private GMBaseState GameState { get; set; }
     private bool paused = false;
-    // tracking rooms & waves
-    [HideInInspector] public int roomCount = 0;
     
     public static event Action OnHealthPickup;
-    
-    private void SetRoom(int index)
-    {
-        roomCount = index;
-    }
-
-    public int EnemiesAlive
-    {
-        get => enemiesAlive;
-        set
-        {
-            enemiesAlive = value;
-            if (enemiesAlive == 0)
-            {
-                Destroy(barriers[roomCount]);
-                waveBusy = false;
-            }
-        }
-    }
-    
-    private int enemiesAlive;
-    // in-scene references
-    private PlayerMovement player;
     /**********************************************/
     
     /****************** INIT **********************/
@@ -93,10 +43,10 @@ public class GameManager : MonoSingleton<GameManager>
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
     }
+    
     private void Start()
     {
         PlayMusic(0);
-        EventBroker.SpawnEnemyEvent += SetRoom;
     }
     /**********************************************/
     
@@ -176,7 +126,6 @@ public class GameManager : MonoSingleton<GameManager>
     private IEnumerator OnSceneStart(string scene)
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == scene);
-        player = FindObjectOfType<PlayerSpawner>().SpawnPlayer();
         PlayMusic(1);
         EventBroker.LevelReadyTrigger();
     }
@@ -200,6 +149,7 @@ public class GameManager : MonoSingleton<GameManager>
                 OnHealthPickup?.Invoke();
                 break;
             case PickupType.SpeedUp:
+                //TODO: change to invoking event
                 //player.ApplySpeedMultiplier(1.5f, 5);
                 break;
             case PickupType.BulletTime:

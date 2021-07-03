@@ -1,10 +1,11 @@
+using System;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
 using Gameplay.Projectile;
 
 /// <summary>
-/// Base class from which all enemy monobehaviours should be derived.
+/// Base class from which all enemy MonoBehaviours should be derived.
 /// </summary>
 public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
 {
@@ -37,6 +38,8 @@ public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
         Attacking,
         Death
     }
+    
+    public static event Action OnEnemyIsDestroyed;
     /**********************************************/
     
     /******************* INIT *********************/
@@ -61,7 +64,7 @@ public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
     protected void DestroyEnemy()
     {
         StopAllCoroutines();
-        GameManager.Instance.EnemiesAlive++;
+        OnEnemyIsDestroyed?.Invoke();
         Destroy(gameObject);
     }
     

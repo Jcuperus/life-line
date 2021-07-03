@@ -1,6 +1,6 @@
 using System.Collections;
-using Spine.Unity;
 using Spine;
+using Spine.Unity;
 using UnityEngine;
 
 /// <summary>
@@ -16,77 +16,36 @@ public class EnemySpawnPoint : MonoBehaviour
     [Header("Config")]
     [SerializeField] private Vector3 spawnOffset = Vector3.zero;
     [SerializeField] private int roomID;
-    public int RoomID => roomID;
-
-    private bool canInterruptAnimation = true;
     /**********************************************/
     
     /******************* INIT *********************/
     public void Start()
     {
-        EventBroker.SpawnEnemyEvent += StartSpawningWaves;
+        WaveManager.OnSubWaveStartAction += SpawnSubWave;
     }
     /**********************************************/
     
     /***************** METHODS ********************/
-    private void StartSpawningWaves(int room)
+    private void SpawnSubWave(int roomID, WaveManager.SubWave subWave)
     {
-        if (room == roomID)
-        {
-            if (roomID == -1)
-            {
-                AbstractEnemy spawnedEnemy = Instantiate(GameManager.Instance.BossEnemy);
-                spawnedEnemy.transform.position = this.transform.position + spawnOffset;
-            }
-            else
-            {
-                StartCoroutine(SpawnWaves());
-            }
-            
-        }
+        if (roomID == this.roomID) StartCoroutine(SpawnEnemies(subWave));
     }
-    
-    private IEnumerator SpawnWaves()
-    {
-        Debug.Log(GameManager.Instance.Rooms[roomID].waves.Length + " waves");
-        foreach(GameManager.Wave wave in GameManager.Instance.Rooms[roomID].waves)
-        {
-            yield return new WaitWhile(() => GameManager.Instance.waveBusy);
-            Debug.Log(wave.subWaves.Length + " subwaves");
-                foreach (GameManager.SubWave subWave in wave.subWaves)
-                {
-                Debug.Log("Spawning " + subWave.type.name);
-                    AbstractEnemy prefab = subWave.type;
-                    float delay = subWave.delay;
-                    int amount = subWave.amount;
-                    StartCoroutine(SpawnEnemies(prefab, delay, amount));
-                }
-            GameManager.Instance.waveBusy = true;
 
-        }
-    }
-    
-    private IEnumerator SpawnEnemies(AbstractEnemy enemy, float freq, int n)
+    private IEnumerator SpawnEnemies(WaveManager.SubWave subWave)
     {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < subWave.amount; i++)
         {
-            yield return new WaitForSeconds(freq);
-            SetAnimation(spawnAnimation, false, .5f);
-            AbstractEnemy spawnedEnemy = Instantiate(enemy);
-            GameManager.Instance.EnemiesAlive--;
-            spawnedEnemy.transform.position = this.transform.position + spawnOffset;
+            yield return new WaitForSeconds(subWave.delay);
+            SetAnimation(spawnAnimation, false, 0.5f);
+            AbstractEnemy spawnedEnemy = Instantiate(subWave.type);
+            spawnedEnemy.transform.position = transform.position + spawnOffset;
         }
     }
     
     private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
     {
-        if (!canInterruptAnimation) return;
-
         TrackEntry trackEntry = animator.state.SetAnimation(0, animation, loop);
         trackEntry.TimeScale = timeScale;
-        trackEntry.Complete += OnAnimationComplete;
     }
-    
-    protected virtual void OnAnimationComplete(TrackEntry trackEntry) { }
     /**********************************************/
 }

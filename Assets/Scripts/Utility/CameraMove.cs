@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 /// <summary>
 /// Behaviour class for moving the camera along with a target
 /// </summary>
@@ -11,19 +12,23 @@ public class CameraMove : MonoBehaviour
     /******************* INIT *********************/
     private void Awake()
     {
-        EventBroker.LevelReadyEvent += FindPlayer;
-    }
-    
-    private void FindPlayer()
-    {
-        followTransform = FindObjectOfType<PlayerMovement>().transform;
+        //TODO: maybe make this more generic somehow
+        PlayerSpawner.OnPlayerSpawn += player =>
+        {
+            followTransform = player.transform;
+            StartCoroutine(FollowTarget());
+        };
     }
     /**********************************************/
     
     /******************* LOOP *********************/
-    private void LateUpdate()
+    private IEnumerator FollowTarget()
     {
-        transform.position = new Vector3(followTransform.position.x, followTransform.position.y, transform.position.z);
+        while (isActiveAndEnabled)
+        {
+            transform.position = new Vector3(followTransform.position.x, followTransform.position.y, transform.position.z);
+            yield return null;
+        }
     }
     /**********************************************/
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -7,16 +8,22 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour
 {
     /**************** VARIABLES *******************/
-    [SerializeField] private GameObject[] barriers; //temporary; possibly change to different system, probably at least move to game manager
     [SerializeField] private PlayerMovement playerPrefab;
+
+    public delegate void PlayerSpawnAction(PlayerMovement playerMovement);
+    public static event PlayerSpawnAction OnPlayerSpawn;
     /**********************************************/
     
     /***************** METHODS ********************/
-    public PlayerMovement SpawnPlayer()
+    private void Awake()
     {
-        //TODO: might be neater to do this via the event broker than with a public method, as this could easily go wrong ,spawning multiple players
-        GameManager.Instance.barriers = barriers;
-        return Instantiate(playerPrefab, transform.position, Quaternion.identity);
+        SpawnPlayer();
+    }
+    
+    private void SpawnPlayer()
+    {
+        PlayerMovement player = Instantiate(playerPrefab, transform.position, Quaternion.identity);
+        OnPlayerSpawn?.Invoke(player);
     }
     /**********************************************/
 }

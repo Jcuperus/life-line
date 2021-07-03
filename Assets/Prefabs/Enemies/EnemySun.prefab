@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 429025292}
   - component: {fileID: 429025291}
   - component: {fileID: 429025290}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spine GameObject (GMTK2021RE - 0psd - Boss 1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,15 +301,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0
   health: 45
-  animator: {fileID: 429025290}
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 122d3d6e38b96164296e62fe43298b1c, type: 2}
-  projectilePrefab: {fileID: 2204760866131446118, guid: 15cb153c24977064dbb16764f44f425c, type: 3}
-  patternShootDelay: 10
+  animator: {fileID: 429025290}
   idleAnimation: {fileID: 11400000, guid: c3d09316121cf534f9069adc52a41712, type: 2}
   attackAAnimation: {fileID: 11400000, guid: 93893d0ea2e55a44a92a72500b88ed91, type: 2}
   attackBAnimation: {fileID: 11400000, guid: 1879da1c35820f645b845b4d780f43cc, type: 2}
   attackCAnimation: {fileID: 11400000, guid: a7f16ca4b61ea8546b83adb7ae8f2647, type: 2}
   hurtAnimation: {fileID: 11400000, guid: 9ad4f99769504e240903e8d606645f75, type: 2}
   deathAnimation: {fileID: 11400000, guid: aabfcf86ad702344284ae5380b30ec6c, type: 2}
+  patternShootDelay: 10

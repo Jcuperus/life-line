@@ -3,14 +3,6 @@
 /// </summary>
 public static class EventBroker
 {
-    public delegate void SpawnEnemyAction(int room);
-    public static event SpawnEnemyAction SpawnEnemyEvent;
-    
-    public static void SpawnEnemyTrigger(int room)
-    {
-        SpawnEnemyEvent?.Invoke(room);
-    }
-    
     public delegate void SpawnPickupAction(int room, int index = -1);
     public static event SpawnPickupAction SpawnPickupEvent;
     

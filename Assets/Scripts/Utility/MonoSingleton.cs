@@ -7,7 +7,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     // Check to see if we're about to be destroyed.
     private static bool isShuttingDown = false;
-    private static object m_Lock = new object();
+    private static object objectLock = new object();
     private static T instance;
 
     /// <summary>
@@ -24,7 +24,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
                 return null;
             }
 
-            lock (m_Lock)
+            lock (objectLock)
             {
                 if (instance == null)
                 {
@@ -37,7 +37,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
                         // Need to create a new GameObject to attach the singleton to.
                         var singletonObject = new GameObject();
                         instance = singletonObject.AddComponent<T>();
-                        singletonObject.name = typeof(T).ToString() + " (Singleton)";
+                        singletonObject.name = typeof(T) + " (Singleton)";
 
                         // Make instance persistent.
                         DontDestroyOnLoad(singletonObject);
