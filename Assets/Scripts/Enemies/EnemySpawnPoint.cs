@@ -21,7 +21,7 @@ public class EnemySpawnPoint : MonoBehaviour
     /******************* INIT *********************/
     public void Start()
     {
-        WaveManager.OnSubWaveStartAction += SpawnSubWave;
+        WaveManager.Instance.OnSubWaveStartAction += SpawnSubWave;
     }
     /**********************************************/
     

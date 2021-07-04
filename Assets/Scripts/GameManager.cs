@@ -59,7 +59,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                //TODO: implement reset
+                Restart();
             }
         }
         else
@@ -119,6 +119,12 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
     
+    private void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        TransitionToState(nullState);
+    }
+    
     public void StartLevel(string scene)
     {
         SceneManager.LoadScene(scene);
@@ -162,7 +168,7 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
         }
     }
-    
+
     public void Death()
     {
         TransitionToState(failState);

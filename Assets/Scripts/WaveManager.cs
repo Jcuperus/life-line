@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class WaveManager : MonoSingleton<WaveManager>
+public class WaveManager : Singleton<WaveManager>
 {
     [Serializable]
     public class SubWave
@@ -33,15 +33,22 @@ public class WaveManager : MonoSingleton<WaveManager>
     private int spawnedEnemyAmount;
 
     public delegate void SubWaveStartAction(int roomID, SubWave subWave);
-    public static event SubWaveStartAction OnSubWaveStartAction;
+    public event SubWaveStartAction OnSubWaveStartAction;
 
     public delegate void RoomFinishedAction(int roomID);
-    public static event RoomFinishedAction OnRoomIsFinished;
+    public event RoomFinishedAction OnRoomIsFinished;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        
         SpawnTrigger.OnWaveTriggered += OnWaveTriggered;
         AbstractEnemy.OnEnemyIsDestroyed += () => spawnedEnemyAmount--;
+    }
+
+    private void OnDestroy()
+    {
+        SpawnTrigger.OnWaveTriggered -= OnWaveTriggered;
     }
 
     private void OnWaveTriggered(int roomID)

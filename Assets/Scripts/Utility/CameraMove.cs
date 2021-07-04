@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Spine.Unity;
 using UnityEngine;
+
 /// <summary>
 /// Behaviour class for moving the camera along with a target
 /// </summary>
@@ -7,22 +10,28 @@ public class CameraMove : MonoBehaviour
 {
     /**************** VARIABLES *******************/
     [SerializeField] private Transform followTransform;
+
+    private PlayerSpawner.PlayerSpawnAction playerSpawnAction;
     /**********************************************/
     
     /******************* INIT *********************/
     private void Awake()
     {
+        playerSpawnAction = player => Follow(player.transform);
+        
         //TODO: maybe make this more generic somehow
-        PlayerSpawner.OnPlayerSpawn += player =>
-        {
-            followTransform = player.transform;
-            StartCoroutine(FollowTarget());
-        };
+        FindObjectOfType<PlayerSpawner>().OnPlayerSpawn += playerSpawnAction;
     }
     /**********************************************/
     
     /******************* LOOP *********************/
-    private IEnumerator FollowTarget()
+    private void Follow(Transform target)
+    {
+        followTransform = target;
+        StartCoroutine(FollowTargetCoroutine());
+    }
+    
+    private IEnumerator FollowTargetCoroutine()
     {
         while (isActiveAndEnabled)
         {

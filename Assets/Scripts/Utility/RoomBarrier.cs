@@ -4,9 +4,9 @@ public class RoomBarrier : MonoBehaviour
 {
     [SerializeField] private int roomID;
     
-    private void Awake()
+    private void Start()
     {
-        WaveManager.OnRoomIsFinished += id =>
+        WaveManager.Instance.OnRoomIsFinished += id =>
         {
             if (id == roomID) Destroy(gameObject);
         };

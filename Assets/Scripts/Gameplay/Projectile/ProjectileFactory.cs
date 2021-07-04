@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gameplay.Projectile
 {
-    public class ProjectileFactory : MonoSingleton<ProjectileFactory>
+    public class ProjectileFactory : Singleton<ProjectileFactory>
     {
         [SerializeField] private Projectile projectilePrefab;
         

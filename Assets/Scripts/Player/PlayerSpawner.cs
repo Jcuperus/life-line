@@ -11,7 +11,7 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField] private PlayerMovement playerPrefab;
 
     public delegate void PlayerSpawnAction(PlayerMovement playerMovement);
-    public static event PlayerSpawnAction OnPlayerSpawn;
+    public event PlayerSpawnAction OnPlayerSpawn;
     /**********************************************/
     
     /***************** METHODS ********************/

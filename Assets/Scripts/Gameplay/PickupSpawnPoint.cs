@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 /// <summary>
 /// When attached to a gameObject, functions as spawn point for pickups.
 /// </summary>
@@ -14,6 +17,11 @@ public class PickupSpawnPoint : MonoBehaviour
     private void Start()
     {
         EventBroker.SpawnPickupEvent += SpawnPickup;
+    }
+
+    private void OnDestroy()
+    {
+        EventBroker.SpawnPickupEvent -= SpawnPickup;
     }
     /**********************************************/
     
