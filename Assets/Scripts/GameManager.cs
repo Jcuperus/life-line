@@ -22,7 +22,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     // player power up status:
     public float BulletTime { get; private set; }
-    public float Ricochet { get; private set; }
 
     // game state:
     private readonly GMNullState nullState = new GMNullState();
@@ -93,14 +92,6 @@ public class GameManager : MonoSingleton<GameManager>
             else if (BulletTime < 0)
             {
                 BulletTime = 0;
-            }
-            if (Ricochet > 0)
-            {
-                Ricochet -= Time.deltaTime;
-            }
-            else if (Ricochet < 0)
-            {
-                Ricochet = 0;
             }
         }
 
@@ -183,7 +174,6 @@ public class GameManager : MonoSingleton<GameManager>
     public void Victory()
     {
         TransitionToState(winState);
-        //TODO: play win sound/song
         Instantiate(winScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     /**********************************************/

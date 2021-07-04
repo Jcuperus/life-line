@@ -18,8 +18,6 @@ public class CameraMove : MonoBehaviour
     private void Awake()
     {
         playerSpawnAction = player => Follow(player.transform);
-        
-        //TODO: maybe make this more generic somehow
         FindObjectOfType<PlayerSpawner>().OnPlayerSpawn += playerSpawnAction;
     }
     /**********************************************/

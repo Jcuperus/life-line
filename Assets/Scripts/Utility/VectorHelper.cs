@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 /// <summary>
 /// Static class for converting angles (float) into directions (Vector3) and vice versa.
 /// </summary>
