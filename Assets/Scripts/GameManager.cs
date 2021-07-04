@@ -32,6 +32,12 @@ public class GameManager : MonoSingleton<GameManager>
     private bool paused = false;
     
     public static event Action OnHealthPickup;
+
+    public delegate void RicochetActivatedAction(float duration);
+    public static event RicochetActivatedAction OnRicochetActivated;
+    
+    public delegate void SpeedMultiplierAction(float duration, float multiplier);
+    public static event SpeedMultiplierAction OnSpeedMultiplierApplied;
     /**********************************************/
     
     /****************** INIT **********************/
@@ -156,14 +162,13 @@ public class GameManager : MonoSingleton<GameManager>
                 OnHealthPickup?.Invoke();
                 break;
             case PickupType.SpeedUp:
-                //TODO: change to invoking event
-                //player.ApplySpeedMultiplier(1.5f, 5);
+                OnSpeedMultiplierApplied?.Invoke(5, 1.5f);
                 break;
             case PickupType.BulletTime:
                 BulletTime += 5;
                 break;
             case PickupType.Ricochet:
-                Ricochet += 5;
+                OnRicochetActivated?.Invoke(5f);
                 break;
         }
     }

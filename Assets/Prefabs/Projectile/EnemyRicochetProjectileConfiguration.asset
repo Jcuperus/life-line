@@ -15,4 +15,4 @@ MonoBehaviour:
   projectileSprite: {fileID: 21300000, guid: d4271b4f6bbca4c40a171e8b9433ebd5, type: 3}
   projectileSpeed: 2000
   playerIsOwner: 0
-  canRicochet: 0
+  canRicochet: 1

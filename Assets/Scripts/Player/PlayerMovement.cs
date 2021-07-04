@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Gameplay.Projectile;
 using Player.HealthBar;
 using UnityEngine;
-using Gameplay.Projectile;
 
 /// <summary>
 /// Behaviour script for player movement.
@@ -40,6 +41,13 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
     private Vector2 desiredVelocity;
     private Vector2 velocity;
     private Vector2 lastVelocity;
+    private float speedMultiplier = 1f;
+
+    private bool ricochet;
+
+    private Action healthPickupAction;
+    private GameManager.SpeedMultiplierAction speedMultiplierAction;
+    private GameManager.RicochetActivatedAction ricochetActivatedAction;
     /**********************************************/
     
     /******************* INIT *********************/
@@ -53,7 +61,13 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
         healthBar = GetComponent<HealthBar>();
         healthBar.AddFirst(Node);
 
-        GameManager.OnHealthPickup += () => healthBar.SpawnSegment();
+        healthPickupAction = () => healthBar.SpawnSegment();
+        speedMultiplierAction = (duration, multiplier) => StartCoroutine(ApplySpeedMultiplier(duration, multiplier));
+        ricochetActivatedAction = duration => StartCoroutine(ApplyRicochet(duration));
+        
+        GameManager.OnHealthPickup += healthPickupAction;
+        GameManager.OnSpeedMultiplierApplied += speedMultiplierAction;
+        GameManager.OnRicochetActivated += ricochetActivatedAction;
     }
     
     private void Start()
@@ -62,6 +76,13 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
         {
             healthBar.SpawnSegment();
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnHealthPickup -= healthPickupAction;
+        GameManager.OnSpeedMultiplierApplied -= speedMultiplierAction;
+        GameManager.OnRicochetActivated -= ricochetActivatedAction;
     }
     /**********************************************/
     
@@ -87,12 +108,11 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
         velocity = body.velocity;
 
         float acceleration = lastVelocity.magnitude < velocity.magnitude ? maxAcceleration : maxDeceleration;
-        float maxSpeedChange = acceleration * Time.deltaTime;
+        float maxSpeedChange = acceleration * speedMultiplier * Time.deltaTime;
         lastVelocity = velocity;
         velocity = Vector2.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
 
         body.velocity = velocity;
-        // body.velocity = maxSpeed * 10 * speedMultiplier * Time.deltaTime * inputDir;
 
         if (inputDirection.sqrMagnitude > 0f)
         {
@@ -118,11 +138,25 @@ public class PlayerMovement : MonoBehaviour, IProjectileHit
             shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
         }
 
-        ProjectileFactory.ProjectileTypes projectileType = GameManager.Instance.Ricochet > 0
+        ProjectileFactory.ProjectileTypes projectileType = ricochet
             ? ProjectileFactory.ProjectileTypes.PlayerRicochet
             : ProjectileFactory.ProjectileTypes.Player;
         Vector3 projectilePosition = transform.position + shootDirection * projectileSpawnOffset;
         projectileFactory.Instantiate(projectileType, projectilePosition, shootDirection);
+    }
+
+    private IEnumerator ApplySpeedMultiplier(float duration, float multiplier)
+    {
+        speedMultiplier = multiplier;
+        yield return new WaitForSeconds(duration);
+        speedMultiplier = 1f;
+    }
+
+    private IEnumerator ApplyRicochet(float duration)
+    {
+        ricochet = true;
+        yield return new WaitForSeconds(duration);
+        ricochet = false;
     }
     
     private void DetachHealthBar()
