@@ -26,12 +26,12 @@ public class EnemySpawnPoint : MonoBehaviour
     /**********************************************/
     
     /***************** METHODS ********************/
-    private void SpawnSubWave(int roomID, WaveManager.SubWave subWave)
+    private void SpawnSubWave(int roomID, SubWave subWave)
     {
         if (roomID == this.roomID) StartCoroutine(SpawnEnemies(subWave));
     }
 
-    private IEnumerator SpawnEnemies(WaveManager.SubWave subWave)
+    private IEnumerator SpawnEnemies(SubWave subWave)
     {
         for (int i = 0; i < subWave.amount; i++)
         {

@@ -5763,6 +5763,11 @@ MonoBehaviour:
       - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
         amount: 999
         delay: 20
+  wavesPerRoom:
+  - {fileID: 11400000, guid: 5a9deffc97deef14b869dbd8b6047d3e, type: 2}
+  - {fileID: 11400000, guid: aba434f0011bb464dbcbc04fa6ff6312, type: 2}
+  - {fileID: 11400000, guid: 9435570b88611904ab33e4e77c35db72, type: 2}
+  - {fileID: 11400000, guid: 0c7475725ff32844ca73f894d0cda47f, type: 2}
   bossEnemy: {fileID: 5034312787656549550, guid: 2ef25f680c969b1449f72898b7b576b6, type: 3}
   bossPosition: {x: -30, y: 200, z: 0}
 --- !u!4 &1681916779

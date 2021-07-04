@@ -3,7 +3,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Class for creating <see cref="AudioEvent"/> Assets, which allow <see cref="MonoBehaviour"/>s to play <see cref="AudioClip"/>s in varrying pitch and volume.
 /// </summary>
-[CreateAssetMenu(fileName = "Unnamed AudioEvent", menuName = "Custom Assets/Utility/AudioEvent")]
+[CreateAssetMenu(fileName = "Unnamed AudioEvent", menuName = "ScriptableObjects/Utility/AudioEvent")]
 public class AudioEvent : ScriptableObject
 {
     /**************** VARIABLES *******************/

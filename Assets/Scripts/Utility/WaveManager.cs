@@ -4,27 +4,8 @@ using UnityEngine;
 
 public class WaveManager : Singleton<WaveManager>
 {
-    [Serializable]
-    public class SubWave
-    {
-        public AbstractEnemy type;
-        public int amount;
-        public float delay;
-    }
     
-    [Serializable]
-    public class Wave
-    {
-        public SubWave[] subWaves;
-    }
-    
-    [Serializable]
-    public class Room
-    {
-        public Wave[] waves;
-    }
-    
-    [SerializeField] private Room[] rooms;
+    [SerializeField] private WaveAsset[] wavesPerRoom;
     [SerializeField] private AbstractEnemy bossEnemy;
 
     [SerializeField] private Vector3 bossPosition = new Vector3(-30f, 200f, 0f);
@@ -84,7 +65,7 @@ public class WaveManager : Singleton<WaveManager>
         yield return new WaitUntil(() => !waveIsInProgress);
         waveIsInProgress = true;
         
-        foreach (Wave wave in rooms[roomID].waves)
+        foreach (Wave wave in wavesPerRoom[roomID].Waves)
         {
             foreach (SubWave subWave in wave.subWaves)
             {
