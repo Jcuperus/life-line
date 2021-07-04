@@ -10,12 +10,4 @@ public static class EventBroker
     {
         SpawnPickupEvent?.Invoke(room, index);
     }
-    
-    public delegate void LevelReadyAction();
-    public static event LevelReadyAction LevelReadyEvent;
-    
-    public static void LevelReadyTrigger()
-    {
-        LevelReadyEvent?.Invoke();
-    }
 }

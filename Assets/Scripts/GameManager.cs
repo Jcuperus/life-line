@@ -135,7 +135,6 @@ public class GameManager : MonoSingleton<GameManager>
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == scene);
         PlayMusic(1);
-        EventBroker.LevelReadyTrigger();
     }
     
     public void PlayMusic(int id)
