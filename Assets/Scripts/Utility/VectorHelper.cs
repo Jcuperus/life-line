@@ -15,8 +15,8 @@ namespace Utility
 
         public static Vector3 GetDirectionFromAngle(float angle)
         {
-            angle += 90f;
-            return new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0f);
+            angle = (angle + 90f) * Mathf.Deg2Rad;
+            return new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f);
         }
         /**********************************************/
     }

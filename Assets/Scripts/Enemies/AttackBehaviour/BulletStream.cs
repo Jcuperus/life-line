@@ -29,10 +29,6 @@ namespace Enemies.AttackBehaviour
                 Vector2 direction = (target.position - currentPosition).normalized;
                 projectileFactory.Instantiate(projectileType, currentPosition, direction);
 
-                // Projectile newProjectile = Object.Instantiate(projectile, position.position, Quaternion.Euler(0f, 0f, 0f));
-                // newProjectile.direction = (target.position - position.position).normalized;
-                // newProjectile.Ricochet = true;
-
                 yield return new WaitForSeconds(fireDelay);
             }
         }

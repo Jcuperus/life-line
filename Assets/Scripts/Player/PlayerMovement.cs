@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Gameplay;
 using Gameplay.Projectile;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace Player
 
         [SerializeField] private float maxAcceleration = 75f, maxDeceleration = 75f;
         [SerializeField] private float projectileSpawnOffset = 2f;
+        [SerializeField] private float rotationSpeed = 15f;
 
         [Header("Settings")] public bool inputMode = false;
         public bool mouseAim = false;
@@ -119,10 +121,10 @@ namespace Player
 
             body.velocity = velocity;
 
-            if (inputDirection.sqrMagnitude > 0f)
-            {
-                transform.rotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(inputDirection));
-            }
+            float inputAngle = VectorHelper.GetAngleFromDirection(inputDirection);
+            float smoothRotationAngle = Mathf.LerpAngle(transform.eulerAngles.z, inputAngle,
+                Time.deltaTime * rotationSpeed * inputDirection.magnitude);
+            transform.rotation = Quaternion.Euler(0f, 0f, smoothRotationAngle);
         }
         /**********************************************/
 
