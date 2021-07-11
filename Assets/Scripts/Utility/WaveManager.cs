@@ -22,6 +22,10 @@ namespace Utility
 
         public event RoomFinishedAction OnRoomIsFinished;
 
+        public delegate void PickupSpawnAction(int roomID);
+
+        public event PickupSpawnAction OnPickupSpawned;
+
         protected override void Awake()
         {
             base.Awake();
@@ -37,8 +41,7 @@ namespace Utility
 
         private void OnWaveTriggered(int roomID)
         {
-            //TODO: refactor old wave code
-            EventBroker.SpawnPickupTrigger(roomID);
+            OnPickupSpawned?.Invoke(roomID);
 
             //TODO: change room music selection
             int musicIndex = roomID switch

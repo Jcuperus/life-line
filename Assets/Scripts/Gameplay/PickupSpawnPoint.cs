@@ -7,43 +7,67 @@ namespace Gameplay
     /// <summary>
     /// When attached to a gameObject, functions as spawn point for pickups.
     /// </summary>
-    // Note: might do this differently, such as with a plane, which indicates an area in which pickups may be spawned at random, instead of in the same location each time
     public class PickupSpawnPoint : MonoBehaviour
     {
         /**************** VARIABLES *******************/
         [SerializeField] private int roomID;
+        [SerializeField] private PickupScriptableObject pickupConfig;
+        
+        private Vector3[] spawnPoints;
         /**********************************************/
     
         /******************* LOOP *********************/
         private void Start()
         {
-            EventBroker.SpawnPickupEvent += SpawnPickup;
+
+            if (transform.childCount == 0)
+            {
+                spawnPoints = new[] {transform.position};
+            }
+            else
+            {
+                spawnPoints = new Vector3[transform.childCount];
+                
+                for (int i = 0; i < spawnPoints.Length; i++)
+                {
+                    spawnPoints[i] = transform.GetChild(i).position;
+                }
+            }
+
+            WaveManager.Instance.OnPickupSpawned += SpawnPickup;
         }
 
         private void OnDestroy()
         {
-            EventBroker.SpawnPickupEvent -= SpawnPickup;
+            WaveManager.Instance.OnPickupSpawned -= SpawnPickup;
         }
         /**********************************************/
     
         /****************** METHODS *******************/
-        private void SpawnPickup(int room, int index = -1)
+        private void SpawnPickup(int room)
         {
-        
-            if (room == roomID & Random.Range(0, 2) > 0)
+            SpawnPickup(room, pickupConfig.GetRandomPickup());
+            StartCoroutine(DropHealth());
+        }
+
+        private void SpawnPickup(int room, Pickup pickup)
+        {
+            Vector3 spawnPosition = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            
+            if (room == roomID && Random.Range(0, 2) > 0)
             {
-                if (index == -1) { index = Random.Range(0, GameManager.Instance.GetPickups.Length); }
-                Instantiate(GameManager.Instance.GetPickups[index], transform.position, Quaternion.identity);
-                StartCoroutine(DropHealth());
+                Instantiate(pickup, spawnPosition, Quaternion.identity);
             }
         }
     
         private IEnumerator DropHealth()
         {
+            Pickup healthPickup = pickupConfig.GetPickup(PickupType.HealthUp);
+            
             for (int i = 0; i < 5; i++)
             {
                 yield return new WaitForSeconds(10);
-                SpawnPickup(roomID, 0);
+                SpawnPickup(roomID, healthPickup);
             }
         }
         /**********************************************/

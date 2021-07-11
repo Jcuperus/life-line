@@ -18,8 +18,8 @@ namespace Player
         /**************** VARIABLES *******************/
         [SerializeField] private int startingHealthAmount = 5;
 
-        [Header("Movement Parameters")] [SerializeField]
-        private float maxSpeed = 50f;
+        [Header("Movement Parameters")]
+        [SerializeField] private float maxSpeed = 50f;
 
         [SerializeField] private float maxAcceleration = 75f, maxDeceleration = 75f;
         [SerializeField] private float projectileSpawnOffset = 2f;

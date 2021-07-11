@@ -13,9 +13,6 @@ public class GameManager : MonoSingleton<GameManager>
 {
     /**************** VARIABLES *******************/
     [Header("Assets & Prefabs")]
-    [SerializeField] private Pickup[] pickupTypes;
-    public Pickup[] GetPickups => pickupTypes;
-    [Space]
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject pauseScreen;
