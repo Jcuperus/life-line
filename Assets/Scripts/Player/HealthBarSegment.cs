@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using UnityEngine;
 using Gameplay.Projectile;
+using UnityEngine;
+using Utility;
 
-namespace Player.HealthBar
+namespace Player
 {
     /// <summary>
     /// Behaviour for the gameObjects that form the player's health bar

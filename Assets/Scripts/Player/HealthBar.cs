@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player.HealthBar
+namespace Player
 {
     public class HealthBar : MonoBehaviour
     {

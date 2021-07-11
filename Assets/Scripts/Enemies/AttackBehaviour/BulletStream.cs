@@ -1,38 +1,41 @@
 ﻿using System.Collections;
-using UnityEngine;
 using Gameplay.Projectile;
+using UnityEngine;
 
-public class BulletStream : FireBehaviour
+namespace Enemies.AttackBehaviour
 {
-    /**************** VARIABLES *******************/
-    private readonly int bulletAmount = 6;
-    private readonly float fireDelay = 0.5f;
-    private readonly Transform target;
-    /**********************************************/
-    
-    /******************* INIT *********************/
-    public BulletStream(ProjectileFactory.ProjectileTypes projectileType, Transform transform, Transform target) : base(projectileType, transform)
+    public class BulletStream : FireBehaviour
     {
-        this.target = target;
-    }
-    /**********************************************/
+        /**************** VARIABLES *******************/
+        private readonly int bulletAmount = 6;
+        private readonly float fireDelay = 0.5f;
+        private readonly Transform target;
+        /**********************************************/
     
-    /***************** METHODS ********************/
-    public override IEnumerator Execute()
-    {
-        Vector3 currentPosition = transform.position;
-        
-        for (int i = 0; i < bulletAmount; i++)
+        /******************* INIT *********************/
+        public BulletStream(ProjectileFactory.ProjectileTypes projectileType, Transform transform, Transform target) : base(projectileType, transform)
         {
-            Vector2 direction = (target.position - currentPosition).normalized;
-            projectileFactory.Instantiate(projectileType, currentPosition, direction);
-
-            // Projectile newProjectile = Object.Instantiate(projectile, position.position, Quaternion.Euler(0f, 0f, 0f));
-            // newProjectile.direction = (target.position - position.position).normalized;
-            // newProjectile.Ricochet = true;
-
-            yield return new WaitForSeconds(fireDelay);
+            this.target = target;
         }
+        /**********************************************/
+    
+        /***************** METHODS ********************/
+        public override IEnumerator Execute()
+        {
+            Vector3 currentPosition = transform.position;
+        
+            for (int i = 0; i < bulletAmount; i++)
+            {
+                Vector2 direction = (target.position - currentPosition).normalized;
+                projectileFactory.Instantiate(projectileType, currentPosition, direction);
+
+                // Projectile newProjectile = Object.Instantiate(projectile, position.position, Quaternion.Euler(0f, 0f, 0f));
+                // newProjectile.direction = (target.position - position.position).normalized;
+                // newProjectile.Ricochet = true;
+
+                yield return new WaitForSeconds(fireDelay);
+            }
+        }
+        /**********************************************/
     }
-    /**********************************************/
 }

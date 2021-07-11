@@ -1,26 +1,29 @@
 using UnityEngine;
 
-/// <summary>
-/// Attach this to an object to allow it to fire trigger events with the player and thereby allow pickups and enemies to spawn, etc.
-/// </summary>
-public class SpawnTrigger : MonoBehaviour
+namespace Utility
 {
-    /**************** VARIABLES *******************/
-    [SerializeField] private int roomID;
-
-    public delegate void WaveTriggeredAction(int roomID);
-    public static event WaveTriggeredAction OnWaveTriggered;
-    
-    /**********************************************/
-    
-    /***************** METHODS ********************/
-    private void OnTriggerEnter2D(Collider2D collision)
+    /// <summary>
+    /// Attach this to an object to allow it to fire trigger events with the player and thereby allow pickups and enemies to spawn, etc.
+    /// </summary>
+    public class SpawnTrigger : MonoBehaviour
     {
-        if (collision.gameObject.CompareTag("Player"))
+        /**************** VARIABLES *******************/
+        [SerializeField] private int roomID;
+
+        public delegate void WaveTriggeredAction(int roomID);
+        public static event WaveTriggeredAction OnWaveTriggered;
+    
+        /**********************************************/
+    
+        /***************** METHODS ********************/
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            OnWaveTriggered?.Invoke(roomID);
-            gameObject.SetActive(false);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                OnWaveTriggered?.Invoke(roomID);
+                gameObject.SetActive(false);
+            }
         }
+        /**********************************************/
     }
-    /**********************************************/
 }

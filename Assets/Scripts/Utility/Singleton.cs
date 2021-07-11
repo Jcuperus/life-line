@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Less restrictive singleton meant for objects that need to be restricted to one instance but can still be destroyed.
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace Utility
 {
-    public static T Instance { get; private set; }
-
-    protected virtual void Awake()
+    /// <summary>
+    /// Less restrictive singleton meant for objects that need to be restricted to one instance but can still be destroyed.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        if (Instance == null)
+        public static T Instance { get; private set; }
+
+        protected virtual void Awake()
         {
-            Instance = this as T;
-        }
-        else
-        {
-            Destroy(gameObject);
+            if (Instance == null)
+            {
+                Instance = this as T;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

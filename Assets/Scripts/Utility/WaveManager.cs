@@ -1,82 +1,86 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using Enemies;
 using UnityEngine;
 
-public class WaveManager : Singleton<WaveManager>
+namespace Utility
 {
-    
-    [SerializeField] private WaveAsset[] wavesPerRoom;
-    [SerializeField] private AbstractEnemy bossEnemy;
-
-    [SerializeField] private Vector3 bossPosition = new Vector3(-30f, 200f, 0f);
-    
-    private bool waveIsInProgress;
-    private int spawnedEnemyAmount;
-
-    public delegate void SubWaveStartAction(int roomID, SubWave subWave);
-    public event SubWaveStartAction OnSubWaveStartAction;
-
-    public delegate void RoomFinishedAction(int roomID);
-    public event RoomFinishedAction OnRoomIsFinished;
-
-    protected override void Awake()
+    public class WaveManager : Singleton<WaveManager>
     {
-        base.Awake();
-        
-        SpawnTrigger.OnWaveTriggered += OnWaveTriggered;
-        AbstractEnemy.OnEnemyIsDestroyed += () => spawnedEnemyAmount--;
-    }
+        [SerializeField] private WaveAsset[] wavesPerRoom;
+        [SerializeField] private AbstractEnemy bossEnemy;
 
-    private void OnDestroy()
-    {
-        SpawnTrigger.OnWaveTriggered -= OnWaveTriggered;
-    }
+        [SerializeField] private Vector3 bossPosition = new Vector3(-30f, 200f, 0f);
 
-    private void OnWaveTriggered(int roomID)
-    {
-        //TODO: refactor old wave code
-        EventBroker.SpawnPickupTrigger(roomID);
+        private bool waveIsInProgress;
+        private int spawnedEnemyAmount;
 
-        //TODO: change room music selection
-        int musicIndex = roomID switch
+        public delegate void SubWaveStartAction(int roomID, SubWave subWave);
+
+        public event SubWaveStartAction OnSubWaveStartAction;
+
+        public delegate void RoomFinishedAction(int roomID);
+
+        public event RoomFinishedAction OnRoomIsFinished;
+
+        protected override void Awake()
         {
-            0 => 1,
-            1 => 2,
-            -1 => 3,
-            _ => 0
-        };
-        
-        GameManager.Instance.PlayMusic(musicIndex);
-        
-        //TODO: change boss spawn workaround
-        if (roomID == -1)
-        {
-            AbstractEnemy spawnedEnemy = Instantiate(bossEnemy);
-            spawnedEnemy.transform.position = bossPosition;
+            base.Awake();
+
+            SpawnTrigger.OnWaveTriggered += OnWaveTriggered;
+            AbstractEnemy.OnEnemyIsDestroyed += () => spawnedEnemyAmount--;
         }
-        else
-        {
-            StartCoroutine(SpawnRoomWaves(roomID));
-        }
-    }
 
-    private IEnumerator SpawnRoomWaves(int roomID)
-    {
-        yield return new WaitUntil(() => !waveIsInProgress);
-        waveIsInProgress = true;
-        
-        foreach (Wave wave in wavesPerRoom[roomID].Waves)
+        private void OnDestroy()
         {
-            foreach (SubWave subWave in wave.subWaves)
+            SpawnTrigger.OnWaveTriggered -= OnWaveTriggered;
+        }
+
+        private void OnWaveTriggered(int roomID)
+        {
+            //TODO: refactor old wave code
+            EventBroker.SpawnPickupTrigger(roomID);
+
+            //TODO: change room music selection
+            int musicIndex = roomID switch
             {
-                OnSubWaveStartAction?.Invoke(roomID, subWave);
-                spawnedEnemyAmount = subWave.amount;
+                0 => 1,
+                1 => 2,
+                -1 => 3,
+                _ => 0
+            };
 
-                yield return new WaitUntil(() => spawnedEnemyAmount <= 0);
+            GameManager.Instance.PlayMusic(musicIndex);
+
+            //TODO: change boss spawn workaround
+            if (roomID == -1)
+            {
+                AbstractEnemy spawnedEnemy = Instantiate(bossEnemy);
+                spawnedEnemy.transform.position = bossPosition;
+            }
+            else
+            {
+                StartCoroutine(SpawnRoomWaves(roomID));
             }
         }
 
-        waveIsInProgress = false;
-        OnRoomIsFinished?.Invoke(roomID);
+        private IEnumerator SpawnRoomWaves(int roomID)
+        {
+            yield return new WaitUntil(() => !waveIsInProgress);
+            waveIsInProgress = true;
+
+            foreach (Wave wave in wavesPerRoom[roomID].Waves)
+            {
+                foreach (SubWave subWave in wave.subWaves)
+                {
+                    OnSubWaveStartAction?.Invoke(roomID, subWave);
+                    spawnedEnemyAmount = subWave.amount;
+
+                    yield return new WaitUntil(() => spawnedEnemyAmount <= 0);
+                }
+            }
+
+            waveIsInProgress = false;
+            OnRoomIsFinished?.Invoke(roomID);
+        }
     }
 }

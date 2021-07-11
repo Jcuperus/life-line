@@ -1,108 +1,111 @@
 using System.Collections;
+using Gameplay.Projectile;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
-using Gameplay.Projectile;
 
-public class EnemyPillar : AbstractEnemy
+namespace Enemies
 {
-    /**************** VARIABLES *******************/
-    [SerializeField] private AnimationReferenceAsset idleAnimation;
-    [SerializeField] private AnimationReferenceAsset attackAnimation;
-    [SerializeField] private AnimationReferenceAsset deathAnimation;
+    public class EnemyPillar : AbstractEnemy
+    {
+        /**************** VARIABLES *******************/
+        [SerializeField] private AnimationReferenceAsset idleAnimation;
+        [SerializeField] private AnimationReferenceAsset attackAnimation;
+        [SerializeField] private AnimationReferenceAsset deathAnimation;
     
-    [Header("Projectile")]
-    [SerializeField] private float fireRate = 1f;
-    [SerializeField] private float moveDistance = 2f;
+        [Header("Projectile")]
+        [SerializeField] private float fireRate = 1f;
+        [SerializeField] private float moveDistance = 2f;
 
-    private ProjectileFactory projectileFactory;
-    private Vector3 target;
-    /**********************************************/
+        private ProjectileFactory projectileFactory;
+        private Vector3 target;
+        /**********************************************/
     
-    /******************* INIT *********************/
-    protected override void Awake()
-    {
-        base.Awake();
-        projectileFactory = ProjectileFactory.Instance;
-    }
+        /******************* INIT *********************/
+        protected override void Awake()
+        {
+            base.Awake();
+            projectileFactory = ProjectileFactory.Instance;
+        }
 
-    private void Start()
-    {
-        StartCoroutine(FireBulletCoroutine());
-        currentState = AnimationState.Idle;
-        SetAnimation(idleAnimation, true, 1f);
-    }
-    /**********************************************/
-    
-    /******************* LOOP *********************/
-    private void Update()
-    {
-        if (moveDistance > 0)
+        private void Start()
         {
-            target = player.transform.position;
-            moveDirection = (target - transform.position).normalized;
-            moveDistance -= Time.deltaTime;
+            StartCoroutine(FireBulletCoroutine());
+            currentState = AnimationState.Idle;
+            SetAnimation(idleAnimation, true, 1f);
         }
-    }
+        /**********************************************/
     
-    private void FixedUpdate()
-    {
-        if (moveDistance > 0)
+        /******************* LOOP *********************/
+        private void Update()
         {
-            body.velocity += moveSpeed * Time.deltaTime * moveDirection;
+            if (moveDistance > 0)
+            {
+                target = player.transform.position;
+                moveDirection = (target - transform.position).normalized;
+                moveDistance -= Time.deltaTime;
+            }
         }
-        else
-        {
-            body.velocity = Vector2.zero;
-        }
-    }
-    /**********************************************/
     
-    /***************** METHODS ********************/
-    protected override void OnAnimationComplete(TrackEntry trackEntry)
-    {
-        switch (currentState)
+        private void FixedUpdate()
         {
-            case AnimationState.Attacking:
-                currentState = AnimationState.Idle;
-                SetAnimation(idleAnimation, true, 1f);
-                break;
-            case AnimationState.Death:
-                DestroyEnemy();
-                break;
+            if (moveDistance > 0)
+            {
+                body.velocity += moveSpeed * Time.deltaTime * moveDirection;
+            }
+            else
+            {
+                body.velocity = Vector2.zero;
+            }
         }
-    }
+        /**********************************************/
     
-    private void FireBullet(Vector2 direction)
-    {
-        if (currentState == AnimationState.Death) return;
+        /***************** METHODS ********************/
+        protected override void OnAnimationComplete(TrackEntry trackEntry)
+        {
+            switch (currentState)
+            {
+                case AnimationState.Attacking:
+                    currentState = AnimationState.Idle;
+                    SetAnimation(idleAnimation, true, 1f);
+                    break;
+                case AnimationState.Death:
+                    DestroyEnemy();
+                    break;
+            }
+        }
+    
+        private void FireBullet(Vector2 direction)
+        {
+            if (currentState == AnimationState.Death) return;
         
-        fireSound.Play(audioSource);
-        currentState = AnimationState.Attacking;
-        SetAnimation(attackAnimation, false, 3f);
+            fireSound.Play(audioSource);
+            currentState = AnimationState.Attacking;
+            SetAnimation(attackAnimation, false, 3f);
         
-        Vector3 projectilePosition = transform.position + (Vector3) direction * 2f;
-        projectileFactory.Instantiate(ProjectileFactory.ProjectileTypes.EnemyRicochet, projectilePosition, direction);
-    }
-    
-    private IEnumerator FireBulletCoroutine()
-    {
-        while (gameObject.activeSelf)
-        {
-            yield return new WaitForSeconds(fireRate);
-            FireBullet(moveDirection);
+            Vector3 projectilePosition = transform.position + (Vector3) direction * 2f;
+            projectileFactory.Instantiate(ProjectileFactory.ProjectileTypes.EnemyRicochet, projectilePosition, direction);
         }
-    }
     
-    public override void OnProjectileHit(Projectile projectile)
-    {
-        base.OnProjectileHit(projectile);
+        private IEnumerator FireBulletCoroutine()
+        {
+            while (gameObject.activeSelf)
+            {
+                yield return new WaitForSeconds(fireRate);
+                FireBullet(moveDirection);
+            }
+        }
+    
+        public override void OnProjectileHit(Projectile projectile)
+        {
+            base.OnProjectileHit(projectile);
         
-        if (currentState == AnimationState.Death)
-        {
-            SetAnimation(deathAnimation, false, 1f);
-            canInterruptAnimation = false;
+            if (currentState == AnimationState.Death)
+            {
+                SetAnimation(deathAnimation, false, 1f);
+                canInterruptAnimation = false;
+            }
         }
+        /**********************************************/
     }
-    /**********************************************/
 }

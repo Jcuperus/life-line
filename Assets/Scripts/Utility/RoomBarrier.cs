@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class RoomBarrier : MonoBehaviour
+namespace Utility
 {
-    [SerializeField] private int roomID;
-    
-    private void Start()
+    public class RoomBarrier : MonoBehaviour
     {
-        WaveManager.Instance.OnRoomIsFinished += id =>
+        [SerializeField] private int roomID;
+    
+        private void Start()
         {
-            if (id == roomID) Destroy(gameObject);
-        };
+            WaveManager.Instance.OnRoomIsFinished += id =>
+            {
+                if (id == roomID) Destroy(gameObject);
+            };
+        }
     }
 }
