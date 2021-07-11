@@ -112,10 +112,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 129700438778140173, guid: 73d0f2849c2547e40afe3d5e531b43a7, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 7.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 129700438778140173, guid: 73d0f2849c2547e40afe3d5e531b43a7, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 15.92
+      objectReference: {fileID: 0}
     - target: {fileID: 129700438778140175, guid: 73d0f2849c2547e40afe3d5e531b43a7, type: 3}
       propertyPath: m_Name
       value: Barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 6379059906837040022, guid: 73d0f2849c2547e40afe3d5e531b43a7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 62a33dfdfa0474d4884cde80f72d7487, type: 3}
     - target: {fileID: 6496893724460223869, guid: 73d0f2849c2547e40afe3d5e531b43a7, type: 3}
       propertyPath: m_Mesh
       value: 

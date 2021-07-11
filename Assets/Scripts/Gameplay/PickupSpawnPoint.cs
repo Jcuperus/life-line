@@ -19,7 +19,6 @@ namespace Gameplay
         /******************* LOOP *********************/
         private void Start()
         {
-
             if (transform.childCount == 0)
             {
                 spawnPoints = new[] {transform.position};
