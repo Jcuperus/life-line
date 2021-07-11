@@ -60,7 +60,7 @@ public class GameManager : MonoSingleton<GameManager>
     /****************** LOOP **********************/
     private void Update()
     {
-        if (GameState == failState)
+        if (GameState == failState || GameState == winState)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -131,7 +131,7 @@ public class GameManager : MonoSingleton<GameManager>
     private IEnumerator OnSceneStart(string scene)
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == scene);
-        PlayMusic(1);
+        PlayMusic(-1);
     }
     
     public void PlayMusic(int id)
@@ -141,6 +141,9 @@ public class GameManager : MonoSingleton<GameManager>
             audioSource.clip = null;
             return;
         }
+        
+        if (audioSource.clip == music[id]) return;
+
         audioSource.clip = music[id];
         audioSource.Play();
     }
@@ -174,6 +177,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void Victory()
     {
         TransitionToState(winState);
+        PlayMusic(-1);
         Instantiate(winScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     /**********************************************/

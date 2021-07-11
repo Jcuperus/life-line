@@ -167,17 +167,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  health: 10
-  animator: {fileID: 6985996821201416191}
+  health: 5
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 6ab36af98f86a4d44b9518328178b49a, type: 2}
-  projectilePreFab: {fileID: 2204760866131446118, guid: 15cb153c24977064dbb16764f44f425c, type: 3}
-  fireRate: 1
-  moveDistance: 2
+  animator: {fileID: 6985996821201416191}
   idleAnimation: {fileID: 11400000, guid: f1eae4daaaf24e5469bef5b72e621556, type: 2}
   attackAnimation: {fileID: 11400000, guid: d84aba4f3b5c62f4dbfe91627885d545, type: 2}
   deathAnimation: {fileID: 11400000, guid: 98f1774c6ff52894cb107ce95d79dc4e, type: 2}
+  fireRate: 1
+  moveDistance: 2
 --- !u!50 &-61537561848947375
 Rigidbody2D:
   serializedVersion: 4

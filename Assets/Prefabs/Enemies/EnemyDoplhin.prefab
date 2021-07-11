@@ -48,12 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  health: 5
-  animator: {fileID: 9059076560161559659}
+  health: 3
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
-  idleAnimation: {fileID: 0}
+  animator: {fileID: 9059076560161559659}
   attackAnimation: {fileID: 11400000, guid: 1e7db97cdd6caa94c90e84907b06bd35, type: 2}
   deathAnimation: {fileID: 11400000, guid: ef18948155ab93c438a521631e004760, type: 2}
 --- !u!70 &-6566281015080140261

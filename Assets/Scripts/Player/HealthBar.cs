@@ -44,6 +44,7 @@ namespace Player
 
         public void RemoveLast()
         {
+            Destroy(segments.Last.Value);
             segments.RemoveLast();
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Spine;
 using Spine.Unity;
@@ -25,6 +26,12 @@ namespace Enemies
         public void Start()
         {
             WaveManager.Instance.OnSubWaveStartAction += SpawnSubWave;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position + spawnOffset, 0.5f);
         }
         /**********************************************/
     

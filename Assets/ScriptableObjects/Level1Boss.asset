@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3735adc4275d4d83b1b66cf22bbef429, type: 3}
-  m_Name: EnemyRicochetProjectileConfiguration
+  m_Script: {fileID: 11500000, guid: 45e5ec486424af445bcea62052c8c03f, type: 3}
+  m_Name: Level1Boss
   m_EditorClassIdentifier: 
-  projectileSprite: {fileID: 21300000, guid: d4271b4f6bbca4c40a171e8b9433ebd5, type: 3}
-  projectileSpeed: 1200
-  playerIsOwner: 0
-  canRicochet: 1
+  waves:
+  - subWaves:
+    - type: {fileID: 5034312787656549550, guid: 2ef25f680c969b1449f72898b7b576b6, type: 3}
+      amount: 1
+      delay: 0

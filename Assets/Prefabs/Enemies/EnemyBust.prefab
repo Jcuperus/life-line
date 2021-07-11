@@ -48,16 +48,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  health: 3
-  animator: {fileID: 4845778115320092938}
+  health: 1
   hitSound: {fileID: 11400000, guid: 99a412d47fcbcdd45af6387c180a806b, type: 2}
   fireSound: {fileID: 11400000, guid: dd5c246a37722414e87e8d9886f7d7e5, type: 2}
   deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
-  projectilePreFab: {fileID: 2204760866131446118, guid: 15cb153c24977064dbb16764f44f425c, type: 3}
-  fireRate: 1
+  animator: {fileID: 4845778115320092938}
   idleAnimation: {fileID: 11400000, guid: 64641ab673061914db88ace813a6b967, type: 2}
   attackAnimation: {fileID: 11400000, guid: 17544a1ae0316904c8c456bd2219450f, type: 2}
   deathAnimation: {fileID: 11400000, guid: 44bd7b14e9c1cc1428eb3bca362fe148, type: 2}
+  fireRate: 1
 --- !u!70 &6676133129262176905
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

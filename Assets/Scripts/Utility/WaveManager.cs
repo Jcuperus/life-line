@@ -6,13 +6,14 @@ namespace Utility
 {
     public class WaveManager : Singleton<WaveManager>
     {
-        [SerializeField] private WaveAsset[] wavesPerRoom;
+        [SerializeField] private WaveAsset[] waveConfig;
         [SerializeField] private AbstractEnemy bossEnemy;
 
         [SerializeField] private Vector3 bossPosition = new Vector3(-30f, 200f, 0f);
 
         private bool waveIsInProgress;
         private int spawnedEnemyAmount;
+        private int musicIndex;
 
         public delegate void SubWaveStartAction(int roomID, SubWave subWave);
 
@@ -44,26 +45,18 @@ namespace Utility
             OnPickupSpawned?.Invoke(roomID);
 
             //TODO: change room music selection
-            int musicIndex = roomID switch
+            musicIndex = roomID switch
             {
                 0 => 1,
-                1 => 2,
-                -1 => 3,
-                _ => 0
+                1 => 1,
+                2 => 2,
+                3 => 3,
+                _ => musicIndex
             };
 
             GameManager.Instance.PlayMusic(musicIndex);
 
-            //TODO: change boss spawn workaround
-            if (roomID == -1)
-            {
-                AbstractEnemy spawnedEnemy = Instantiate(bossEnemy);
-                spawnedEnemy.transform.position = bossPosition;
-            }
-            else
-            {
-                StartCoroutine(SpawnRoomWaves(roomID));
-            }
+            StartCoroutine(SpawnRoomWaves(roomID));
         }
 
         private IEnumerator SpawnRoomWaves(int roomID)
@@ -71,14 +64,14 @@ namespace Utility
             yield return new WaitUntil(() => !waveIsInProgress);
             waveIsInProgress = true;
 
-            foreach (Wave wave in wavesPerRoom[roomID].Waves)
+            foreach (Wave wave in waveConfig[roomID].Waves)
             {
                 foreach (SubWave subWave in wave.subWaves)
                 {
                     OnSubWaveStartAction?.Invoke(roomID, subWave);
                     spawnedEnemyAmount = subWave.amount;
 
-                    yield return new WaitUntil(() => spawnedEnemyAmount <= 0);
+                    yield return new WaitUntil(() => subWave.continuesWave || spawnedEnemyAmount <= 0);
                 }
             }
 

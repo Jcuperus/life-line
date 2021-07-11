@@ -203,7 +203,7 @@ namespace Player
         {
             damageSounds.Play(audioSource);
 
-            if (healthBar.Count > 1)
+            if (healthBar.Count <= 1)
             {
                 deathSounds.Play(audioSource);
                 GameManager.Instance.Death();
@@ -212,8 +212,6 @@ namespace Player
             {
                 healthBar.RemoveLast();
             }
-
-            healthBar.RemoveLast();
         }
         /**********************************************/
     }

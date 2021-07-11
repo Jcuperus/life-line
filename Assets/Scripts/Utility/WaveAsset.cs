@@ -24,6 +24,7 @@ namespace Utility
         public AbstractEnemy type;
         public int amount;
         public float delay;
+        public bool continuesWave;
     }
 }
 
