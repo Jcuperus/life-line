@@ -9,11 +9,10 @@ namespace Utility
     {
         [SerializeField] private WaveAsset[] waveConfig;
 
-        private List<EnemySpawnPoint> spawnPoints = new List<EnemySpawnPoint>();
+        private readonly List<EnemySpawnPoint> spawnPoints = new List<EnemySpawnPoint>();
         
         private bool waveIsInProgress;
         private int spawnedEnemyAmount;
-        private int musicIndex;
 
         public delegate void RoomFinishedAction(int roomID);
 
@@ -39,19 +38,6 @@ namespace Utility
         private void OnWaveTriggered(int roomID)
         {
             OnPickupSpawned?.Invoke(roomID);
-
-            //TODO: change room music selection
-            musicIndex = roomID switch
-            {
-                0 => 1,
-                1 => 1,
-                2 => 2,
-                3 => 3,
-                _ => musicIndex
-            };
-
-            GameManager.Instance.PlayMusic(musicIndex);
-
             StartCoroutine(SpawnRoomWaves(roomID));
         }
 

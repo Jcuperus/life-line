@@ -16,8 +16,8 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject pauseScreen;
-    [Space]    
-    [SerializeField] private AudioClip[] music;
+    [Space]
+    [SerializeField] private AudioClip menuMusic;
     private AudioSource audioSource;
 
     // player power up status:
@@ -53,7 +53,7 @@ public class GameManager : MonoSingleton<GameManager>
     
     private void Start()
     {
-        PlayMusic(0);
+        PlayMusic(menuMusic);
     }
     /**********************************************/
     
@@ -131,20 +131,14 @@ public class GameManager : MonoSingleton<GameManager>
     private IEnumerator OnSceneStart(string scene)
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == scene);
-        PlayMusic(-1);
+        PlayMusic(null);
     }
-    
-    public void PlayMusic(int id)
-    {
-        if (id == -1)
-        {
-            audioSource.clip = null;
-            return;
-        }
-        
-        if (audioSource.clip == music[id]) return;
 
-        audioSource.clip = music[id];
+    public void PlayMusic(AudioClip clip)
+    {
+        if (clip == audioSource.clip) return;
+        
+        audioSource.clip = clip;
         audioSource.Play();
     }
     
@@ -170,14 +164,14 @@ public class GameManager : MonoSingleton<GameManager>
     public void Death()
     {
         TransitionToState(failState);
-        PlayMusic(-1);
+        PlayMusic(null);
         Instantiate(gameOverScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     
     public void Victory()
     {
         TransitionToState(winState);
-        PlayMusic(-1);
+        PlayMusic(null);
         Instantiate(winScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     /**********************************************/

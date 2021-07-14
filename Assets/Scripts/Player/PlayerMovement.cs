@@ -17,7 +17,8 @@ namespace Player
     {
         /**************** VARIABLES *******************/
         [SerializeField] private int startingHealthAmount = 5;
-
+        [SerializeField] private bool mouseAim = false;
+        
         [Header("Movement Parameters")]
         [SerializeField] private float maxSpeed = 50f;
 
@@ -25,12 +26,8 @@ namespace Player
         [SerializeField] private float projectileSpawnOffset = 2f;
         [SerializeField] private float rotationSpeed = 15f;
 
-        [Header("Settings")] public bool inputMode = false;
-        public bool mouseAim = false;
-
-        [Header("Prefabs & Assets")] [SerializeField]
-        private AudioEvent damageSounds;
-
+        [Header("Prefabs & Assets")] 
+        [SerializeField] private AudioEvent damageSounds;
         [SerializeField] private AudioEvent shootingSounds;
         [SerializeField] private AudioEvent deathSounds;
 
@@ -51,7 +48,6 @@ namespace Player
 
         private Action healthPickupAction;
         private GameManager.SpeedMultiplierAction speedMultiplierAction;
-
         private GameManager.RicochetActivatedAction ricochetActivatedAction;
         /**********************************************/
 
@@ -96,7 +92,7 @@ namespace Player
         private void Update()
         {
             inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            inputDirection = inputMode ? Vector2.ClampMagnitude(inputDirection, 1f) : inputDirection.normalized;
+            inputDirection = Vector2.ClampMagnitude(inputDirection, 1f);
             desiredVelocity = inputDirection * maxSpeed;
 
             if (Input.GetButtonDown("Fire1"))
@@ -203,7 +199,7 @@ namespace Player
         {
             damageSounds.Play(audioSource);
 
-            if (healthBar.Count <= 1)
+            if (!healthBar.IsFirst(Node) || healthBar.Count <= 1)
             {
                 deathSounds.Play(audioSource);
                 GameManager.Instance.Death();

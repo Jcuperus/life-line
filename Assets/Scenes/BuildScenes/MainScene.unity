@@ -213,6 +213,10 @@ PrefabInstance:
       propertyPath: roomID
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6005928549699757144, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
+      propertyPath: roomMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d1361e7e878a4c4f9c18e9ae9a88c58, type: 3}
     - target: {fileID: 6847476073322370557, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2718,6 +2722,10 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6005928549699757144, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
+      propertyPath: roomMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: c1b9f5b62d1e5f34887e918cd8f00784, type: 3}
     - target: {fileID: 6847476073322370557, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3714,6 +3722,10 @@ PrefabInstance:
       propertyPath: roomID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6005928549699757144, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
+      propertyPath: roomMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: c1b9f5b62d1e5f34887e918cd8f00784, type: 3}
     - target: {fileID: 6847476073322370557, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -3979,6 +3991,10 @@ PrefabInstance:
       propertyPath: roomID
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6005928549699757144, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
+      propertyPath: roomMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d1361e7e878a4c4f9c18e9ae9a88c58, type: 3}
     - target: {fileID: 6847476073322370557, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -5697,8 +5713,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9435570b88611904ab33e4e77c35db72, type: 2}
   - {fileID: 11400000, guid: 0c7475725ff32844ca73f894d0cda47f, type: 2}
   - {fileID: 11400000, guid: fb613f7b23b3a5242b93baef191e3afa, type: 2}
-  bossEnemy: {fileID: 5034312787656549550, guid: 2ef25f680c969b1449f72898b7b576b6, type: 3}
-  bossPosition: {x: -30, y: 200, z: 0}
 --- !u!4 &1681916779
 Transform:
   m_ObjectHideFlags: 0
@@ -6292,6 +6306,10 @@ PrefabInstance:
       propertyPath: roomID
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6005928549699757144, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
+      propertyPath: roomMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: c3b71c885a4a5d5448661ef62365b3fb, type: 3}
     - target: {fileID: 6847476073322370557, guid: 6fb6f06e969e7c04481a4b953e990764, type: 3}
       propertyPath: m_RootOrder
       value: 2

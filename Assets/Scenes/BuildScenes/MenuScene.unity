@@ -820,6 +820,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5034312787656549550, guid: 2ef25f680c969b1449f72898b7b576b6, type: 3}
     - target: {fileID: 4733312640719507197, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
+      propertyPath: menuMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 0c399455a6f669e4fb5a850f053387af, type: 3}
+    - target: {fileID: 4733312640719507197, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
       propertyPath: pickupTypes.Array.size
       value: 3
       objectReference: {fileID: 0}

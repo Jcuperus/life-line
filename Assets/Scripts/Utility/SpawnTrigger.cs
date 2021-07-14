@@ -9,7 +9,8 @@ namespace Utility
     {
         /**************** VARIABLES *******************/
         [SerializeField] private int roomID;
-
+        [SerializeField] private AudioClip roomMusic;
+        
         public delegate void WaveTriggeredAction(int roomID);
         public static event WaveTriggeredAction OnWaveTriggered;
     
@@ -21,7 +22,8 @@ namespace Utility
             if (collision.gameObject.CompareTag("Player"))
             {
                 OnWaveTriggered?.Invoke(roomID);
-                gameObject.SetActive(false);
+                GameManager.Instance.PlayMusic(roomMusic);
+                Destroy(gameObject);
             }
         }
         /**********************************************/
