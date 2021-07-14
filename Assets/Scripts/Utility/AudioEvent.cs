@@ -3,18 +3,18 @@ using UnityEngine;
 namespace Utility
 {
     /// <summary>
-    /// Class for creating <see cref="AudioEvent"/> Assets, which allow <see cref="MonoBehaviour"/>s to play <see cref="AudioClip"/>s in varrying pitch and volume.
+    /// Class for creating <see cref="AudioEvent"/> Assets, which allow <see cref="MonoBehaviour"/>s to play <see cref="AudioClip"/>s in varying pitch and volume.
     /// </summary>
     [CreateAssetMenu(fileName = "Unnamed AudioEvent", menuName = "ScriptableObjects/Utility/AudioEvent")]
     public class AudioEvent : ScriptableObject
     {
         /**************** VARIABLES *******************/
         [SerializeField] private AudioClip[] clips;
-        [SerializeField] [Range(0.1f, 10)] private float volumeMin;
-        [SerializeField] [Range(0.1f, 10)] private float volumeMax;
+        [SerializeField, Range(0.1f, 10)] private float volumeMin;
+        [SerializeField, Range(0.1f, 10)] private float volumeMax;
 
-        [SerializeField] [Range(0.1f, 10)] private float pitchMin;
-        [SerializeField] [Range(0.1f, 10)] private float pitchMax;
+        [SerializeField, Range(0.1f, 10)] private float pitchMin;
+        [SerializeField, Range(0.1f, 10)] private float pitchMax;
     
         public void Play(AudioSource audioSource)
         {

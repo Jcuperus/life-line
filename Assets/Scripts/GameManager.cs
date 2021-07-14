@@ -18,6 +18,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject pauseScreen;
     [Space]
     [SerializeField] private AudioClip menuMusic;
+    [SerializeField] private AudioClip restartSound;
     private AudioSource audioSource;
 
     // player power up status:
@@ -120,6 +121,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         TransitionToState(nullState);
+        audioSource.PlayOneShot(restartSound);
     }
     
     public void StartLevel(string scene)
