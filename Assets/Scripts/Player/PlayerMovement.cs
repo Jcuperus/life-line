@@ -16,6 +16,7 @@ namespace Player
     public class PlayerMovement : MonoBehaviour, IProjectileHit
     {
         /**************** VARIABLES *******************/
+        [SerializeField] private ActorAnimationController animationController;
         [SerializeField] private int startingHealthAmount = 5;
         [SerializeField] private bool mouseAim = false;
         
@@ -45,6 +46,7 @@ namespace Player
         private float speedMultiplier = 1f;
 
         private bool ricochet;
+        private bool isAlive = true;
 
         private Action healthPickupAction;
         private GameManager.SpeedMultiplierAction speedMultiplierAction;
@@ -66,6 +68,7 @@ namespace Player
             speedMultiplierAction =
                 (duration, multiplier) => StartCoroutine(ApplySpeedMultiplier(duration, multiplier));
             ricochetActivatedAction = duration => StartCoroutine(ApplyRicochet(duration));
+            animationController.OnDeathAnimationFinished += () => GameManager.Instance.Death();
 
             GameManager.OnHealthPickup += healthPickupAction;
             GameManager.OnSpeedMultiplierApplied += speedMultiplierAction;
@@ -91,6 +94,8 @@ namespace Player
         /******************* LOOP *********************/
         private void Update()
         {
+            if (!isAlive) return;
+            
             inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             inputDirection = Vector2.ClampMagnitude(inputDirection, 1f);
             desiredVelocity = inputDirection * maxSpeed;
@@ -128,6 +133,7 @@ namespace Player
         private void FireProjectile()
         {
             shootingSounds.Play(audioSource);
+            animationController.PlayAttackAnimation();
 
             Vector3 shootDirection;
             if (mouseAim)
@@ -190,24 +196,32 @@ namespace Player
             }
         }
 
-        public void OnProjectileHit(Projectile projectile)
-        {
-            OnDamage();
-        }
-
         private void OnDamage()
         {
             damageSounds.Play(audioSource);
 
             if (!healthBar.IsFirst(Node) || healthBar.Count <= 1)
             {
-                deathSounds.Play(audioSource);
-                GameManager.Instance.Death();
+                Death();
             }
             else
             {
                 healthBar.RemoveLast();
             }
+        }
+
+        private void Death()
+        {
+            if (!isAlive) return;
+            
+            isAlive = false;
+            animationController.PlayDeathAnimation();
+            deathSounds.Play(audioSource);
+        }
+        
+        public void OnProjectileHit(Projectile projectile)
+        {
+            OnDamage();
         }
         /**********************************************/
     }
