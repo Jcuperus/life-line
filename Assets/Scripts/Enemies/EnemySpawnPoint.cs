@@ -42,13 +42,16 @@ namespace Enemies
 
         private IEnumerator SpawnEnemies(SubWave subWave)
         {
+            SetAnimation(spawnAnimation, true, 0.5f);
+
             for (int i = 0; i < subWave.amount; i++)
             {
                 yield return new WaitForSeconds(subWave.delay);
-                SetAnimation(spawnAnimation, false, 0.5f);
                 AbstractEnemy spawnedEnemy = Instantiate(subWave.type);
                 spawnedEnemy.transform.position = transform.position + spawnOffset;
             }
+            
+            animator.ClearState();
         }
     
         private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
