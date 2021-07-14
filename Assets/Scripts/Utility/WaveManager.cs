@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Enemies;
 using UnityEngine;
 
@@ -7,17 +8,12 @@ namespace Utility
     public class WaveManager : Singleton<WaveManager>
     {
         [SerializeField] private WaveAsset[] waveConfig;
-        [SerializeField] private AbstractEnemy bossEnemy;
 
-        [SerializeField] private Vector3 bossPosition = new Vector3(-30f, 200f, 0f);
-
+        private List<EnemySpawnPoint> spawnPoints = new List<EnemySpawnPoint>();
+        
         private bool waveIsInProgress;
         private int spawnedEnemyAmount;
         private int musicIndex;
-
-        public delegate void SubWaveStartAction(int roomID, SubWave subWave);
-
-        public event SubWaveStartAction OnSubWaveStartAction;
 
         public delegate void RoomFinishedAction(int roomID);
 
@@ -68,15 +64,30 @@ namespace Utility
             {
                 foreach (SubWave subWave in wave.subWaves)
                 {
-                    OnSubWaveStartAction?.Invoke(roomID, subWave);
-                    spawnedEnemyAmount = subWave.amount;
-
+                    StartSubWave(roomID, subWave);
                     yield return new WaitUntil(() => subWave.continuesWave || spawnedEnemyAmount <= 0);
                 }
             }
 
             waveIsInProgress = false;
             OnRoomIsFinished?.Invoke(roomID);
+        }
+
+        private void StartSubWave(int roomID, SubWave subWave)
+        {
+            foreach (EnemySpawnPoint spawnPoint in spawnPoints)
+            {
+                if (spawnPoint.roomID == roomID)
+                {
+                    spawnedEnemyAmount += subWave.amount;
+                    spawnPoint.SpawnSubWave(subWave);
+                }
+            }
+        }
+
+        public void RegisterSpawnPoint(EnemySpawnPoint spawnPoint)
+        {
+            spawnPoints.Add(spawnPoint);
         }
     }
 }

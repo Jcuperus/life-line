@@ -13,19 +13,19 @@ namespace Enemies
     public class EnemySpawnPoint : MonoBehaviour
     {
         /**************** VARIABLES *******************/
+        [SerializeField] private Vector3 spawnOffset = Vector3.zero;
+
         [Header("Animation")]
         [SerializeField] private SkeletonAnimation animator;
         [SerializeField] private AnimationReferenceAsset spawnAnimation;
-    
-        [Header("Config")]
-        [SerializeField] private Vector3 spawnOffset = Vector3.zero;
-        [SerializeField] private int roomID;
+
+        public int roomID;
         /**********************************************/
     
         /******************* INIT *********************/
-        public void Start()
+        private void Start()
         {
-            WaveManager.Instance.OnSubWaveStartAction += SpawnSubWave;
+            WaveManager.Instance.RegisterSpawnPoint(this);
         }
 
         private void OnDrawGizmos()
@@ -36,9 +36,9 @@ namespace Enemies
         /**********************************************/
     
         /***************** METHODS ********************/
-        private void SpawnSubWave(int roomID, SubWave subWave)
+        public void SpawnSubWave(SubWave subWave)
         {
-            if (roomID == this.roomID) StartCoroutine(SpawnEnemies(subWave));
+            StartCoroutine(SpawnEnemies(subWave));
         }
 
         private IEnumerator SpawnEnemies(SubWave subWave)
