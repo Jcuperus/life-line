@@ -779,6 +779,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 0c399455a6f669e4fb5a850f053387af, type: 3}
     - target: {fileID: 4733312640719507197, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
+      propertyPath: winScreen
+      value: 
+      objectReference: {fileID: 7236303883109646146, guid: 12e95179080878848b6d853bc6a3763c, type: 3}
+    - target: {fileID: 4733312640719507197, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
       propertyPath: restartSound
       value: 
       objectReference: {fileID: 8300000, guid: aec22d5763ffc664eb4fc83ab40f8987, type: 3}

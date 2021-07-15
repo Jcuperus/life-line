@@ -10,13 +10,13 @@ namespace Animation
         public override void Play(float timeScale = 1)
         {
             int animationIndex = Random.Range(0, attackAnimations.Length);
-            animationController.currentState = ActorAnimationController.AnimationState.Attacking;
+            animationController.CurrentState = ActorAnimationController.AnimationState.Attacking;
             animationController.SetAnimation(attackAnimations[animationIndex], false, timeScale);
         }
 
         public void Play(int animationIndex, float timeScale = 1)
         {
-            animationController.currentState = ActorAnimationController.AnimationState.Attacking;
+            animationController.CurrentState = ActorAnimationController.AnimationState.Attacking;
             animationController.SetAnimation(attackAnimations[animationIndex], false, timeScale);
         }
     }

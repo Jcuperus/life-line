@@ -10,7 +10,7 @@ namespace Animation
 
         public override void Play(float timeScale = 1)
         {
-            animationController.currentState = ActorAnimationController.AnimationState.Attacking;
+            animationController.CurrentState = ActorAnimationController.AnimationState.Attacking;
             animationController.SetAnimation(attackAnimation, false, timeScale);
         }
     }

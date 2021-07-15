@@ -22,8 +22,18 @@ namespace Animation
             Attacking,
             Death
         }
+        
+        public AnimationState CurrentState
+        {
+            get => currentState;
+            set
+            {
+                if (canInterruptAnimation) currentState = value;
+            }
+        }
 
-        [NonSerialized] public AnimationState currentState;
+        private AnimationState currentState;
+        
         private bool canInterruptAnimation = true;
         
         public event Action OnDeathAnimationFinished;
@@ -36,19 +46,19 @@ namespace Animation
 
         private void Start()
         {
-            currentState = AnimationState.Idle;
+            CurrentState = AnimationState.Idle;
             SetAnimation(idleAnimation, true, 1f);
         }
 
         private void OnAnimationComplete(TrackEntry trackEntry)
         {
-            switch (currentState)
+            switch (CurrentState)
             {
                 case AnimationState.Death:
                     OnDeathAnimationFinished?.Invoke();
                     break;
                 default:
-                    currentState = AnimationState.Idle;
+                    CurrentState = AnimationState.Idle;
                     SetAnimation(idleAnimation, true, 1f);
                     break;
             }
@@ -65,13 +75,13 @@ namespace Animation
 
         public void PlayHurtAnimation(float timeScale = 1f)
         {
-            currentState = AnimationState.Hurt;
+            CurrentState = AnimationState.Hurt;
             SetAnimation(hurtAnimation, false, timeScale);
         }
 
         public void PlayDeathAnimation(float timeScale = 1f)
         {
-            currentState = AnimationState.Death;
+            CurrentState = AnimationState.Death;
             SetAnimation(deathAnimation, false, timeScale);
             canInterruptAnimation = false;
         }
