@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 72712708319176515}
   - component: {fileID: 7094580082740916055}
   - component: {fileID: 430379016948601047}
+  - component: {fileID: 6247547312187386245}
   m_Layer: 0
   m_Name: Spine GameObject (GMTK2021RE - 0psd - Player)
   m_TagString: Untagged
@@ -403,5 +404,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleAnimation: {fileID: 11400000, guid: a13db97c5dd88cc498b5b6d2ad89d9b2, type: 2}
-  attackAnimation: {fileID: 11400000, guid: 6bde94f1b6e13cc439e58a93cf27d583, type: 2}
+  hurtAnimation: {fileID: 0}
   deathAnimation: {fileID: 11400000, guid: ce3a64fee3ce8814497f63be532e7846, type: 2}
+--- !u!114 &6247547312187386245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648954374883383263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 431f39af06534cbbbd47793642a83f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackAnimation: {fileID: 11400000, guid: 6bde94f1b6e13cc439e58a93cf27d583, type: 2}

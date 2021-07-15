@@ -12,7 +12,6 @@ namespace Enemies.AttackBehaviour
         /**************** VARIABLES *******************/
         protected readonly ProjectileFactory.ProjectileTypes projectileType;
         protected readonly Transform transform;
-        protected readonly ProjectileFactory projectileFactory;
         /**********************************************/
     
         /****************** METHODS *******************/
@@ -20,7 +19,6 @@ namespace Enemies.AttackBehaviour
         {
             this.projectileType = projectileType;
             this.transform = transform;
-            projectileFactory = ProjectileFactory.Instance;
         }
     
         public abstract IEnumerator Execute();

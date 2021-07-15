@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2145407035089226096}
   - component: {fileID: 1549494351946217039}
   - component: {fileID: 6985996821201416191}
+  - component: {fileID: 1105300197167109875}
+  - component: {fileID: 5264432121974818098}
   m_Layer: 0
   m_Name: Spine GameObject (GMTK2021RE - 0psd - Enemy 3)
   m_TagString: Untagged
@@ -119,6 +121,34 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!114 &1105300197167109875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3060381319481629366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e735c97e8504bb882d985c69a9bc034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleAnimation: {fileID: 11400000, guid: f1eae4daaaf24e5469bef5b72e621556, type: 2}
+  hurtAnimation: {fileID: 0}
+  deathAnimation: {fileID: 11400000, guid: 98f1774c6ff52894cb107ce95d79dc4e, type: 2}
+--- !u!114 &5264432121974818098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3060381319481629366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 431f39af06534cbbbd47793642a83f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackAnimation: {fileID: 11400000, guid: d84aba4f3b5c62f4dbfe91627885d545, type: 2}
 --- !u!1 &7024805073591739110
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,10 +201,7 @@ MonoBehaviour:
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 6ab36af98f86a4d44b9518328178b49a, type: 2}
-  animator: {fileID: 6985996821201416191}
-  idleAnimation: {fileID: 11400000, guid: f1eae4daaaf24e5469bef5b72e621556, type: 2}
-  attackAnimation: {fileID: 11400000, guid: d84aba4f3b5c62f4dbfe91627885d545, type: 2}
-  deathAnimation: {fileID: 11400000, guid: 98f1774c6ff52894cb107ce95d79dc4e, type: 2}
+  animationController: {fileID: 1105300197167109875}
   fireRate: 1
   moveDistance: 2
 --- !u!50 &-61537561848947375

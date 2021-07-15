@@ -52,9 +52,7 @@ MonoBehaviour:
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
-  animator: {fileID: 9059076560161559659}
-  attackAnimation: {fileID: 11400000, guid: 1e7db97cdd6caa94c90e84907b06bd35, type: 2}
-  deathAnimation: {fileID: 11400000, guid: ef18948155ab93c438a521631e004760, type: 2}
+  animationController: {fileID: 7234504209811902968}
 --- !u!70 &-6566281015080140261
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -200,6 +198,8 @@ GameObject:
   - component: {fileID: 2283150270414325304}
   - component: {fileID: 6867111023317025783}
   - component: {fileID: 9059076560161559659}
+  - component: {fileID: 7234504209811902968}
+  - component: {fileID: 3847473284130097306}
   m_Layer: 0
   m_Name: Spine GameObject (GMTK2021RE - 0psd - Enemy 4)
   m_TagString: Untagged
@@ -307,3 +307,31 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!114 &7234504209811902968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5609109691058963068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e735c97e8504bb882d985c69a9bc034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleAnimation: {fileID: 0}
+  hurtAnimation: {fileID: 0}
+  deathAnimation: {fileID: 11400000, guid: ef18948155ab93c438a521631e004760, type: 2}
+--- !u!114 &3847473284130097306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5609109691058963068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 431f39af06534cbbbd47793642a83f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackAnimation: {fileID: 11400000, guid: 1e7db97cdd6caa94c90e84907b06bd35, type: 2}

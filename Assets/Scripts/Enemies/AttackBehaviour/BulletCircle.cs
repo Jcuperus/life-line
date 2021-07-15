@@ -28,7 +28,7 @@ namespace Enemies.AttackBehaviour
                 var circlePosition = new Vector3(Mathf.Cos(segmentOffset * i), Mathf.Sin(segmentOffset * i));
                 Vector3 projectilePosition = currentPosition + circlePosition * circleRadius;
                 Vector2 direction = (projectilePosition - currentPosition).normalized;
-                projectileFactory.Instantiate(projectileType, projectilePosition, direction);
+                ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition, direction);
             }
         }
         /**********************************************/

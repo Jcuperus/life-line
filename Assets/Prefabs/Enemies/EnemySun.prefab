@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 429025292}
   - component: {fileID: 429025291}
   - component: {fileID: 429025290}
+  - component: {fileID: 423127553469471644}
+  - component: {fileID: 8962670866797948973}
   m_Layer: 10
   m_Name: Spine GameObject (GMTK2021RE - 0psd - Boss 1)
   m_TagString: Untagged
@@ -119,6 +121,37 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!114 &423127553469471644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429025288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e735c97e8504bb882d985c69a9bc034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleAnimation: {fileID: 11400000, guid: c3d09316121cf534f9069adc52a41712, type: 2}
+  hurtAnimation: {fileID: 11400000, guid: 9ad4f99769504e240903e8d606645f75, type: 2}
+  deathAnimation: {fileID: 11400000, guid: aabfcf86ad702344284ae5380b30ec6c, type: 2}
+--- !u!114 &8962670866797948973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429025288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e22d811ffc4a068c5bef2443612c97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackAnimations:
+  - {fileID: 11400000, guid: 93893d0ea2e55a44a92a72500b88ed91, type: 2}
+  - {fileID: 11400000, guid: 1879da1c35820f645b845b4d780f43cc, type: 2}
+  - {fileID: 11400000, guid: a7f16ca4b61ea8546b83adb7ae8f2647, type: 2}
 --- !u!1 &4139157921777523823
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,11 +337,5 @@ MonoBehaviour:
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 122d3d6e38b96164296e62fe43298b1c, type: 2}
-  animator: {fileID: 429025290}
-  idleAnimation: {fileID: 11400000, guid: c3d09316121cf534f9069adc52a41712, type: 2}
-  attackAAnimation: {fileID: 11400000, guid: 93893d0ea2e55a44a92a72500b88ed91, type: 2}
-  attackBAnimation: {fileID: 11400000, guid: 1879da1c35820f645b845b4d780f43cc, type: 2}
-  attackCAnimation: {fileID: 11400000, guid: a7f16ca4b61ea8546b83adb7ae8f2647, type: 2}
-  hurtAnimation: {fileID: 11400000, guid: 9ad4f99769504e240903e8d606645f75, type: 2}
-  deathAnimation: {fileID: 11400000, guid: aabfcf86ad702344284ae5380b30ec6c, type: 2}
+  animationController: {fileID: 423127553469471644}
   patternShootDelay: 10

@@ -42,7 +42,7 @@ namespace Enemies.AttackBehaviour
                     var circlePosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle));
                     Vector3 projectilePosition = currentPosition + circlePosition * CircleRadius;
                     Vector2 projectileDirection = (projectilePosition - currentPosition).normalized;
-                    projectileFactory.Instantiate(projectileType, projectilePosition,
+                    ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition,
                         projectileDirection);
                 }
             }

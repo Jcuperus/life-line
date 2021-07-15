@@ -1,8 +1,7 @@
 using System;
+using Animation;
 using Gameplay.Projectile;
 using Player;
-using Spine;
-using Spine.Unity;
 using UnityEngine;
 using Utility;
 
@@ -17,32 +16,21 @@ namespace Enemies
         [Header("Stats")]
         [SerializeField] protected float moveSpeed = 1f;
         [SerializeField] protected int health = 15;
-        [Space]
-    
+
         [Header("Audio")]
         [SerializeField] protected AudioEvent hitSound;
         [SerializeField] protected AudioEvent fireSound;
         [SerializeField] protected AudioEvent deathSound;
-    
+
         [Header("Animation")]
-        [SerializeField] protected SkeletonAnimation animator;
+        [SerializeField] protected ActorAnimationController animationController;
 
         protected AudioSource audioSource;
         protected Vector2 moveDirection;
         protected Rigidbody2D body;
         protected PlayerMovement player;
-    
-        protected AnimationState currentState;
-        protected bool canInterruptAnimation = true;
+        protected bool isAlive = true;
 
-        protected enum AnimationState
-        {
-            Idle,
-            Hurt,
-            Attacking,
-            Death
-        }
-    
         public static event Action OnEnemyIsDestroyed;
         /**********************************************/
     
@@ -52,38 +40,32 @@ namespace Enemies
             body = GetComponent<Rigidbody2D>();
             player = FindObjectOfType<PlayerMovement>();
             audioSource = GetComponent<AudioSource>();
+
+            animationController.OnDeathAnimationFinished += DestroyEnemy;
         }
         /**********************************************/
     
         /***************** METHODS ********************/
-        protected void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
-        {
-            if (!canInterruptAnimation) return;
-        
-            TrackEntry trackEntry = animator.state.SetAnimation(0, animation, loop);
-            trackEntry.TimeScale = timeScale;
-            trackEntry.Complete += OnAnimationComplete;
-        }
-    
-        protected void DestroyEnemy()
+        protected virtual void DestroyEnemy()
         {
             StopAllCoroutines();
             OnEnemyIsDestroyed?.Invoke();
             Destroy(gameObject);
         }
-    
-        protected virtual void OnAnimationComplete(TrackEntry trackEntry) {}
-    
+
         public virtual void OnProjectileHit(Projectile projectile)
         {
-            currentState = AnimationState.Hurt;
+            if (!isAlive) return;
+            
+            animationController.PlayHurtAnimation();
             hitSound.Play(audioSource);
             health--;
-        
+
             if (health < 1)
             {
-                currentState = AnimationState.Death;
+                animationController.PlayDeathAnimation();
                 deathSound.Play(audioSource);
+                isAlive = false;
             }
         }
         /**********************************************/

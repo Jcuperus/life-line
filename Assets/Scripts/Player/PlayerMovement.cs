@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Animation;
 using Gameplay;
 using Gameplay.Projectile;
 using UnityEngine;
@@ -32,7 +33,6 @@ namespace Player
         [SerializeField] private AudioEvent shootingSounds;
         [SerializeField] private AudioEvent deathSounds;
 
-        private ProjectileFactory projectileFactory;
         private Rigidbody2D body;
         private AudioSource audioSource;
 
@@ -56,7 +56,6 @@ namespace Player
         /******************* INIT *********************/
         private void Awake()
         {
-            projectileFactory = ProjectileFactory.Instance;
             body = GetComponent<Rigidbody2D>();
             audioSource = GetComponent<AudioSource>();
 
@@ -133,7 +132,7 @@ namespace Player
         private void FireProjectile()
         {
             shootingSounds.Play(audioSource);
-            animationController.PlayAttackAnimation();
+            animationController.AttackAnimation.Play();
 
             Vector3 shootDirection;
             if (mouseAim)
@@ -151,7 +150,7 @@ namespace Player
                 ? ProjectileFactory.ProjectileTypes.PlayerRicochet
                 : ProjectileFactory.ProjectileTypes.Player;
             Vector3 projectilePosition = transform.position + shootDirection * projectileSpawnOffset;
-            projectileFactory.Instantiate(projectileType, projectilePosition, shootDirection);
+            ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition, shootDirection);
         }
 
         private IEnumerator ApplySpeedMultiplier(float duration, float multiplier)

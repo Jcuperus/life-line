@@ -27,8 +27,7 @@ namespace Enemies.AttackBehaviour
             for (int i = 0; i < bulletAmount; i++)
             {
                 Vector2 direction = (target.position - currentPosition).normalized;
-                projectileFactory.Instantiate(projectileType, currentPosition, direction);
-
+                ProjectileFactory.Instance.Instantiate(projectileType, currentPosition, direction);
                 yield return new WaitForSeconds(fireDelay);
             }
         }

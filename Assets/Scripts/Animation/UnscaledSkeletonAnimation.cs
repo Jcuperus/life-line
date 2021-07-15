@@ -1,7 +1,7 @@
 using Spine.Unity;
 using UnityEngine;
 
-namespace Utility
+namespace Animation
 {
     [RequireComponent(typeof(SkeletonAnimation))]
     public class UnscaledSkeletonAnimation : MonoBehaviour

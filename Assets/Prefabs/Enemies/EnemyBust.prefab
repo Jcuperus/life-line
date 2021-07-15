@@ -52,10 +52,7 @@ MonoBehaviour:
   hitSound: {fileID: 11400000, guid: 99a412d47fcbcdd45af6387c180a806b, type: 2}
   fireSound: {fileID: 11400000, guid: dd5c246a37722414e87e8d9886f7d7e5, type: 2}
   deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
-  animator: {fileID: 4845778115320092938}
-  idleAnimation: {fileID: 11400000, guid: 64641ab673061914db88ace813a6b967, type: 2}
-  attackAnimation: {fileID: 11400000, guid: 17544a1ae0316904c8c456bd2219450f, type: 2}
-  deathAnimation: {fileID: 11400000, guid: 44bd7b14e9c1cc1428eb3bca362fe148, type: 2}
+  animationController: {fileID: 8927054684955885697}
   fireRate: 1
 --- !u!70 &6676133129262176905
 CapsuleCollider2D:
@@ -202,6 +199,8 @@ GameObject:
   - component: {fileID: 5648825930695690272}
   - component: {fileID: 9032188517617902458}
   - component: {fileID: 4845778115320092938}
+  - component: {fileID: 8927054684955885697}
+  - component: {fileID: 2769172299577972625}
   m_Layer: 0
   m_Name: Spine GameObject (GMTK2021RE - 0psd - Enemy 2)
   m_TagString: Untagged
@@ -309,3 +308,31 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!114 &8927054684955885697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7335939011798564363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e735c97e8504bb882d985c69a9bc034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleAnimation: {fileID: 11400000, guid: 64641ab673061914db88ace813a6b967, type: 2}
+  hurtAnimation: {fileID: 0}
+  deathAnimation: {fileID: 11400000, guid: 44bd7b14e9c1cc1428eb3bca362fe148, type: 2}
+--- !u!114 &2769172299577972625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7335939011798564363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 431f39af06534cbbbd47793642a83f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackAnimation: {fileID: 11400000, guid: 17544a1ae0316904c8c456bd2219450f, type: 2}
