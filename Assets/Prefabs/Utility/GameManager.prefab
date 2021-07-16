@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4289571609911522083
 Transform:
   m_ObjectHideFlags: 0
@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1663524397
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d1a95ab3a2fb9ec4ba81b201a55db96e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -127,63 +127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b518592a252dff341a1eec8269d3abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listofPickupTypes:
-  - {fileID: 3901300753360558936, guid: df5fc79cbaffa5a46a8527576ca67346, type: 3}
-  - {fileID: 1024899824822624861, guid: e4c4054242735f74b9831c3eaaa33022, type: 3}
-  - {fileID: 1112887174579828743, guid: 8e7bb3a61a15b444bb7b04e13053f6ce, type: 3}
   gameOverScreen: {fileID: 4613420189367560126, guid: 6c8697df6ad348840a941db5162e90d9, type: 3}
-  winScreen: {fileID: 1338215650118118912, guid: 12e95179080878848b6d853bc6a3763c, type: 3}
+  winScreen: {fileID: 7236303883109646146, guid: 12e95179080878848b6d853bc6a3763c, type: 3}
   pauseScreen: {fileID: 430861162011462568}
-  waveBusy: 0
-  rooms:
-  - waves:
-    - subWaves:
-      - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
-        amount: 1
-        delay: 3
-  - waves:
-    - subWaves:
-      - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
-        amount: 5
-        delay: 3
-    - subWaves:
-      - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
-        amount: 6
-        delay: 4
-      - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
-        amount: 2
-        delay: 10
-  - waves:
-    - subWaves:
-      - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
-        amount: 4
-        delay: 5
-      - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
-        amount: 3
-        delay: 10
-      - type: {fileID: 2601788398027996350, guid: f388fed693d703a4881ad1fe5ed4a752, type: 3}
-        amount: 1
-        delay: 7
-    - subWaves:
-      - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
-        amount: 6
-        delay: 5
-      - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
-        amount: 4
-        delay: 10
-      - type: {fileID: 2601788398027996350, guid: f388fed693d703a4881ad1fe5ed4a752, type: 3}
-        amount: 2
-        delay: 7
-  - waves:
-    - subWaves:
-      - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
-        amount: 999
-        delay: 20
-  music:
-  - {fileID: 8300000, guid: 0c399455a6f669e4fb5a850f053387af, type: 3}
-  - {fileID: 8300000, guid: c1b9f5b62d1e5f34887e918cd8f00784, type: 3}
-  - {fileID: 8300000, guid: c3b71c885a4a5d5448661ef62365b3fb, type: 3}
-  - {fileID: 8300000, guid: 7d1361e7e878a4c4f9c18e9ae9a88c58, type: 3}
+  menuMusic: {fileID: 8300000, guid: 0c399455a6f669e4fb5a850f053387af, type: 3}
+  restartSound: {fileID: 8300000, guid: aec22d5763ffc664eb4fc83ab40f8987, type: 3}
 --- !u!82 &4733312640719507195
 AudioSource:
   m_ObjectHideFlags: 0
@@ -196,7 +144,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.597
   m_Pitch: 1
   Loop: 0
   Mute: 0
