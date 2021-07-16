@@ -13,14 +13,14 @@ namespace Player
     /// <summary>
     /// Behaviour script for player movement.
     /// </summary>
-    [RequireComponent(typeof(HealthBar))]
     public class PlayerMovement : MonoBehaviour, IProjectileHit
     {
         /**************** VARIABLES *******************/
         [SerializeField] private ActorAnimationController animationController;
+        [SerializeField] private HealthBar healthBarPrefab;
         [SerializeField] private int startingHealthAmount = 5;
         [SerializeField] private bool mouseAim = false;
-        
+
         [Header("Movement Parameters")]
         [SerializeField] private float maxSpeed = 50f;
 
@@ -28,7 +28,7 @@ namespace Player
         [SerializeField] private float projectileSpawnOffset = 2f;
         [SerializeField] private float rotationSpeed = 15f;
 
-        [Header("Prefabs & Assets")] 
+        [Header("Sound Effects")] 
         [SerializeField] private AudioEvent damageSounds;
         [SerializeField] private AudioEvent shootingSounds;
         [SerializeField] private AudioEvent deathSounds;
@@ -47,8 +47,7 @@ namespace Player
 
         private bool ricochet;
         private bool isAlive = true;
-
-        private Action healthPickupAction;
+        
         private GameManager.SpeedMultiplierAction speedMultiplierAction;
         private GameManager.RicochetActivatedAction ricochetActivatedAction;
         /**********************************************/
@@ -60,16 +59,13 @@ namespace Player
             audioSource = GetComponent<AudioSource>();
 
             Node = new LinkedListNode<GameObject>(gameObject);
-            healthBar = GetComponent<HealthBar>();
-            healthBar.AddFirst(Node);
-
-            healthPickupAction = () => healthBar.SpawnSegment();
+            
             speedMultiplierAction =
                 (duration, multiplier) => StartCoroutine(ApplySpeedMultiplier(duration, multiplier));
             ricochetActivatedAction = duration => StartCoroutine(ApplyRicochet(duration));
             animationController.OnDeathAnimationFinished += () => GameManager.Instance.Death();
 
-            GameManager.OnHealthPickup += healthPickupAction;
+            GameManager.OnHealthPickup += SpawnHealthBarSegment;
             GameManager.OnSpeedMultiplierApplied += speedMultiplierAction;
             GameManager.OnRicochetActivated += ricochetActivatedAction;
         }
@@ -78,13 +74,13 @@ namespace Player
         {
             for (int i = 0; i < startingHealthAmount; i++)
             {
-                healthBar.SpawnSegment();
+                SpawnHealthBarSegment();
             }
         }
 
         private void OnDestroy()
         {
-            GameManager.OnHealthPickup -= healthPickupAction;
+            GameManager.OnHealthPickup -= SpawnHealthBarSegment;
             GameManager.OnSpeedMultiplierApplied -= speedMultiplierAction;
             GameManager.OnRicochetActivated -= ricochetActivatedAction;
         }
@@ -166,10 +162,30 @@ namespace Player
             yield return new WaitForSeconds(duration);
             ricochet = false;
         }
+        
+        private void SpawnHealthBarSegment()
+        {
+            if (healthBar == null)
+            {
+                healthBar = Instantiate(healthBarPrefab);
+                healthBar.AddFirst(Node);
+            }
+            
+            healthBar.SpawnSegment();
+        }
+
+        private void AttachHealthBar(HealthBar newHealthBar)
+        {
+            healthBar = newHealthBar;
+            healthBar.AddFirst(Node);
+        }
 
         private void DetachHealthBar()
         {
-            if (healthBar.IsFirst(Node)) healthBar.RemoveFirst();
+            if (!HasHealthBar()) return;
+            
+            healthBar.RemoveFirst();
+            healthBar = null;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -189,9 +205,9 @@ namespace Player
                 OnDamage();
                 collision.rigidbody.velocity = -collision.rigidbody.velocity;
             }
-            else if (collision.gameObject.CompareTag("HealthBar") && !healthBar.IsFirst(Node))
+            else if (!HasHealthBar() && collision.gameObject.TryGetComponent(out HealthBarSegment segment))
             {
-                healthBar.AddFirst(Node);
+                AttachHealthBar(segment.Parent);
             }
         }
 
@@ -199,14 +215,19 @@ namespace Player
         {
             damageSounds.Play(audioSource);
 
-            if (!healthBar.IsFirst(Node) || healthBar.Count <= 1)
-            {
-                Death();
-            }
-            else
+            if (HasHealthBar() && healthBar.Count > 1)
             {
                 healthBar.RemoveLast();
             }
+            else
+            {
+                Death();
+            }
+        }
+
+        private bool HasHealthBar()
+        {
+            return healthBar != null && healthBar.IsFirst(Node);
         }
 
         private void Death()

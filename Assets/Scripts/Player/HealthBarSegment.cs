@@ -8,12 +8,14 @@ namespace Player
     /// <summary>
     /// Behaviour for the gameObjects that form the player's health bar
     /// </summary>
-    public class HealthBarSegment : MonoBehaviour, IProjectileHit
+    public class HealthBarSegment : MonoBehaviour
     {
         /**************** VARIABLES *******************/
         [SerializeField, Range(0,100)] private float moveSpeed = 50f;
 
         public LinkedListNode<GameObject> Node { get; private set; }
+
+        public HealthBar Parent { get; set; }
         /**********************************************/
 
         private void Awake()
@@ -21,7 +23,6 @@ namespace Player
             Node = new LinkedListNode<GameObject>(gameObject);
         }
 
-        /******************* LOOP *********************/
         private void FixedUpdate()
         {
             if (Node.Previous == null) return;
@@ -34,14 +35,6 @@ namespace Player
                 Vector3.MoveTowards(currentPosition, desiredPosition, Time.deltaTime * moveSpeed),
                 Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(moveDirection)));
         }
-        /**********************************************/
-        
-        /****************** METHODS *******************/
-        public void OnProjectileHit(Projectile projectile)
-        {
-            // do nothing
-        }
-        /**********************************************/
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utility;
 
 namespace Player
 {
@@ -50,7 +51,8 @@ namespace Player
 
         public void SpawnSegment()
         {
-            HealthBarSegment newSegment = Instantiate(segmentPrefab);
+            HealthBarSegment newSegment = Instantiate(segmentPrefab, transform, true);
+            newSegment.Parent = this;
             AddLast(newSegment.Node);
         }
         
@@ -64,7 +66,7 @@ namespace Player
             if (node.Previous == null) return;
 
             Vector3 previousPosition = node.Previous.Value.transform.position;
-            Vector3 direction = previousPosition - node.Value.transform.position;
+            Vector3 direction = VectorHelper.GetDirectionFromAngle(node.Value.transform.eulerAngles.y).normalized;
             Vector3 offsetPosition = previousPosition - direction.normalized * GetOffset(node);
             node.Value.transform.position = offsetPosition;
         }
