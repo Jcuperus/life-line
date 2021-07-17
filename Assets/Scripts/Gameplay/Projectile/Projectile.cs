@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Utility;
 
@@ -14,6 +15,8 @@ namespace Gameplay.Projectile
         public Vector2 direction = Vector2.zero;
 
         private Rigidbody2D body;
+        private SpriteRenderer spriteRenderer;
+        private TrailRenderer trailRenderer;
         private bool canRicochet;
         /**********************************************/
 
@@ -21,12 +24,14 @@ namespace Gameplay.Projectile
         private void Awake()
         {
             body = GetComponent<Rigidbody2D>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            trailRenderer = GetComponent<TrailRenderer>();
+        }
+
+        private void OnEnable()
+        {
             canRicochet = projectileConfiguration.canRicochet;
-
-            var spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = projectileConfiguration.projectileSprite;
-
-            var trailRenderer = GetComponent<TrailRenderer>();
             trailRenderer.colorGradient = projectileConfiguration.trailGradient;
             
             float initialRotation = VectorHelper.GetAngleFromDirection(new Vector3(direction.x, 0f, direction.y));
@@ -58,13 +63,19 @@ namespace Gameplay.Projectile
             }
             else
             {
-                Destroy(gameObject);
+                Disable();
             }
 
             if (collision.gameObject.TryGetComponent(out IProjectileHit projectileHit))
             {
                 projectileHit.OnProjectileHit(this);
             }
+        }
+
+        private void Disable()
+        {
+            gameObject.SetActive(false);
+            trailRenderer.Clear();
         }
         /**********************************************/
     }

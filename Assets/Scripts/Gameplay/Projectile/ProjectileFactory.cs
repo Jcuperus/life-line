@@ -13,6 +13,8 @@ namespace Gameplay.Projectile
         [SerializeField] private ProjectileScriptableObject enemyConfiguration;
         [SerializeField] private ProjectileScriptableObject enemyRicochetConfiguration;
 
+        private ObjectPool<Projectile> projectilePool;
+        
         public enum ProjectileTypes
         {
             Player,
@@ -24,9 +26,16 @@ namespace Gameplay.Projectile
         private const string PlayerLayer = "FriendlyProjectile";
         private const string EnemyLayer = "EnemyProjectile";
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            projectilePool = new ObjectPool<Projectile>(projectilePrefab);
+        }
+
         public Projectile Instantiate(ProjectileTypes type, Vector3 position, Vector2 direction)
         {
-            Projectile projectile = Instantiate(projectilePrefab);
+            Projectile projectile = projectilePool.GetObject();
 
             projectile.projectileConfiguration = type switch
             {
