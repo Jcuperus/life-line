@@ -6,6 +6,7 @@ namespace Gameplay.Projectile
     /// <summary>
     /// Behaviour class for all types of projectiles in the game.
     /// </summary>
+    [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(TrailRenderer))]
     public class Projectile : MonoBehaviour
     {
         /**************** VARIABLES *******************/
@@ -24,6 +25,9 @@ namespace Gameplay.Projectile
 
             var spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = projectileConfiguration.projectileSprite;
+
+            var trailRenderer = GetComponent<TrailRenderer>();
+            trailRenderer.colorGradient = projectileConfiguration.trailGradient;
             
             float initialRotation = VectorHelper.GetAngleFromDirection(new Vector3(direction.x, 0f, direction.y));
             transform.eulerAngles = Vector3.up * initialRotation;

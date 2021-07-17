@@ -6,6 +6,7 @@ namespace Gameplay.Projectile
     public class ProjectileScriptableObject : ScriptableObject
     {
         public Sprite projectileSprite;
+        public Gradient trailGradient;
         public float projectileSpeed;
         public bool playerIsOwner;
         public bool canRicochet;
