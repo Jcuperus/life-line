@@ -121,9 +121,9 @@ namespace Player
 
             float acceleration = lastVelocity.magnitude < velocity.magnitude ? maxAcceleration : maxDeceleration;
             float weightModifier = Mathf.Max(0.25f, 1f - healthSegmentWeight * healthBarLength);
-            float maxSpeedChange = acceleration * speedMultiplier * weightModifier * Time.deltaTime;
+            float maxSpeedChange = acceleration * speedMultiplier * Time.deltaTime;
             lastVelocity = velocity;
-            velocity = Vector2.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
+            velocity = Vector2.MoveTowards(velocity, desiredVelocity * weightModifier, maxSpeedChange);
 
             body.velocity = velocity;
 
