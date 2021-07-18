@@ -16,7 +16,7 @@ namespace Gameplay.Projectile
         private Rigidbody2D body;
         private SpriteRenderer spriteRenderer;
         private TrailRenderer trailRenderer;
-        private bool canRicochet;
+        private int ricochet;
         /**********************************************/
 
         /******************* INIT *********************/
@@ -29,7 +29,7 @@ namespace Gameplay.Projectile
 
         private void OnEnable()
         {
-            canRicochet = projectileConfiguration.canRicochet;
+            ricochet = projectileConfiguration.startRicochet;
             spriteRenderer.sprite = projectileConfiguration.projectileSprite;
             trailRenderer.colorGradient = projectileConfiguration.trailGradient;
             
@@ -55,10 +55,10 @@ namespace Gameplay.Projectile
         /***************** METHODS ********************/
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (canRicochet)
+            if (ricochet>0)
             {
                 direction = Vector2.Reflect(direction, collision.transform.right);
-                canRicochet = false;
+                ricochet--;
             }
             else
             {

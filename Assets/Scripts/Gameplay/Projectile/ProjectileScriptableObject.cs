@@ -9,6 +9,6 @@ namespace Gameplay.Projectile
         public Gradient trailGradient;
         public float projectileSpeed;
         public bool playerIsOwner;
-        public bool canRicochet;
+        public int startRicochet;
     }
 }
