@@ -185,20 +185,6 @@ namespace Player
 
 
 
-            if (spreadShot)
-            {
-                Vector3 shootDirection1 = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z + 30);
-                Vector3 projectilePosition1 = transform.position + shootDirection1 * projectileSpawnOffset;
-
-                Vector3 shootDirection2 = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z - 30);
-                Vector3 projectilePosition2 = transform.position + shootDirection2 * projectileSpawnOffset;
-
-                ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition1, shootDirection1);
-                ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition2, shootDirection2);
-            }
-
-
-
 
         }
 
