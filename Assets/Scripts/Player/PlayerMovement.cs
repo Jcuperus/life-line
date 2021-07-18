@@ -104,11 +104,6 @@ namespace Player
             {
                 DetachHealthBar();
             }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                SpawnHealthBarSegment();
-            }
         }
 
         private void FixedUpdate()
@@ -116,7 +111,7 @@ namespace Player
             velocity = body.velocity;
 
             float acceleration = lastVelocity.magnitude < velocity.magnitude ? maxAcceleration : maxDeceleration;
-            float weightModifier = Mathf.Max(0.1f, 1f - healthSegmentWeight * healthBarLength);
+            float weightModifier = Mathf.Max(0.25f, 1f - healthSegmentWeight * healthBarLength);
             float maxSpeedChange = acceleration * speedMultiplier * weightModifier * Time.deltaTime;
             lastVelocity = velocity;
             velocity = Vector2.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
