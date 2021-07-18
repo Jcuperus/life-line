@@ -50,6 +50,7 @@ public class GameManager : MonoSingleton<GameManager>
         audioSource.loop = true;
         
         EnemySun.OnSunDefeated += Victory;
+        pauseScreen.SetActive(false);
     }
     
     private void Start()

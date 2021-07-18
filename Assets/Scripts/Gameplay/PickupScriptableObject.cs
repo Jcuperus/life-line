@@ -9,7 +9,10 @@ namespace Gameplay
 
         public Pickup GetRandomPickup()
         {
-            return pickups[Random.Range(0, pickups.Length)];
+            Pickup attemptPickup = pickups[Random.Range(0, pickups.Length)];
+            if (attemptPickup.Type != PickupType.HealthUp) return attemptPickup;
+
+            return null;
         }
 
         public Pickup GetPickup(PickupType type)

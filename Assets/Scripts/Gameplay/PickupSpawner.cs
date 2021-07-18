@@ -13,6 +13,7 @@ namespace Gameplay
         [SerializeField] private int roomID;
         [SerializeField] private PickupScriptableObject pickupConfig;
         [SerializeField] private RectTransform[] spawnZones;
+        [SerializeField] private int MaxHealthSpawned = 5;
         /****************** INIT **********************/
         private void Start()
         {
@@ -62,7 +63,7 @@ namespace Gameplay
         {
             Pickup healthPickup = pickupConfig.GetPickup(PickupType.HealthUp);
             
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < MaxHealthSpawned; i++)
             {
                 yield return new WaitForSeconds(10);
                 SpawnPickup(roomID, healthPickup);
