@@ -14,6 +14,7 @@ namespace Gameplay
         [SerializeField] private PickupScriptableObject pickupConfig;
         [SerializeField] private RectTransform[] spawnZones;
         [SerializeField] private int MaxHealthSpawned = 5;
+        private Coroutine routine;
         /****************** INIT **********************/
         private void Start()
         {
@@ -36,42 +37,61 @@ namespace Gameplay
                 */
             }
 
-            WaveManager.Instance.OnPickupSpawned += SpawnPickup;
+            WaveManager.Instance.OnPickupWaveTriggered += SpawnPickupWave;
         }        
         /******************* LOOP *********************/
     
         /****************** METHODS *******************/
-        private void SpawnPickup(int room)
+        private void SpawnPickupWave(int room)
         {
-            SpawnPickup(room, pickupConfig.GetRandomPickup());
+            if (room == roomID)
+            {
+                Debug.Log("starting pickups in " + roomID);
+                if (routine != null)
+                {
+                    StopCoroutine(routine);
+                }
+                routine = StartCoroutine(DropHealth());
+                SpawnPickup();
+            }
+            else if(room > roomID)
+            {
+                Debug.Log("Stopping health drops in room " + roomID);
+                StopCoroutine(routine);
+                Destroy(this.gameObject);
+            }
+        }
+        private void SpawnPickup()
+        {
+            SpawnPickup(pickupConfig.GetRandomPickup());
         }
 
-        private void SpawnPickup(int room, Pickup pickup)
+        private void SpawnPickup(Pickup pickup)
         {
             RectTransform spawnZone = spawnZones[Random.Range(0, spawnZones.Length)];
 
             Vector3 spawnPos = spawnZone.position + new Vector3(Random.Range(-spawnZone.rect.width / 2, spawnZone.rect.width / 2), Random.Range(-spawnZone.rect.height / 2, spawnZone.rect.height / 2));
 
-            if (room == roomID && Random.Range(0, 2) > 0)
+            if (pickup != null)
             {
-                StartCoroutine(DropHealth());
+                Debug.Log("spawning " + pickup.Type.ToString() + " in room " + roomID);
                 Instantiate(pickup, spawnPos, Quaternion.identity);
             }
         }
-    
         private IEnumerator DropHealth()
         {
             Pickup healthPickup = pickupConfig.GetPickup(PickupType.HealthUp);
-            
+            Debug.Log("starting healthdrops in room " + roomID);
             for (int i = 0; i < MaxHealthSpawned; i++)
             {
                 yield return new WaitForSeconds(10);
-                SpawnPickup(roomID, healthPickup);
+                SpawnPickup(healthPickup);
             }
+            Debug.Log("healthdrops in room " + roomID + " finished");
         }
         private void OnDestroy()
         {
-            WaveManager.Instance.OnPickupSpawned -= SpawnPickup;
+            WaveManager.Instance.OnPickupWaveTriggered -= SpawnPickupWave;
         }
     }
 }

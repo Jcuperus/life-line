@@ -46,10 +46,14 @@ namespace Player
         private float speedMultiplier = 1f;
 
         private bool ricochet;
+        private bool spreadShot;
+        private bool speedShot;
         private bool isAlive = true;
         
         private GameManager.SpeedMultiplierAction speedMultiplierAction;
         private GameManager.RicochetActivatedAction ricochetActivatedAction;
+        private GameManager.SpreadShotActivatedAction spreadShotActivatedAction;
+        private GameManager.SpeedShotActivatedAction speedShotActivatedAction;
         /**********************************************/
 
         /******************* INIT *********************/
@@ -63,11 +67,14 @@ namespace Player
             speedMultiplierAction =
                 (duration, multiplier) => StartCoroutine(ApplySpeedMultiplier(duration, multiplier));
             ricochetActivatedAction = duration => StartCoroutine(ApplyRicochet(duration));
+            spreadShotActivatedAction = duration => StartCoroutine(ApplySpreadShot(duration));
             animationController.OnDeathAnimationFinished += () => GameManager.Instance.Death();
 
             GameManager.OnHealthPickup += SpawnHealthBarSegment;
             GameManager.OnSpeedMultiplierApplied += speedMultiplierAction;
             GameManager.OnRicochetActivated += ricochetActivatedAction;
+            GameManager.OnSpreadShotActivated += spreadShotActivatedAction;
+            GameManager.OnSpeedShotActivated += speedShotActivatedAction;
         }
 
         private void Start()
@@ -83,6 +90,8 @@ namespace Player
             GameManager.OnHealthPickup -= SpawnHealthBarSegment;
             GameManager.OnSpeedMultiplierApplied -= speedMultiplierAction;
             GameManager.OnRicochetActivated -= ricochetActivatedAction;
+            GameManager.OnSpreadShotActivated -= spreadShotActivatedAction;
+            GameManager.OnSpeedShotActivated -= speedShotActivatedAction;
         }
         /**********************************************/
 
@@ -128,26 +137,69 @@ namespace Player
         /***************** METHODS ********************/
         private void FireProjectile()
         {
-            shootingSounds.Play(audioSource);
-            animationController.AttackAnimation.Play();
-
-            Vector3 shootDirection;
-            if (mouseAim)
-            {
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                mousePosition.z = 0f;
-                shootDirection = (mousePosition - transform.position).normalized;
-            }
-            else
-            {
-                shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
-            }
-
             ProjectileFactory.ProjectileTypes projectileType = ricochet
                 ? ProjectileFactory.ProjectileTypes.PlayerRicochet
                 : ProjectileFactory.ProjectileTypes.Player;
-            Vector3 projectilePosition = transform.position + shootDirection * projectileSpawnOffset;
-            ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition, shootDirection);
+
+            shootingSounds.Play(audioSource);
+            animationController.AttackAnimation.Play();
+
+            int I = 1;
+            if (spreadShot) I = 3;
+
+            for (int i = 0; i < I; i++)
+            {
+                Vector3 shootDirection;
+                if (mouseAim)
+                {
+                    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    mousePosition.z = 0f;
+                    shootDirection = (mousePosition - transform.position).normalized;
+
+                }
+                else
+                {
+                    shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
+                }
+
+                if (i == 1)
+                {
+                    shootDirection += VectorHelper.GetDirectionFromAngle(30);
+                }
+                else if (i == 2)
+                {
+                    shootDirection -= VectorHelper.GetDirectionFromAngle(-30);
+                }
+
+                Vector3 projectilePosition = transform.position + shootDirection * projectileSpawnOffset;
+
+                Projectile proj = ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition, shootDirection);
+
+                if (speedShot)
+                {
+                    proj.projectileConfiguration.projectileSpeed *= 2.5f;
+                }
+            }
+
+
+
+
+
+            if (spreadShot)
+            {
+                Vector3 shootDirection1 = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z + 30);
+                Vector3 projectilePosition1 = transform.position + shootDirection1 * projectileSpawnOffset;
+
+                Vector3 shootDirection2 = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z - 30);
+                Vector3 projectilePosition2 = transform.position + shootDirection2 * projectileSpawnOffset;
+
+                ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition1, shootDirection1);
+                ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition2, shootDirection2);
+            }
+
+
+
+
         }
 
         private IEnumerator ApplySpeedMultiplier(float duration, float multiplier)
@@ -162,6 +214,19 @@ namespace Player
             ricochet = true;
             yield return new WaitForSeconds(duration);
             ricochet = false;
+        }
+
+        private IEnumerator ApplySpreadShot(float duration)
+        {
+            spreadShot = true;
+            yield return new WaitForSeconds(duration);
+            spreadShot = false;
+        }
+        private IEnumerator ApplySpeedShot(float duration)
+        {
+            speedShot = true;
+            yield return new WaitForSeconds(duration);
+            speedShot = false;
         }
         
         private void SpawnHealthBarSegment()

@@ -17,19 +17,25 @@ MonoBehaviour:
     - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
       amount: 4
       delay: 5
+      continuesWave: 1
     - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
       amount: 3
       delay: 10
+      continuesWave: 1
     - type: {fileID: 2601788398027996350, guid: f388fed693d703a4881ad1fe5ed4a752, type: 3}
       amount: 1
       delay: 7
+      continuesWave: 0
   - subWaves:
     - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
       amount: 6
       delay: 5
+      continuesWave: 1
     - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
       amount: 4
       delay: 10
+      continuesWave: 1
     - type: {fileID: 2601788398027996350, guid: f388fed693d703a4881ad1fe5ed4a752, type: 3}
       amount: 2
       delay: 7
+      continuesWave: 0

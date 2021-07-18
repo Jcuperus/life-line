@@ -20,7 +20,7 @@ namespace Utility
 
         public delegate void PickupSpawnAction(int roomID);
 
-        public event PickupSpawnAction OnPickupSpawned;
+        public event PickupSpawnAction OnPickupWaveTriggered;
 
         protected override void Awake()
         {
@@ -37,26 +37,31 @@ namespace Utility
 
         private void OnWaveTriggered(int roomID)
         {
-            OnPickupSpawned?.Invoke(roomID);
+            Debug.Log("wave triggered");
+            OnPickupWaveTriggered?.Invoke(roomID);
             StartCoroutine(SpawnRoomWaves(roomID));
         }
 
         private IEnumerator SpawnRoomWaves(int roomID)
         {
+            Debug.Log("Spawning roomwaves");
             yield return new WaitUntil(() => !waveIsInProgress);
             waveIsInProgress = true;
 
             foreach (Wave wave in waveConfig[roomID].Waves)
             {
+                Debug.Log("Spawning wave");
                 foreach (SubWave subWave in wave.subWaves)
                 {
                     StartSubWave(roomID, subWave);
+                    Debug.Log("Spawning subwave");
                     yield return new WaitUntil(() => subWave.continuesWave || spawnedEnemyAmount <= 0);
                 }
             }
 
             waveIsInProgress = false;
             OnRoomIsFinished?.Invoke(roomID);
+            Debug.Log("Room finished.");
         }
 
         private void StartSubWave(int roomID, SubWave subWave)

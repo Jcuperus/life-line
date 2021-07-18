@@ -17,4 +17,4 @@ MonoBehaviour:
     - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
       amount: 999
       delay: 20
-      continuesWave: 1
+      continuesWave: 0

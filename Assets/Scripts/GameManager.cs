@@ -38,14 +38,20 @@ public class GameManager : MonoSingleton<GameManager>
     
     public delegate void SpeedMultiplierAction(float duration, float multiplier);
     public static event SpeedMultiplierAction OnSpeedMultiplierApplied;
+
+    public delegate void SpreadShotActivatedAction(float duration);
+    public static event SpreadShotActivatedAction OnSpreadShotActivated;
+
+    public delegate void SpeedShotActivatedAction(float duration);
+    public static event SpeedShotActivatedAction OnSpeedShotActivated;
     /**********************************************/
-    
+
     /****************** INIT **********************/
     private void Awake()
     {
         DontDestroyOnLoad(this);
         TransitionToState(nullState);
-        if (pauseScreen == null) pauseScreen.SetActive(false);
+        pauseScreen.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
         
@@ -160,6 +166,12 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
             case PickupType.Ricochet:
                 OnRicochetActivated?.Invoke(5f);
+                break;
+            case PickupType.SpreadShot:
+                OnSpreadShotActivated?.Invoke(5f);
+                break;
+            case PickupType.ShotSpeedUp:
+                OnSpeedShotActivated?.Invoke(5f);
                 break;
         }
     }

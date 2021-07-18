@@ -17,10 +17,13 @@ MonoBehaviour:
     - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
       amount: 5
       delay: 3
+      continuesWave: 0
   - subWaves:
     - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
       amount: 6
       delay: 4
+      continuesWave: 1
     - type: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
       amount: 2
       delay: 1
+      continuesWave: 0
