@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Animation;
 using Gameplay;
 using Gameplay.Projectile;
@@ -27,6 +25,7 @@ namespace Player
         [SerializeField] private float maxAcceleration = 75f, maxDeceleration = 75f;
         [SerializeField] private float projectileSpawnOffset = 2f;
         [SerializeField] private float rotationSpeed = 15f;
+        [SerializeField, Range(0f, 1f)] private float healthSegmentWeight = 0.05f;
 
         [Header("Sound Effects")] 
         [SerializeField] private AudioEvent damageSounds;
@@ -43,6 +42,7 @@ namespace Player
         private Vector2 desiredVelocity;
         private Vector2 velocity;
         private Vector2 lastVelocity;
+        private int healthBarLength;
         private float speedMultiplier = 1f;
 
         private bool ricochet;
@@ -111,7 +111,8 @@ namespace Player
             velocity = body.velocity;
 
             float acceleration = lastVelocity.magnitude < velocity.magnitude ? maxAcceleration : maxDeceleration;
-            float maxSpeedChange = acceleration * speedMultiplier * Time.deltaTime;
+            float weightModifier = Mathf.Max(0.25f, 1f - healthSegmentWeight * healthBarLength);
+            float maxSpeedChange = acceleration * speedMultiplier * weightModifier * Time.deltaTime;
             lastVelocity = velocity;
             velocity = Vector2.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
 
@@ -172,12 +173,14 @@ namespace Player
             }
             
             healthBar.SpawnSegment();
+            healthBarLength = healthBar.Count;
         }
 
         private void AttachHealthBar(HealthBar newHealthBar)
         {
             healthBar = newHealthBar;
             healthBar.AddFirst(Node);
+            healthBarLength = healthBar.Count;
         }
 
         private void DetachHealthBar()
@@ -186,6 +189,7 @@ namespace Player
             
             healthBar.RemoveFirst();
             healthBar = null;
+            healthBarLength = 0;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -235,6 +239,7 @@ namespace Player
             if (!isAlive) return;
             
             isAlive = false;
+            body.velocity = Vector2.zero;
             animationController.PlayDeathAnimation();
             deathSounds.Play(audioSource);
         }
