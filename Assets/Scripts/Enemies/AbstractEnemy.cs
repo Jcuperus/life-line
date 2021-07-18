@@ -59,7 +59,7 @@ namespace Enemies
             
             animationController.PlayHurtAnimation();
             hitSound.Play(audioSource);
-            health--;
+            health-= projectile.damage;
 
             if (health < 1)
             {

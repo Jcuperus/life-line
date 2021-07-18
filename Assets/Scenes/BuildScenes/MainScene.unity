@@ -1215,6 +1215,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -4130130264017858789, guid: 1d0a9c20ad376d54092c7ee981be6dc5, type: 3}
+      propertyPath: MaxHealthSpawned
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -4130130264017858789, guid: 1d0a9c20ad376d54092c7ee981be6dc5, type: 3}
       propertyPath: spawnZones.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -3783,6 +3787,10 @@ PrefabInstance:
       propertyPath: pickupConfig
       value: 
       objectReference: {fileID: 11400000, guid: a4d98ede9dcc6b94b8a13f70c1b3b7a8, type: 2}
+    - target: {fileID: -4130130264017858789, guid: 1d0a9c20ad376d54092c7ee981be6dc5, type: 3}
+      propertyPath: MaxHealthSpawned
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 862704076279306255, guid: 1d0a9c20ad376d54092c7ee981be6dc5, type: 3}
       propertyPath: m_SizeDelta.x
       value: 22.5654
@@ -6464,6 +6472,10 @@ PrefabInstance:
     - target: {fileID: -4130130264017858789, guid: 1d0a9c20ad376d54092c7ee981be6dc5, type: 3}
       propertyPath: roomID
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4130130264017858789, guid: 1d0a9c20ad376d54092c7ee981be6dc5, type: 3}
+      propertyPath: MaxHealthSpawned
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -4130130264017858789, guid: 1d0a9c20ad376d54092c7ee981be6dc5, type: 3}
       propertyPath: spawnZones.Array.size

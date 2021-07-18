@@ -82,9 +82,9 @@ namespace Gameplay
         {
             Pickup healthPickup = pickupConfig.GetPickup(PickupType.HealthUp);
             Debug.Log("starting healthdrops in room " + roomID);
-            for (int i = 0; i < MaxHealthSpawned; i++)
+            for (int i = 0; i < MaxHealthSpawned+1; i++)
             {
-                yield return new WaitForSeconds(10);
+                yield return new WaitForSeconds(5);
                 SpawnPickup(healthPickup);
             }
             Debug.Log("healthdrops in room " + roomID + " finished");

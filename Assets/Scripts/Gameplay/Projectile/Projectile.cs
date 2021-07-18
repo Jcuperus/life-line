@@ -17,6 +17,8 @@ namespace Gameplay.Projectile
         private SpriteRenderer spriteRenderer;
         private TrailRenderer trailRenderer;
         private int ricochet;
+        public int damage;
+        public float velocity;
         /**********************************************/
 
         /******************* INIT *********************/
@@ -29,10 +31,13 @@ namespace Gameplay.Projectile
 
         private void OnEnable()
         {
+            damage = projectileConfiguration.damage;
             ricochet = projectileConfiguration.startRicochet;
             spriteRenderer.sprite = projectileConfiguration.projectileSprite;
             trailRenderer.colorGradient = projectileConfiguration.trailGradient;
-            
+            velocity = projectileConfiguration.projectileSpeed;
+
+
             float initialRotation = VectorHelper.GetAngleFromDirection(new Vector3(direction.x, 0f, direction.y));
             transform.eulerAngles = Vector3.up * initialRotation;
         }
@@ -41,7 +46,7 @@ namespace Gameplay.Projectile
         /******************* LOOP *********************/
         private void FixedUpdate()
         {
-            float speed = projectileConfiguration.projectileSpeed;
+            float speed = velocity;
             if (!projectileConfiguration.playerIsOwner & GameManager.Instance.BulletTime > 0)
             {
                 speed *= .25f;

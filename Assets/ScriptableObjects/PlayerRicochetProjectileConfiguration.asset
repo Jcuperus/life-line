@@ -45,3 +45,4 @@ MonoBehaviour:
   projectileSpeed: 4000
   playerIsOwner: 1
   startRicochet: 2
+  damage: 1

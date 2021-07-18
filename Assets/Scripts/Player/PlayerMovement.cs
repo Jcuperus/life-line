@@ -45,6 +45,8 @@ namespace Player
         private int healthBarLength;
         private float speedMultiplier = 1f;
 
+        private int damageBoost = 0;
+
         private bool ricochet;
         private bool spreadShot;
         private bool speedShot;
@@ -68,6 +70,7 @@ namespace Player
                 (duration, multiplier) => StartCoroutine(ApplySpeedMultiplier(duration, multiplier));
             ricochetActivatedAction = duration => StartCoroutine(ApplyRicochet(duration));
             spreadShotActivatedAction = duration => StartCoroutine(ApplySpreadShot(duration));
+            speedShotActivatedAction = duration => StartCoroutine(ApplySpeedShot(duration));
             animationController.OnDeathAnimationFinished += () => GameManager.Instance.Death();
 
             GameManager.OnHealthPickup += SpawnHealthBarSegment;
@@ -177,7 +180,11 @@ namespace Player
 
                 if (speedShot)
                 {
-                    proj.projectileConfiguration.projectileSpeed *= 2.5f;
+                    proj.velocity *= 2.5f;
+                }
+                if (damageBoost > 0)
+                {
+                    proj.damage += damageBoost;
                 }
             }
 
@@ -227,12 +234,13 @@ namespace Player
             healthBar = newHealthBar;
             healthBar.AddFirst(Node);
             healthBarLength = healthBar.Count;
+            damageBoost = 0;
         }
 
         private void DetachHealthBar()
         {
             if (!HasHealthBar()) return;
-            
+            damageBoost = healthBarLength;
             healthBar.RemoveFirst();
             healthBar = null;
             healthBarLength = 0;

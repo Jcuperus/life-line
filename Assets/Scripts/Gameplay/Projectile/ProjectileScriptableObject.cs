@@ -10,5 +10,6 @@ namespace Gameplay.Projectile
         public float projectileSpeed;
         public bool playerIsOwner;
         public int startRicochet;
+        public int damage;
     }
 }
