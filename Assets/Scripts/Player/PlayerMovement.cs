@@ -147,10 +147,9 @@ namespace Player
             shootingSounds.Play(audioSource);
             animationController.AttackAnimation.Play();
 
-            int I = 1;
-            if (spreadShot) I = 3;
+            int shotAmount = spreadShot ? 3 : 1;
 
-            for (int i = 0; i < I; i++)
+            for (int i = 0; i < shotAmount; i++)
             {
                 Vector3 shootDirection;
                 if (mouseAim)

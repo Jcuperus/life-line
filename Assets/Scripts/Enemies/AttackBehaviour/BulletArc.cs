@@ -28,7 +28,7 @@ namespace Enemies.AttackBehaviour
         {
             Vector3 currentPosition = transform.position;
             Vector3 direction = (target.position - currentPosition).normalized;
-            float arcCenterAngle = VectorHelper.GetAngleFromDirection(direction) + 90f; //TODO: need to fix this function
+            float arcCenterAngle = VectorHelper.GetAngleFromDirection(direction) + 90f;
             float arcLength = BulletDistance * BulletAmount;
             float arcStartAngle = arcCenterAngle - arcLength * 0.5f + BulletDistance * 0.5f;
 
