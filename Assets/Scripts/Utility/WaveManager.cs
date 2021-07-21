@@ -30,6 +30,14 @@ namespace Utility
             AbstractEnemy.OnEnemyIsDestroyed += () => spawnedEnemyAmount--;
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                OnRoomIsFinished?.Invoke(0);
+            }
+        }
+
         private void OnDestroy()
         {
             SpawnTrigger.OnWaveTriggered -= OnWaveTriggered;
@@ -37,31 +45,26 @@ namespace Utility
 
         private void OnWaveTriggered(int roomID)
         {
-            Debug.Log("wave triggered");
             OnPickupWaveTriggered?.Invoke(roomID);
             StartCoroutine(SpawnRoomWaves(roomID));
         }
 
         private IEnumerator SpawnRoomWaves(int roomID)
         {
-            Debug.Log("Spawning roomwaves");
             yield return new WaitUntil(() => !waveIsInProgress);
             waveIsInProgress = true;
 
             foreach (Wave wave in waveConfig[roomID].Waves)
             {
-                Debug.Log("Spawning wave");
                 foreach (SubWave subWave in wave.subWaves)
                 {
                     StartSubWave(roomID, subWave);
-                    Debug.Log("Spawning subwave");
                     yield return new WaitUntil(() => subWave.continuesWave || spawnedEnemyAmount <= 0);
                 }
             }
 
             waveIsInProgress = false;
             OnRoomIsFinished?.Invoke(roomID);
-            Debug.Log("Room finished.");
         }
 
         private void StartSubWave(int roomID, SubWave subWave)

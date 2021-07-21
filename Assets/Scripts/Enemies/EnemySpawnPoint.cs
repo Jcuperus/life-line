@@ -42,7 +42,7 @@ namespace Enemies
 
         private IEnumerator SpawnEnemies(SubWave subWave)
         {
-            SetAnimation(spawnAnimation, true, 0.5f);
+            // SetAnimation(spawnAnimation, true, 0.5f);
 
             for (int i = 0; i < subWave.amount; i++)
             {
@@ -51,7 +51,7 @@ namespace Enemies
                 spawnedEnemy.transform.position = transform.position + spawnOffset;
             }
             
-            animator.ClearState();
+            // animator.ClearState();
         }
     
         private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)

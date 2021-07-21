@@ -3,13 +3,15 @@ using UnityEngine;
 namespace Utility
 {
     /// <summary>
-    /// Attach this to an object to allow it to fire trigger events with the player and thereby allow pickups and enemies to spawn, etc.
+    /// GameObject responsible for triggering new waves
     /// </summary>
+    [RequireComponent(typeof(Collider2D), typeof(MusicSource))]
     public class SpawnTrigger : MonoBehaviour
     {
         /**************** VARIABLES *******************/
         [SerializeField] private int roomID;
-        [SerializeField] private AudioClip roomMusic;
+
+        private MusicSource musicSource;
         
         public delegate void WaveTriggeredAction(int roomID);
         public static event WaveTriggeredAction OnWaveTriggered;
@@ -17,12 +19,17 @@ namespace Utility
         /**********************************************/
     
         /***************** METHODS ********************/
+        private void Awake()
+        {
+            musicSource = GetComponent<MusicSource>();
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
                 OnWaveTriggered?.Invoke(roomID);
-                GameManager.Instance.PlayMusic(roomMusic);
+                musicSource.Play();
                 Destroy(gameObject);
             }
         }
