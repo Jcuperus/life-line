@@ -28,7 +28,7 @@ namespace Enemies
         protected AudioSource audioSource;
         protected Vector2 moveDirection;
         protected Rigidbody2D body;
-        protected PlayerMovement player;
+        protected PlayerController player;
         protected bool isAlive = true;
 
         public static event Action OnEnemyIsDestroyed;
@@ -38,7 +38,7 @@ namespace Enemies
         protected virtual void Awake()
         {
             body = GetComponent<Rigidbody2D>();
-            player = FindObjectOfType<PlayerMovement>();
+            player = FindObjectOfType<PlayerController>();
             audioSource = GetComponent<AudioSource>();
 
             animationController.OnDeathAnimationFinished += DestroyEnemy;

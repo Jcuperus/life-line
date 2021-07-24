@@ -30,14 +30,6 @@ namespace Utility
             AbstractEnemy.OnEnemyIsDestroyed += () => spawnedEnemyAmount--;
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                OnRoomIsFinished?.Invoke(0);
-            }
-        }
-
         private void OnDestroy()
         {
             SpawnTrigger.OnWaveTriggered -= OnWaveTriggered;

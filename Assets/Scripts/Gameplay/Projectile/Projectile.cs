@@ -47,10 +47,6 @@ namespace Gameplay.Projectile
         private void FixedUpdate()
         {
             float speed = velocity;
-            // if (!projectileConfiguration.playerIsOwner && GameManager.Instance.BulletTime > 0)
-            // {
-            //     speed *= .25f;
-            // }
 
             body.velocity = speed * Time.deltaTime * direction;
             transform.localRotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(direction));

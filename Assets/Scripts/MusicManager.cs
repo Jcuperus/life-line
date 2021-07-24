@@ -18,7 +18,6 @@ public class MusicManager : MonoSingleton<MusicManager>
 
     public void Play(AudioClip clip)
     {
-        Debug.Log(clip);
         if (clip == audioSource.clip) return;
 
         audioSource.clip = clip;

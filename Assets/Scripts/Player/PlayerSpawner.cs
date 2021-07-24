@@ -8,9 +8,9 @@ namespace Player
     public class PlayerSpawner : MonoBehaviour
     {
         /**************** VARIABLES *******************/
-        [SerializeField] private PlayerMovement playerPrefab;
+        [SerializeField] private PlayerController playerPrefab;
 
-        public delegate void PlayerSpawnAction(PlayerMovement playerMovement);
+        public delegate void PlayerSpawnAction(PlayerController playerController);
         public event PlayerSpawnAction OnPlayerSpawn;
         /**********************************************/
     
@@ -22,7 +22,7 @@ namespace Player
     
         private void SpawnPlayer()
         {
-            PlayerMovement player = Instantiate(playerPrefab, transform.position, Quaternion.identity);
+            PlayerController player = Instantiate(playerPrefab, transform.position, Quaternion.identity);
             OnPlayerSpawn?.Invoke(player);
         }
         /**********************************************/
