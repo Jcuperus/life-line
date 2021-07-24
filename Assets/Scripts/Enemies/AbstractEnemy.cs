@@ -10,6 +10,7 @@ namespace Enemies
     /// <summary>
     /// Base class from which all enemy MonoBehaviours should be derived.
     /// </summary>
+    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(AudioSource))]
     public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
     {
         /**************** VARIABLES *******************/
@@ -25,6 +26,8 @@ namespace Enemies
         [Header("Animation")]
         [SerializeField] protected ActorAnimationController animationController;
 
+        private new Collider2D collider;
+        
         protected AudioSource audioSource;
         protected Vector2 moveDirection;
         protected Rigidbody2D body;
@@ -38,8 +41,9 @@ namespace Enemies
         protected virtual void Awake()
         {
             body = GetComponent<Rigidbody2D>();
-            player = FindObjectOfType<PlayerController>();
+            collider = GetComponent<Collider2D>();
             audioSource = GetComponent<AudioSource>();
+            player = FindObjectOfType<PlayerController>();
 
             animationController.OnDeathAnimationFinished += DestroyEnemy;
         }
@@ -48,7 +52,6 @@ namespace Enemies
         /***************** METHODS ********************/
         protected virtual void DestroyEnemy()
         {
-            StopAllCoroutines();
             OnEnemyIsDestroyed?.Invoke();
             Destroy(gameObject);
         }
@@ -59,12 +62,13 @@ namespace Enemies
             
             animationController.PlayHurtAnimation();
             hitSound.Play(audioSource);
-            health-= projectile.damage;
+            health -= projectile.damage;
 
             if (health < 1)
             {
                 animationController.PlayDeathAnimation();
                 deathSound.Play(audioSource);
+                collider.enabled = false;
                 isAlive = false;
             }
         }

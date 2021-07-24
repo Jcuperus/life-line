@@ -13,7 +13,7 @@ namespace Gameplay
         [SerializeField] private int roomID;
         [SerializeField] private PickupScriptableObject pickupConfig;
         [SerializeField] private RectTransform[] spawnZones;
-        [SerializeField] private int MaxHealthSpawned = 5;
+        [SerializeField] private int maxHealthSpawned = 5;
         private Coroutine routine;
         /****************** INIT **********************/
         private void Start()
@@ -46,7 +46,6 @@ namespace Gameplay
         {
             if (room == roomID)
             {
-                Debug.Log("starting pickups in " + roomID);
                 if (routine != null)
                 {
                     StopCoroutine(routine);
@@ -56,9 +55,8 @@ namespace Gameplay
             }
             else if(room > roomID)
             {
-                Debug.Log("Stopping health drops in room " + roomID);
                 StopCoroutine(routine);
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
         private void SpawnPickup()
@@ -74,20 +72,17 @@ namespace Gameplay
 
             if (pickup != null)
             {
-                Debug.Log("spawning " + pickup.Type.ToString() + " in room " + roomID);
                 Instantiate(pickup, spawnPos, Quaternion.identity);
             }
         }
         private IEnumerator DropHealth()
         {
             Pickup healthPickup = pickupConfig.GetPickup(PickupType.HealthUp);
-            Debug.Log("starting healthdrops in room " + roomID);
-            for (int i = 0; i < MaxHealthSpawned+1; i++)
+            for (int i = 0; i <= maxHealthSpawned; i++)
             {
                 yield return new WaitForSeconds(5);
                 SpawnPickup(healthPickup);
             }
-            Debug.Log("healthdrops in room " + roomID + " finished");
         }
         private void OnDestroy()
         {
