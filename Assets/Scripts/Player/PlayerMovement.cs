@@ -26,7 +26,9 @@ namespace Player
         [SerializeField] private float maxAcceleration = 75f, maxDeceleration = 75f;
         [SerializeField] private float projectileSpawnOffset = 2f;
         [SerializeField] private float rotationSpeed = 15f;
-        [SerializeField, Range(0f, 1f)] private float healthSegmentWeight = 0.05f;
+        
+        [SerializeField, Range(0f, 1f)]
+        private float healthSegmentWeight = 0.05f;
 
         [Header("Sound Effects")] 
         [SerializeField] private AudioEvent damageSounds;
@@ -125,9 +127,9 @@ namespace Player
 
             float acceleration = lastVelocity.magnitude < velocity.magnitude ? maxAcceleration : maxDeceleration;
             float weightModifier = Mathf.Max(0.25f, 1f - healthSegmentWeight * healthBarLength);
-            float maxSpeedChange = acceleration * speedMultiplier * weightModifier * Time.deltaTime;
+            float maxSpeedChange = acceleration * speedMultiplier * Time.deltaTime;
             lastVelocity = velocity;
-            velocity = Vector2.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
+            velocity = Vector2.MoveTowards(velocity, desiredVelocity * weightModifier, maxSpeedChange);
 
             body.velocity = velocity;
 

@@ -20,6 +20,8 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private Slider powerupTimer;
     [Space]
     [SerializeField] private AudioClip menuMusic;
+    
+    [Header("Music")]
     [SerializeField] private AudioClip restartSound;
     private AudioSource audioSource;
 
@@ -55,15 +57,9 @@ public class GameManager : MonoSingleton<GameManager>
         TransitionToState(nullState);
         pauseScreen.SetActive(false);
         audioSource = GetComponent<AudioSource>();
-        audioSource.loop = true;
         
         EnemySun.OnSunDefeated += Victory;
         pauseScreen.SetActive(false);
-    }
-    
-    private void Start()
-    {
-        PlayMusic(menuMusic);
     }
     /**********************************************/
     
@@ -142,15 +138,7 @@ public class GameManager : MonoSingleton<GameManager>
     private IEnumerator OnSceneStart(string scene)
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == scene);
-        PlayMusic(null);
-    }
-
-    public void PlayMusic(AudioClip clip)
-    {
-        if (clip == audioSource.clip) return;
-        
-        audioSource.clip = clip;
-        audioSource.Play();
+        MusicManager.Instance.Stop();
     }
     
     public void ResolvePickup(Pickup pickup)
@@ -204,14 +192,14 @@ public class GameManager : MonoSingleton<GameManager>
     public void Death()
     {
         TransitionToState(failState);
-        PlayMusic(null);
+        MusicManager.Instance.Stop();
         Instantiate(gameOverScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     
-    public void Victory()
+    private void Victory()
     {
         TransitionToState(winState);
-        PlayMusic(null);
+        MusicManager.Instance.Stop();
         Instantiate(winScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     /**********************************************/

@@ -11,15 +11,21 @@ namespace Utility
     {
         /**************** VARIABLES *******************/
         [SerializeField] private Transform followTransform;
-
-        private PlayerSpawner.PlayerSpawnAction playerSpawnAction;
         /**********************************************/
     
         /******************* INIT *********************/
         private void Awake()
         {
-            playerSpawnAction = player => Follow(player.transform);
-            FindObjectOfType<PlayerSpawner>().OnPlayerSpawn += playerSpawnAction;
+            var spawner = FindObjectOfType<PlayerSpawner>();
+
+            if (spawner != null)
+            {
+                spawner.OnPlayerSpawn += player => Follow(player.transform);
+            }
+            else
+            {
+                Follow(followTransform);
+            }
         }
         /**********************************************/
     
