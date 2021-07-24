@@ -249,10 +249,11 @@ MonoBehaviour:
   startingHealthAmount: 5
   mouseAim: 1
   maxSpeed: 50
-  maxAcceleration: 120
-  maxDeceleration: 80
+  maxAcceleration: 150
+  maxDeceleration: 120
   projectileSpawnOffset: 2
   rotationSpeed: 15
+  healthSegmentWeight: 0.05
   damageSounds: {fileID: 11400000, guid: 26fdfd12f5c10bf4a82d2e9fba410775, type: 2}
   shootingSounds: {fileID: 11400000, guid: a5c9a5b9b054a004e9cd83aa2e6e498a, type: 2}
   deathSounds: {fileID: 11400000, guid: 204534b43df465c4db50cc912e987fee, type: 2}
