@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Animation;
 using Gameplay;
 using Gameplay.Projectile;
+using TMPro;
 using UnityEngine;
 using Utility;
 
@@ -234,12 +235,14 @@ namespace Player
             healthBar.AddFirst(Node);
             healthBarLength = healthBar.Count;
             damageBoost = 0;
+            FindObjectOfType<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = "Damage Boost: " + damageBoost;
         }
 
         private void DetachHealthBar()
         {
             if (!HasHealthBar()) return;
             damageBoost = healthBarLength;
+            FindObjectOfType<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = "Damage Boost: " + damageBoost;
             healthBar.RemoveFirst();
             healthBar = null;
             healthBarLength = 0;
@@ -249,9 +252,8 @@ namespace Player
         {
             if (collision.TryGetComponent(out Pickup pickup))
             {
-                PickupType type = pickup.Type;
+                GameManager.Instance.ResolvePickup(pickup);
                 Destroy(pickup.gameObject);
-                GameManager.Instance.ResolvePickup(type);
             }
         }
 
