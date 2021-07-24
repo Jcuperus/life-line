@@ -4,6 +4,7 @@ using Enemies;
 using Gameplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Utility;
 
 /// <summary>
@@ -16,6 +17,9 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject pauseScreen;
+    [SerializeField] private Slider powerupTimer;
+    [Space]
+    [SerializeField] private AudioClip menuMusic;
     
     [Header("Music")]
     [SerializeField] private AudioClip restartSound;
@@ -137,29 +141,52 @@ public class GameManager : MonoSingleton<GameManager>
         MusicManager.Instance.Stop();
     }
     
-    public void ResolvePickup(PickupType pickup)
+    public void ResolvePickup(Pickup pickup)
     {
-        switch (pickup)
+        float duration = 0;
+        switch (pickup.Type)
         {
             case PickupType.HealthUp:
                 OnHealthPickup?.Invoke();
                 break;
             case PickupType.SpeedUp:
-                OnSpeedMultiplierApplied?.Invoke(5, 1.5f);
+                duration = 5;
+                OnSpeedMultiplierApplied?.Invoke(duration, 1.5f);
                 break;
             case PickupType.BulletTime:
-                BulletTime += 5;
+                duration = 5;
+                BulletTime += duration;
                 break;
             case PickupType.Ricochet:
-                OnRicochetActivated?.Invoke(5f);
+                duration = 5;
+                OnRicochetActivated?.Invoke(duration);
                 break;
             case PickupType.SpreadShot:
-                OnSpreadShotActivated?.Invoke(5f);
+                duration = 5;
+                OnSpreadShotActivated?.Invoke(duration);
                 break;
             case PickupType.ShotSpeedUp:
-                OnSpeedShotActivated?.Invoke(5f);
+                duration = 5;
+                OnSpeedShotActivated?.Invoke(duration);
                 break;
         }
+        if (duration > 0)
+        {
+            StartCoroutine(ShowPowerup(pickup.gameObject.GetComponent<SpriteRenderer>().sprite, duration));
+        }
+    }
+    private IEnumerator ShowPowerup(Sprite sprite, float duration)
+    {
+        Slider slider = Instantiate(powerupTimer, FindObjectOfType<Canvas>().transform);
+        slider.handleRect.GetComponent<Image>().sprite = sprite;
+        slider.maxValue = duration;
+        while (duration > 0)
+        {
+            slider.value = duration;
+            yield return new WaitForFixedUpdate();
+            duration -= Time.deltaTime;
+        }
+        Destroy(slider.gameObject);
     }
 
     public void Death()
