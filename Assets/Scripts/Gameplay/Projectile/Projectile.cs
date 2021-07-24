@@ -47,10 +47,10 @@ namespace Gameplay.Projectile
         private void FixedUpdate()
         {
             float speed = velocity;
-            if (!projectileConfiguration.playerIsOwner & GameManager.Instance.BulletTime > 0)
-            {
-                speed *= .25f;
-            }
+            // if (!projectileConfiguration.playerIsOwner && GameManager.Instance.BulletTime > 0)
+            // {
+            //     speed *= .25f;
+            // }
 
             body.velocity = speed * Time.deltaTime * direction;
             transform.localRotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(direction));
@@ -60,7 +60,7 @@ namespace Gameplay.Projectile
         /***************** METHODS ********************/
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (ricochet>0)
+            if (ricochet > 0)
             {
                 direction = Vector2.Reflect(direction, collision.transform.right);
                 ricochet--;
