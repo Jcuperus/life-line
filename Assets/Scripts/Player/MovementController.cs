@@ -5,7 +5,7 @@ using Utility;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerMovement : MonoBehaviour
+    public class MovementController : MonoBehaviour
     {
         public float speedModifier = 1f, weightModifier = 1f;
 
@@ -21,6 +21,16 @@ namespace Player
         private void Awake()
         {
             rigidbody = GetComponent<Rigidbody2D>();
+        }
+
+        private void OnEnable()
+        {
+            GameManager.OnSpeedMultiplierApplied += ApplySpeedModifier;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.OnSpeedMultiplierApplied -= ApplySpeedModifier;
         }
 
         private void Update()
@@ -56,7 +66,7 @@ namespace Player
             speedModifier = 1f;
         }
 
-        public void ApplySpeedModifier(float multiplier, float duration = 0f)
+        private void ApplySpeedModifier(float multiplier, float duration = 0f)
         {
             StartCoroutine(SpeedModifierCoroutine(multiplier, duration));
         }
