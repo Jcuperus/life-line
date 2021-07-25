@@ -18,8 +18,6 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject pauseScreen;
     [SerializeField] private Slider powerupTimer;
-    [Space]
-    [SerializeField] private AudioClip menuMusic;
     
     [Header("Music")]
     [SerializeField] private AudioClip restartSound;
@@ -40,7 +38,7 @@ public class GameManager : MonoSingleton<GameManager>
     public delegate void RicochetActivatedAction(float duration);
     public static event RicochetActivatedAction OnRicochetActivated;
     
-    public delegate void SpeedMultiplierAction(float duration, float multiplier);
+    public delegate void SpeedMultiplierAction(float multiplier, float duration);
     public static event SpeedMultiplierAction OnSpeedMultiplierApplied;
 
     public delegate void SpreadShotActivatedAction(float duration);
