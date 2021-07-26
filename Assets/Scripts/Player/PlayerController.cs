@@ -37,6 +37,9 @@ namespace Player
         
         private int healthBarLength;
         private bool isAlive = true;
+        
+        public delegate void DamageBoostChangeAction(int amount);
+        public static event DamageBoostChangeAction OnDamageBoostChanged;
         /**********************************************/
 
         /******************* INIT *********************/
@@ -89,7 +92,7 @@ namespace Player
                 healthBar = Instantiate(healthBarPrefab);
                 healthBar.AddFirst(Node);
             }
-            fireController.DamageBoost = 0;
+            OnDamageBoostChanged?.Invoke(0);
             healthBar.SpawnSegment();
             healthBarLength = healthBar.Count;
         }
@@ -99,13 +102,13 @@ namespace Player
             healthBar = newHealthBar;
             healthBar.AddFirst(Node);
             healthBarLength = healthBar.Count;
-            fireController.DamageBoost = 0;
+            OnDamageBoostChanged?.Invoke(0);
         }
 
         private void DetachHealthBar()
         {
             if (!HasHealthBar()) return;
-            fireController.DamageBoost = healthBarLength;
+            OnDamageBoostChanged?.Invoke(healthBarLength);
             healthBar.RemoveFirst();
             healthBar = null;
             healthBarLength = 0;

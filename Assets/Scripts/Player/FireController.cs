@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Gameplay.Projectile;
-using TMPro;
 using UnityEngine;
 using Utility;
 
@@ -9,17 +8,6 @@ namespace Player
     [RequireComponent(typeof(AudioSource))]
     public class FireController : MonoBehaviour
     {
-
-        public int DamageBoost
-        {
-            set
-            {
-                damageBoost = value;
-                //TODO: do this in a better way
-                FindObjectOfType<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = "Damage Boost: " + damageBoost;
-            }
-        }
-        
         [SerializeField] private AudioEvent shootingSounds;
 
         [SerializeField] private float projectileSpawnOffset = 2f;
@@ -50,6 +38,7 @@ namespace Player
             GameManager.OnRicochetActivated += ricochetActivatedAction;
             GameManager.OnSpreadShotActivated += spreadShotActivatedAction;
             GameManager.OnSpeedShotActivated += speedShotActivatedAction;
+            PlayerController.OnDamageBoostChanged += UpdateDamageBoost;
         }
 
         private void OnDisable()
@@ -57,6 +46,12 @@ namespace Player
             GameManager.OnRicochetActivated -= ricochetActivatedAction;
             GameManager.OnSpreadShotActivated -= spreadShotActivatedAction;
             GameManager.OnSpeedShotActivated -= speedShotActivatedAction;
+            PlayerController.OnDamageBoostChanged -= UpdateDamageBoost;
+        }
+
+        private void UpdateDamageBoost(int amount)
+        {
+            damageBoost = amount;
         }
 
         private void Update()
