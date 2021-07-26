@@ -11,6 +11,8 @@ namespace Utility
     {
         /**************** VARIABLES *******************/
         [SerializeField] private Transform followTransform;
+        private float shakeDuration = 0;
+        private float shakeIntensity = 0;
         /**********************************************/
     
         /******************* INIT *********************/
@@ -41,9 +43,22 @@ namespace Utility
             while (isActiveAndEnabled)
             {
                 transform.position = new Vector3(followTransform.position.x, followTransform.position.y, transform.position.z);
-                yield return null;
+                if (shakeDuration > 0)
+                {
+                    transform.position += (Vector3)Random.insideUnitCircle * shakeIntensity;
+                    shakeDuration -= Time.deltaTime;
+                }
+                    yield return null;
             }
         }
         /**********************************************/
+        /***************** METHODS ********************/
+        public void Shake(float duration, float intensity)
+        {
+            shakeDuration = duration;
+            shakeIntensity += intensity;
+        }
+        /**********************************************/
+
     }
 }

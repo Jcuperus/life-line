@@ -89,7 +89,7 @@ namespace Player
                 healthBar = Instantiate(healthBarPrefab);
                 healthBar.AddFirst(Node);
             }
-            
+            fireController.DamageBoost = 0;
             healthBar.SpawnSegment();
             healthBarLength = healthBar.Count;
         }
@@ -132,9 +132,9 @@ namespace Player
                 AttachHealthBar(segment.Parent);
             }
         }
-
         private void OnDamage()
         {
+            Camera.main.GetComponent<CameraMove>().Shake(.01f, .5f); // could probably be done more cleanly?
             damageSounds.Play(audioSource);
 
             if (HasHealthBar() && healthBar.Count > 1)

@@ -38,6 +38,7 @@ namespace Gameplay
             }
 
             WaveManager.Instance.OnPickupWaveTriggered += SpawnPickupWave;
+            WaveManager.Instance.OnRoomIsFinished += StopSpawning;
         }        
         /******************* LOOP *********************/
     
@@ -52,11 +53,6 @@ namespace Gameplay
                 }
                 routine = StartCoroutine(DropHealth());
                 SpawnPickup();
-            }
-            else if(room > roomID)
-            {
-                StopCoroutine(routine);
-                Destroy(gameObject);
             }
         }
         private void SpawnPickup()
@@ -84,9 +80,18 @@ namespace Gameplay
                 SpawnPickup(healthPickup);
             }
         }
+        private void StopSpawning(int room)
+        {
+            if (room == roomID)
+            {
+                StopCoroutine(routine);
+                Destroy(gameObject);
+            }
+        }
         private void OnDestroy()
         {
             WaveManager.Instance.OnPickupWaveTriggered -= SpawnPickupWave;
+            WaveManager.Instance.OnRoomIsFinished -= StopSpawning;
         }
     }
 }
