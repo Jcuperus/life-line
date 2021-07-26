@@ -46,9 +46,7 @@ namespace Gameplay.Projectile
         /******************* LOOP *********************/
         private void FixedUpdate()
         {
-            float speed = velocity;
-
-            body.velocity = speed * Time.deltaTime * direction;
+            body.velocity = velocity * Time.deltaTime * direction;
             transform.localRotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(direction));
         }
         /**********************************************/

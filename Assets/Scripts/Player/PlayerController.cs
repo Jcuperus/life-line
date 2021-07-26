@@ -10,7 +10,7 @@ namespace Player
     /// <summary>
     /// Behaviour script for player movement.
     /// </summary>
-    [RequireComponent(typeof(MovementController), typeof(FireController))]
+    [RequireComponent(typeof(MovementController), typeof(FireController), typeof(Collider2D))]
     public class PlayerController : MonoBehaviour, IProjectileHit
     {
         /**************** VARIABLES *******************/
@@ -26,11 +26,11 @@ namespace Player
         [Header("Sound Effects")] 
         [SerializeField] private AudioEvent damageSounds;
         [SerializeField] private AudioEvent deathSounds;
-
-        private Rigidbody2D body;
+        
         private AudioSource audioSource;
         private MovementController movementController;
         private FireController fireController;
+        private new Collider2D collider;
 
         private HealthBar healthBar;
         private LinkedListNode<GameObject> Node { get; set; }
@@ -42,7 +42,7 @@ namespace Player
         /******************* INIT *********************/
         private void Awake()
         {
-            body = GetComponent<Rigidbody2D>();
+            collider = GetComponent<Collider2D>();
             audioSource = GetComponent<AudioSource>();
             movementController = GetComponent<MovementController>();
             fireController = GetComponent<FireController>();
@@ -157,7 +157,7 @@ namespace Player
             if (!isAlive) return;
             
             isAlive = false;
-            body.velocity = Vector2.zero;
+            collider.enabled = false;
             animationController.PlayDeathAnimation();
             movementController.enabled = false;
             fireController.enabled = false;

@@ -31,6 +31,9 @@ namespace Player
         private void OnDisable()
         {
             GameManager.OnSpeedMultiplierApplied -= ApplySpeedModifier;
+
+            rigidbody.velocity = Vector2.zero;
+            
         }
 
         private void Update()
