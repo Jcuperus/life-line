@@ -14,9 +14,10 @@ public class GameManager : MonoSingleton<GameManager>
 {
     /**************** VARIABLES *******************/
     [Header("Assets & Prefabs")]
-    [SerializeField] private GameObject gameOverScreen;
-    [SerializeField] private GameObject winScreen;
-    [SerializeField] private GameObject pauseScreen;
+    [SerializeField] private GameObject gameOverScreenPrefab;
+    [SerializeField] private GameObject winScreenPrefab;
+    [SerializeField] private Image pauseScreenPrefab;
+    private Image pauseScreenObj;
     [SerializeField] private Slider powerupTimer;
     
     [Header("Music")]
@@ -53,11 +54,9 @@ public class GameManager : MonoSingleton<GameManager>
     {
         DontDestroyOnLoad(this);
         TransitionToState(nullState);
-        pauseScreen.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         
         EnemySun.OnSunDefeated += Victory;
-        pauseScreen.SetActive(false);
     }
     /**********************************************/
     
@@ -75,19 +74,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (paused)
-                {
-                    paused = false;
-                    Time.timeScale = 1;
-                    pauseScreen.SetActive(false);
-                }
-                else
-                {
-                    paused = true;
-                    Time.timeScale = 0;
-                    pauseScreen.SetActive(true);
-                    pauseScreen.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
-                }
+                TogglePause();
             }
             if (BulletTime > 0)
             {
@@ -119,7 +106,25 @@ public class GameManager : MonoSingleton<GameManager>
             Debug.LogWarning("Redundant State Transition");
         }
     }
-    
+    private void TogglePause()
+    {
+        if (!paused)
+        {
+            if(pauseScreenObj==null)
+            {
+                pauseScreenObj = Instantiate(pauseScreenPrefab,FindObjectOfType<Canvas>().transform);
+            }
+            paused = true;
+            pauseScreenObj.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            paused = false;
+            Time.timeScale = 1;
+            pauseScreenObj.gameObject.SetActive(false);
+        }
+    }
     private void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -191,14 +196,14 @@ public class GameManager : MonoSingleton<GameManager>
     {
         TransitionToState(failState);
         MusicManager.Instance.Stop();
-        Instantiate(gameOverScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
+        Instantiate(gameOverScreenPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     
     private void Victory()
     {
         TransitionToState(winState);
         MusicManager.Instance.Stop();
-        Instantiate(winScreen, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
+        Instantiate(winScreenPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     /**********************************************/
 }

@@ -31,9 +31,9 @@ namespace Enemies
         /******************* LOOP *********************/
         private void Update()
         {
+            target = player.transform.position;
             if (moveDistance > 0)
             {
-                target = player.transform.position;
                 moveDirection = (target - transform.position).normalized;
                 moveDistance -= Time.deltaTime;
             }
@@ -69,7 +69,7 @@ namespace Enemies
             while (gameObject.activeSelf)
             {
                 yield return new WaitForSeconds(fireRate);
-                FireBullet(moveDirection);
+                FireBullet(target);
             }
         }
         /**********************************************/

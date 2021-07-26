@@ -37,7 +37,6 @@ namespace Utility
 
         private void OnWaveTriggered(int roomID)
         {
-            OnPickupWaveTriggered?.Invoke(roomID);
             StartCoroutine(SpawnRoomWaves(roomID));
         }
 
@@ -48,6 +47,7 @@ namespace Utility
 
             foreach (Wave wave in waveConfig[roomID].Waves)
             {
+                OnPickupWaveTriggered?.Invoke(roomID);
                 foreach (SubWave subWave in wave.subWaves)
                 {
                     StartSubWave(roomID, subWave);
