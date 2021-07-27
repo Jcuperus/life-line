@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Animation;
 using Gameplay;
@@ -39,6 +40,8 @@ namespace Player
         
         public delegate void DamageBoostChangeAction(int amount);
         public static event DamageBoostChangeAction OnDamageBoostChanged;
+
+        public static event Action OnPlayerIsDamaged;
         /**********************************************/
 
         /******************* INIT *********************/
@@ -129,29 +132,9 @@ namespace Player
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Enemy"))
-            {
-                OnDamage();
-                collision.rigidbody.velocity = -collision.rigidbody.velocity;
-            }
-            else if (!HasHealthBar() && collision.gameObject.TryGetComponent(out HealthBarSegment segment))
+            if (!HasHealthBar() && collision.gameObject.TryGetComponent(out HealthBarSegment segment))
             {
                 AttachHealthBar(segment.Parent);
-            }
-        }
-        
-        private void OnDamage()
-        {
-            Camera.main.GetComponent<CameraMove>().Shake(.01f, .5f); // could probably be done more cleanly?
-            damageSounds.Play(audioSource);
-
-            if (HasHealthBar() && healthBar.Count > 1)
-            {
-                healthBar.RemoveLast();
-            }
-            else
-            {
-                Death();
             }
         }
 
@@ -184,7 +167,17 @@ namespace Player
         
         public void OnDamaged(int damage)
         {
-            OnDamage();
+            OnPlayerIsDamaged?.Invoke();
+            damageSounds.Play(audioSource);
+
+            if (HasHealthBar() && healthBar.Count > 1)
+            {
+                healthBar.RemoveLast();
+            }
+            else
+            {
+                Death();
+            }
         }
         /**********************************************/
     }

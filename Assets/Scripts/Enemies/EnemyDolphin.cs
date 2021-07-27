@@ -37,11 +37,11 @@ namespace Enemies
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (canAttack && collision.gameObject.CompareTag("Player") && 
-                collision.gameObject.TryGetComponent(out IDamageable projectileHit))
+                collision.gameObject.TryGetComponent(out IDamageable damageable))
             {
                 fireSound.Play(audioSource);
                 animationController.AttackAnimation.Play();
-                projectileHit.OnDamaged(damage);
+                damageable.OnDamaged(damage);
 
                 StartCoroutine(DamageTimeoutCoroutine());
             }

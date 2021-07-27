@@ -11,15 +11,16 @@ namespace Utility
     {
         /**************** VARIABLES *******************/
         [SerializeField] private Transform followTransform;
-        private float shakeDuration = 0;
-        private float shakeIntensity = 0;
+        [SerializeField] private float shakeDuration = 0.1f, shakeIntensity = 0.5f;
+
+        private float currentShakeDuration;
         /**********************************************/
     
         /******************* INIT *********************/
         private void Awake()
         {
             var spawner = FindObjectOfType<PlayerSpawner>();
-
+            
             if (spawner != null)
             {
                 spawner.OnPlayerSpawn += player => Follow(player.transform);
@@ -28,6 +29,8 @@ namespace Utility
             {
                 Follow(followTransform);
             }
+
+            PlayerController.OnPlayerIsDamaged += Shake;
         }
         /**********************************************/
     
@@ -43,20 +46,22 @@ namespace Utility
             while (isActiveAndEnabled)
             {
                 transform.position = new Vector3(followTransform.position.x, followTransform.position.y, transform.position.z);
-                if (shakeDuration > 0)
+                
+                if (currentShakeDuration > 0)
                 {
-                    transform.position += (Vector3)Random.insideUnitCircle * shakeIntensity;
-                    shakeDuration -= Time.deltaTime;
+                    transform.position += (Vector3) Random.insideUnitCircle * shakeIntensity;
+                    currentShakeDuration -= Time.deltaTime;
                 }
-                    yield return null;
+                
+                yield return null;
             }
         }
         /**********************************************/
+        
         /***************** METHODS ********************/
-        public void Shake(float duration, float intensity)
+        private void Shake()
         {
-            shakeDuration = duration;
-            shakeIntensity += intensity;
+            currentShakeDuration = shakeDuration;
         }
         /**********************************************/
 

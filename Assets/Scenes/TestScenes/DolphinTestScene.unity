@@ -529,6 +529,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followTransform: {fileID: 974304531}
+  shakeDuration: 1
+  shakeIntensity: 1
 --- !u!4 &1548033209 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8759438123921415889, guid: 89d09d686e5135a46befdc21efaf92fc, type: 3}
