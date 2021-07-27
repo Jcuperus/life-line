@@ -5,6 +5,7 @@ namespace Enemies
     public class EnemyDolphin : AbstractEnemy
     {
         /**************** VARIABLES *******************/
+        private float velocity;
         private float timer;
         /**********************************************/
     

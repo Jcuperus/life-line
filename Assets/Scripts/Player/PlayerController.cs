@@ -177,7 +177,6 @@ namespace Player
 
         private void SetReceivesInput(bool receivesInput)
         {
-            Debug.Log(receivesInput);
             collider.enabled = receivesInput;
             movementController.enabled = receivesInput;
             fireController.enabled = receivesInput;
