@@ -2,7 +2,7 @@ using System.Collections;
 using Gameplay.Projectile;
 using UnityEngine;
 
-namespace Enemies.AttackBehaviour
+namespace Gameplay.AttackBehaviour
 {
     /// <summary>
     /// Base class for enemy attack patterns, more easily allowing for complex and varied behaviours.
@@ -10,18 +10,18 @@ namespace Enemies.AttackBehaviour
     public abstract class FireBehaviour
     {
         /**************** VARIABLES *******************/
-        protected readonly ProjectileFactory.ProjectileTypes projectileType;
-        protected readonly Transform transform;
+        protected readonly Transform origin;
+        protected readonly Transform target;
         /**********************************************/
     
         /****************** METHODS *******************/
-        protected FireBehaviour(ProjectileFactory.ProjectileTypes projectileType, Transform transform)
+        protected FireBehaviour(Transform origin, Transform target = null)
         {
-            this.projectileType = projectileType;
-            this.transform = transform;
+            this.origin = origin;
+            this.target = target;
         }
     
-        public abstract IEnumerator Execute();
+        public abstract IEnumerator Execute(ProjectileFactory.ProjectileTypes projectileType);
         /**********************************************/
     }
 }

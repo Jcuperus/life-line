@@ -338,4 +338,4 @@ MonoBehaviour:
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 122d3d6e38b96164296e62fe43298b1c, type: 2}
   animationController: {fileID: 423127553469471644}
-  patternShootDelay: 10
+  patternShootDelay: 1.5

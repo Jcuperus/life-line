@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using Animation;
-using Enemies.AttackBehaviour;
+using Gameplay.AttackBehaviour;
 using Gameplay.Projectile;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,9 +11,15 @@ namespace Enemies
     public class EnemySun : AbstractEnemy
     {
         /**************** VARIABLES *******************/
-        [SerializeField] private float patternShootDelay = 5.5f;
+        [SerializeField] private float patternShootDelay = 0.5f;
 
-        private FireBehaviour[] attackBehaviours;
+        private struct AttackConfiguration
+        {
+            public FireBehaviour attackBehaviour;
+            public ProjectileFactory.ProjectileTypes projectileType;
+        }
+
+        private AttackConfiguration[] attackConfigurations;
         private MultiAttackAnimationBehaviour attackAnimationBehaviour;
 
         public static event Action OnSunDefeated;
@@ -31,11 +37,26 @@ namespace Enemies
                 throw new InvalidCastException("Cast Invalid. Expected: MultiAttackAnimationBehaviour");
             }
 
-            attackBehaviours = new FireBehaviour[]
+            Transform origin = transform;
+            Transform playerTransform = player.transform;
+            
+            attackConfigurations = new[]
             {
-                new BulletStream(ProjectileFactory.ProjectileTypes.EnemyRicochet, transform, player.transform),
-                new BulletArc(ProjectileFactory.ProjectileTypes.Enemy, transform, player.transform),
-                new BulletCircle(ProjectileFactory.ProjectileTypes.EnemyRicochet, transform)
+                new AttackConfiguration
+                {
+                    attackBehaviour = new BulletStream(origin, playerTransform),
+                    projectileType = ProjectileFactory.ProjectileTypes.EnemyRicochet
+                },
+                new AttackConfiguration
+                {
+                    attackBehaviour = new BulletArc(origin, playerTransform),
+                    projectileType = ProjectileFactory.ProjectileTypes.Enemy
+                },
+                new AttackConfiguration
+                {
+                    attackBehaviour = new BulletCircle(origin),
+                    projectileType = ProjectileFactory.ProjectileTypes.EnemyRicochet
+                }
             };
             
             StartCoroutine(AttackCoroutine());
@@ -45,17 +66,18 @@ namespace Enemies
         /***************** METHODS ********************/
         private IEnumerator AttackCoroutine()
         {
-            int behaviourIndex = 0;
+            int configurationIndex = 0;
 
-            while (gameObject.activeSelf)
+            while (isAlive)
             {
-                FireBehaviour currentBehaviour = attackBehaviours[behaviourIndex];
-                StartCoroutine(currentBehaviour.Execute());
-            
-                attackAnimationBehaviour.Play(behaviourIndex);
-            
-                behaviourIndex = Random.Range(0, attackBehaviours.Length);
                 yield return new WaitForSeconds(patternShootDelay);
+
+                attackAnimationBehaviour.Play(configurationIndex);
+                AttackConfiguration configuration = attackConfigurations[configurationIndex];
+
+                yield return configuration.attackBehaviour.Execute(configuration.projectileType);
+
+                configurationIndex = Random.Range(0, attackConfigurations.Length);
             }
         }
 

@@ -2,27 +2,21 @@
 using Gameplay.Projectile;
 using UnityEngine;
 
-namespace Enemies.AttackBehaviour
+namespace Gameplay.AttackBehaviour
 {
     public class BulletStream : FireBehaviour
     {
         /**************** VARIABLES *******************/
         private readonly int bulletAmount = 6;
         private readonly float fireDelay = 0.5f;
-        private readonly Transform target;
         /**********************************************/
-    
-        /******************* INIT *********************/
-        public BulletStream(ProjectileFactory.ProjectileTypes projectileType, Transform transform, Transform target) : base(projectileType, transform)
-        {
-            this.target = target;
-        }
-        /**********************************************/
-    
+
+        public BulletStream(Transform origin, Transform target = null) : base(origin, target) {}
+
         /***************** METHODS ********************/
-        public override IEnumerator Execute()
+        public override IEnumerator Execute(ProjectileFactory.ProjectileTypes projectileType)
         {
-            Vector3 currentPosition = transform.position;
+            Vector3 currentPosition = origin.position;
         
             for (int i = 0; i < bulletAmount; i++)
             {

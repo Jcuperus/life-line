@@ -3,30 +3,24 @@ using Gameplay.Projectile;
 using UnityEngine;
 using Utility;
 
-namespace Enemies.AttackBehaviour
+namespace Gameplay.AttackBehaviour
 {
     public class BulletArc : FireBehaviour
     {
         /**************** VARIABLES *******************/
-        private readonly Transform target;
         private const int BulletAmount = 5;
         private const int SalvoAmount = 4;
         private const float FireDelay = 0.5f;
         private const float BulletDistance = 15f;
         private const float CircleRadius = 9.5f;
         /**********************************************/
-    
-        /******************* INIT *********************/
-        public BulletArc(ProjectileFactory.ProjectileTypes projectileType, Transform transform, Transform target) : base(projectileType, transform)
-        {
-            this.target = target;
-        }
-        /**********************************************/
-    
+
+        public BulletArc(Transform origin, Transform target = null) : base(origin, target) {}
+
         /***************** METHODS ********************/
-        public override IEnumerator Execute()
+        public override IEnumerator Execute(ProjectileFactory.ProjectileTypes projectileType)
         {
-            Vector3 currentPosition = transform.position;
+            Vector3 currentPosition = origin.position;
             Vector3 direction = (target.position - currentPosition).normalized;
             float arcCenterAngle = VectorHelper.GetAngleFromDirection(direction) + 90f;
             float arcLength = BulletDistance * BulletAmount;

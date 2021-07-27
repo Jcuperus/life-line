@@ -2,7 +2,7 @@
 using Gameplay.Projectile;
 using UnityEngine;
 
-namespace Enemies.AttackBehaviour
+namespace Gameplay.AttackBehaviour
 {
     public class BulletCircle : FireBehaviour
     {    
@@ -10,17 +10,15 @@ namespace Enemies.AttackBehaviour
         private readonly int bulletAmount = 20;
         private readonly float circleRadius = 9.5f;
         /**********************************************/
-    
-        /******************* INIT *********************/
-        public BulletCircle(ProjectileFactory.ProjectileTypes projectileType, Transform transform) : base(projectileType, transform) {}
-        /**********************************************/
-    
+
+        public BulletCircle(Transform origin, Transform target = null) : base(origin, target) {}
+
         /****************** METHODS *******************/
-        public override IEnumerator Execute()
+        public override IEnumerator Execute(ProjectileFactory.ProjectileTypes projectileType)
         {
             yield return null;
 
-            Vector3 currentPosition = transform.position;
+            Vector3 currentPosition = origin.position;
             float segmentOffset = 360f * Mathf.Deg2Rad / bulletAmount;
         
             for (int i = 0; i < bulletAmount; i++)
