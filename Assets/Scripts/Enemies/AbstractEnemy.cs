@@ -1,6 +1,6 @@
 using System;
 using Animation;
-using Gameplay.Projectile;
+using Gameplay;
 using Player;
 using UnityEngine;
 using Utility;
@@ -11,7 +11,7 @@ namespace Enemies
     /// Base class from which all enemy MonoBehaviours should be derived.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(AudioSource))]
-    public abstract class AbstractEnemy : MonoBehaviour, IProjectileHit
+    public abstract class AbstractEnemy : MonoBehaviour, IDamageable
     {
         /**************** VARIABLES *******************/
         [Header("Stats")]
@@ -56,13 +56,13 @@ namespace Enemies
             Destroy(gameObject);
         }
 
-        public virtual void OnProjectileHit(Projectile projectile)
+        public virtual void OnDamaged(int damage)
         {
             if (!isAlive) return;
             
             animationController.PlayHurtAnimation();
             hitSound.Play(audioSource);
-            health -= projectile.damage;
+            health -= damage;
 
             if (health < 1)
             {

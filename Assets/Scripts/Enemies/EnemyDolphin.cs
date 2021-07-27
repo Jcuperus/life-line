@@ -1,3 +1,5 @@
+using System.Collections;
+using Gameplay;
 using UnityEngine;
 using Utility;
 
@@ -6,8 +8,13 @@ namespace Enemies
     public class EnemyDolphin : AbstractEnemy
     {
         /**************** VARIABLES *******************/
-        private float smoothSpeed, velocity;
+        [SerializeField] private int damage = 1;
+        [SerializeField] private float hitDelay = 0.5f;
+        
         private Vector2 smoothMoveDirection;
+        private float smoothSpeed, velocity;
+        
+        private bool canAttack = true;
         /**********************************************/
     
         /******************* LOOP *********************/
@@ -29,11 +36,22 @@ namespace Enemies
         /***************** METHODS ********************/
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Player"))
+            if (canAttack && collision.gameObject.CompareTag("Player") && 
+                collision.gameObject.TryGetComponent(out IDamageable projectileHit))
             {
                 fireSound.Play(audioSource);
                 animationController.AttackAnimation.Play();
+                projectileHit.OnDamaged(damage);
+
+                StartCoroutine(DamageTimeoutCoroutine());
             }
+        }
+
+        private IEnumerator DamageTimeoutCoroutine()
+        {
+            canAttack = false;
+            yield return new WaitForSeconds(hitDelay);
+            canAttack = true;
         }
         /**********************************************/
     }

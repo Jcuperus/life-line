@@ -11,14 +11,15 @@ namespace Gameplay.Projectile
     {
         /**************** VARIABLES *******************/
         public ProjectileScriptableObject projectileConfiguration;
-        public Vector2 direction = Vector2.zero;
-
+        
+        [HideInInspector] public Vector2 direction = Vector2.zero;
+        [HideInInspector] public int damage;
+        [HideInInspector] public float velocity;
+        
         private Rigidbody2D body;
         private SpriteRenderer spriteRenderer;
         private TrailRenderer trailRenderer;
-        private int ricochet;
-        public int damage;
-        public float velocity;
+        private int ricochetAmount;
         /**********************************************/
 
         /******************* INIT *********************/
@@ -32,11 +33,10 @@ namespace Gameplay.Projectile
         private void OnEnable()
         {
             damage = projectileConfiguration.damage;
-            ricochet = projectileConfiguration.startRicochet;
+            ricochetAmount = projectileConfiguration.ricochetAmount;
             spriteRenderer.sprite = projectileConfiguration.projectileSprite;
             trailRenderer.colorGradient = projectileConfiguration.trailGradient;
             velocity = projectileConfiguration.projectileSpeed;
-
 
             float initialRotation = VectorHelper.GetAngleFromDirection(new Vector3(direction.x, 0f, direction.y));
             transform.eulerAngles = Vector3.up * initialRotation;
@@ -47,26 +47,26 @@ namespace Gameplay.Projectile
         private void FixedUpdate()
         {
             body.velocity = velocity * Time.deltaTime * direction;
-            transform.localRotation = Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(direction));
+            transform.eulerAngles = Vector3.up * VectorHelper.GetAngleFromDirection(direction);
         }
         /**********************************************/
 
         /***************** METHODS ********************/
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (ricochet > 0)
+            if (ricochetAmount > 0)
             {
                 direction = Vector2.Reflect(direction, collision.transform.right);
-                ricochet--;
+                ricochetAmount--;
             }
             else
             {
                 Disable();
             }
 
-            if (collision.gameObject.TryGetComponent(out IProjectileHit projectileHit))
+            if (collision.gameObject.TryGetComponent(out IDamageable projectileHit))
             {
-                projectileHit.OnProjectileHit(this);
+                projectileHit.OnDamaged(damage);
             }
         }
 

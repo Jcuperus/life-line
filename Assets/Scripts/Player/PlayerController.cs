@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Animation;
 using Gameplay;
-using Gameplay.Projectile;
 using UnityEngine;
 using Utility;
 
@@ -11,7 +10,7 @@ namespace Player
     /// Behaviour script for player movement.
     /// </summary>
     [RequireComponent(typeof(MovementController), typeof(FireController), typeof(Collider2D))]
-    public class PlayerController : MonoBehaviour, IProjectileHit
+    public class PlayerController : MonoBehaviour, IDamageable
     {
         /**************** VARIABLES *******************/
         public ActorAnimationController AnimationController => animationController;
@@ -140,6 +139,7 @@ namespace Player
                 AttachHealthBar(segment.Parent);
             }
         }
+        
         private void OnDamage()
         {
             Camera.main.GetComponent<CameraMove>().Shake(.01f, .5f); // could probably be done more cleanly?
@@ -182,7 +182,7 @@ namespace Player
             fireController.enabled = receivesInput;
         }
         
-        public void OnProjectileHit(Projectile projectile)
+        public void OnDamaged(int damage)
         {
             OnDamage();
         }
