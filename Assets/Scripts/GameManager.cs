@@ -17,23 +17,24 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject gameOverScreenPrefab;
     [SerializeField] private GameObject winScreenPrefab;
     [SerializeField] private Image pauseScreenPrefab;
-    private Image pauseScreenObj;
     [SerializeField] private Slider powerupTimer;
+    private Image pauseScreenObject;
     
     [Header("Music")]
     [SerializeField] private AudioClip restartSound;
     private AudioSource audioSource;
-
-    // player power up status:
-    public float BulletTime { get; private set; }
-
-    // game state:
-    private readonly GMNullState nullState = new GMNullState();
-    private readonly GMFailState failState = new GMFailState();
-    private readonly GMFailState winState = new GMFailState();
-    private GMBaseState GameState { get; set; }
-    private bool paused = false;
     
+    private float BulletTime { get; set; }
+
+    public static State CurrentState { get; private set; }
+    
+    public enum State
+    {
+        Running,
+        Paused,
+        Ended
+    }
+
     public static event Action OnHealthPickup;
 
     public delegate void RicochetActivatedAction(float duration);
@@ -47,13 +48,16 @@ public class GameManager : MonoSingleton<GameManager>
 
     public delegate void SpeedShotActivatedAction(float duration);
     public static event SpeedShotActivatedAction OnSpeedShotActivated;
+
+    public delegate void StateChangedAction(State state);
+    public static event StateChangedAction OnStateChanged;
     /**********************************************/
 
     /****************** INIT **********************/
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        TransitionToState(nullState);
+        TransitionToState(State.Running);
         audioSource = GetComponent<AudioSource>();
         
         EnemySun.OnSunDefeated += Victory;
@@ -63,19 +67,21 @@ public class GameManager : MonoSingleton<GameManager>
     /****************** LOOP **********************/
     private void Update()
     {
-        if (GameState == failState || GameState == winState)
+        if (Input.GetKeyDown(KeyCode.R) && CurrentState == State.Ended)
         {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                Restart();
-            }
+            Restart();
         }
-        else
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                TogglePause();
-            }
+            TogglePause();
+        }
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            Application.Quit();
+        }
+
+        if (CurrentState == State.Running)
+        {
             if (BulletTime > 0)
             {
                 BulletTime -= Time.deltaTime;
@@ -85,50 +91,57 @@ public class GameManager : MonoSingleton<GameManager>
                 BulletTime = 0;
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            Application.Quit();
-        }
     }
     /**********************************************/
     
     /***************** METHODS ********************/
-    private void TransitionToState(GMBaseState state)
+    private void TransitionToState(State state)
     {
-        if (GameState != state)
+        if (CurrentState == state) return;
+        
+        switch (state)
         {
-            GameState = state;
-            GameState.EnterState(this);
+            case State.Running:
+                Time.timeScale = 1f;
+                break;
+            case State.Ended:
+            case State.Paused:
+                Time.timeScale = 0f;
+                break;
+            default:
+                Debug.LogWarning("Warning: Invalid state transition.");
+                break;
         }
-        else
-        {
-            Debug.LogWarning("Redundant State Transition");
-        }
+
+        CurrentState = state;
+        OnStateChanged?.Invoke(state);
     }
+    
     private void TogglePause()
     {
-        if (!paused)
+        if (CurrentState == State.Paused)
         {
-            if(pauseScreenObj==null)
-            {
-                pauseScreenObj = Instantiate(pauseScreenPrefab,FindObjectOfType<Canvas>().transform);
-            }
-            paused = true;
-            pauseScreenObj.gameObject.SetActive(true);
-            Time.timeScale = 0;
+            TransitionToState(State.Running);
+            Time.timeScale = 1f;
+            pauseScreenObject.gameObject.SetActive(false);
         }
-        else
+        else if (CurrentState == State.Running)
         {
-            paused = false;
-            Time.timeScale = 1;
-            pauseScreenObj.gameObject.SetActive(false);
+            TransitionToState(State.Paused);
+            Time.timeScale = 0f;
+            
+            if (pauseScreenObject == null)
+            {
+                pauseScreenObject = Instantiate(pauseScreenPrefab, FindObjectOfType<Canvas>().transform);
+            }
+            
+            pauseScreenObject.gameObject.SetActive(true);
         }
     }
     private void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        TransitionToState(nullState);
+        TransitionToState(State.Running);
         audioSource.PlayOneShot(restartSound);
     }
     
@@ -194,39 +207,16 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void Death()
     {
-        TransitionToState(failState);
+        TransitionToState(State.Ended);
         MusicManager.Instance.Stop();
         Instantiate(gameOverScreenPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     
     private void Victory()
     {
-        TransitionToState(winState);
+        TransitionToState(State.Ended);
         MusicManager.Instance.Stop();
         Instantiate(winScreenPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
     }
     /**********************************************/
 }
-
-/************** MACHINE STATES ****************/
-public abstract class GMBaseState
-{
-    public abstract void EnterState(GameManager gm);
-}
-
-public class GMNullState : GMBaseState
-{
-    public override void EnterState(GameManager gm)
-    {
-        Time.timeScale = 1;
-    }
-}
-
-public class GMFailState : GMBaseState
-{
-    public override void EnterState(GameManager gm)
-    {
-        Time.timeScale = 0;
-    }
-}
-/**********************************************/

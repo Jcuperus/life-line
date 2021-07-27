@@ -51,9 +51,19 @@ namespace Player
             fireController = GetComponent<FireController>();
 
             Node = new LinkedListNode<GameObject>(gameObject);
-            
+        }
+        
+        private void OnEnable()
+        {
             animationController.OnDeathAnimationFinished += () => GameManager.Instance.Death();
             GameManager.OnHealthPickup += SpawnHealthBarSegment;
+            GameManager.OnStateChanged += OnStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.OnHealthPickup -= SpawnHealthBarSegment;
+            GameManager.OnStateChanged -= OnStateChanged;
         }
 
         private void Start()
@@ -63,17 +73,12 @@ namespace Player
                 SpawnHealthBarSegment();
             }
         }
-
-        private void OnDestroy()
-        {
-            GameManager.OnHealthPickup -= SpawnHealthBarSegment;
-        }
         /**********************************************/
 
         /******************* LOOP *********************/
         private void Update()
         {
-            if (!isAlive) return;
+            if (GameManager.CurrentState == GameManager.State.Paused || !isAlive) return;
 
             movementController.weightModifier = Mathf.Max(0.25f, 1f - healthSegmentWeight * healthBarLength);
 
@@ -160,11 +165,22 @@ namespace Player
             if (!isAlive) return;
             
             isAlive = false;
-            collider.enabled = false;
             animationController.PlayDeathAnimation();
-            movementController.enabled = false;
-            fireController.enabled = false;
+            SetReceivesInput(false);
             deathSounds.Play(audioSource);
+        }
+
+        private void OnStateChanged(GameManager.State state)
+        {
+            SetReceivesInput(state == GameManager.State.Running);
+        }
+
+        private void SetReceivesInput(bool receivesInput)
+        {
+            Debug.Log(receivesInput);
+            collider.enabled = receivesInput;
+            movementController.enabled = receivesInput;
+            fireController.enabled = receivesInput;
         }
         
         public void OnProjectileHit(Projectile projectile)
