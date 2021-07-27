@@ -1,31 +1,28 @@
 using UnityEngine;
+using Utility;
 
 namespace Enemies
 {
     public class EnemyDolphin : AbstractEnemy
     {
         /**************** VARIABLES *******************/
-        private float velocity;
-        private float timer;
+        private float smoothSpeed, velocity;
+        private Vector2 smoothMoveDirection;
         /**********************************************/
     
         /******************* LOOP *********************/
         private void Update()
         {
-            {
-                timer += Time.deltaTime;
-                if (timer > 1)
-                {
-                    timer = 0;
-                    Vector3 target = player.transform.position;
-                    moveDirection = (target - transform.position).normalized;
-                }
-            }
+            moveDirection = (player.transform.position - transform.position).normalized;
+            smoothMoveDirection = Vector2.MoveTowards(smoothMoveDirection, moveDirection, Time.deltaTime);
+            transform.localEulerAngles =
+                Vector3.forward * (VectorHelper.GetAngleFromDirection(smoothMoveDirection) + 90f);
         }
-    
+
         private void FixedUpdate()
         {
-            body.velocity += moveSpeed * moveSpeed * Time.deltaTime * moveDirection;
+            smoothSpeed = Mathf.SmoothDamp(smoothSpeed, moveSpeed, ref velocity, Time.deltaTime, moveSpeed);
+            body.velocity = smoothMoveDirection * smoothSpeed;
         }
         /**********************************************/
     
