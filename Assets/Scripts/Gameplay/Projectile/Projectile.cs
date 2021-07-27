@@ -37,9 +37,7 @@ namespace Gameplay.Projectile
             spriteRenderer.sprite = projectileConfiguration.projectileSprite;
             trailRenderer.colorGradient = projectileConfiguration.trailGradient;
             velocity = projectileConfiguration.projectileSpeed;
-
-            float initialRotation = VectorHelper.GetAngleFromDirection(new Vector3(direction.x, 0f, direction.y));
-            transform.eulerAngles = Vector3.up * initialRotation;
+            transform.eulerAngles = Vector3.forward * VectorHelper.GetAngleFromDirection(direction);
         }
         /**********************************************/
 
@@ -47,7 +45,7 @@ namespace Gameplay.Projectile
         private void FixedUpdate()
         {
             body.velocity = velocity * Time.deltaTime * direction;
-            transform.eulerAngles = Vector3.up * VectorHelper.GetAngleFromDirection(direction);
+            transform.eulerAngles = Vector3.forward * VectorHelper.GetAngleFromDirection(direction);
         }
         /**********************************************/
 
