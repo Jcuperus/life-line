@@ -53,6 +53,7 @@ MonoBehaviour:
   fireSound: {fileID: 11400000, guid: dd5c246a37722414e87e8d9886f7d7e5, type: 2}
   deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
   animationController: {fileID: 8927054684955885697}
+  fireBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
   fireRate: 1
 --- !u!70 &6676133129262176905
 CapsuleCollider2D:

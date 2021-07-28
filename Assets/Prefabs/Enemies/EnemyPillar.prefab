@@ -202,6 +202,7 @@ MonoBehaviour:
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 6ab36af98f86a4d44b9518328178b49a, type: 2}
   animationController: {fileID: 1105300197167109875}
+  fireBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
   fireRate: 1
   moveDistance: 2
 --- !u!50 &-61537561848947375

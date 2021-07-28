@@ -1,4 +1,5 @@
 using System.Collections;
+using Gameplay.AttackBehaviour;
 using Gameplay.Projectile;
 using UnityEngine;
 
@@ -7,20 +8,13 @@ namespace Enemies
     public class EnemyBust : AbstractEnemy
     {
         /**************** VARIABLES *******************/
+        [SerializeField] private FireBehaviour fireBehaviour;
         [SerializeField] private float fireRate = 1f;
-
-        private ProjectileFactory projectileFactory;
 
         private float timer;
         /**********************************************/
 
         /******************* INIT *********************/
-        protected override void Awake()
-        {
-            base.Awake();
-            projectileFactory = ProjectileFactory.Instance;
-        }
-
         private void Start()
         {
             StartCoroutine(FireBulletCoroutine());
@@ -52,9 +46,7 @@ namespace Enemies
 
             fireSound.Play(audioSource);
             animationController.AttackAnimation.Play(3f);
-
-            Vector3 projectilePosition = transform.position + (Vector3) direction * 2f;
-            projectileFactory.Instantiate(ProjectileFactory.ProjectileTypes.Enemy, projectilePosition, direction);
+            fireBehaviour.Execute(ProjectileFactory.ProjectileTypes.Enemy, this, direction);
         }
 
         private IEnumerator FireBulletCoroutine()
