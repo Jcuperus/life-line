@@ -14,7 +14,7 @@ namespace Player
         
         [SerializeField] private bool mouseAim = true;
 
-        private bool isRicochet, isSpreadShot, isSpeedShot;
+        private bool ricochetIsActive, spreadShotIsActive;
 
         private PlayerController playerController;
         private AudioSource audioSource;
@@ -35,21 +35,12 @@ namespace Player
         {
             GameManager.OnRicochetActivated += ricochetActivatedAction;
             GameManager.OnSpreadShotActivated += spreadShotActivatedAction;
-            GameManager.OnSpeedShotActivated += ApplySpeedShot;
-            PlayerController.OnDamageBoostChanged += UpdateDamageBoost;
         }
 
         private void OnDisable()
         {
             GameManager.OnRicochetActivated -= ricochetActivatedAction;
             GameManager.OnSpreadShotActivated -= spreadShotActivatedAction;
-            GameManager.OnSpeedShotActivated -= ApplySpeedShot;
-            PlayerController.OnDamageBoostChanged -= UpdateDamageBoost;
-        }
-
-        private void UpdateDamageBoost(int amount)
-        {
-            
         }
 
         private void Update()
@@ -59,7 +50,7 @@ namespace Player
 
         private void FireProjectile()
         {
-            ProjectileFactory.ProjectileTypes projectileType = isRicochet
+            ProjectileFactory.ProjectileTypes projectileType = ricochetIsActive
                 ? ProjectileFactory.ProjectileTypes.PlayerRicochet
                 : ProjectileFactory.ProjectileTypes.Player;
             
@@ -76,10 +67,8 @@ namespace Player
                 shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
             }
             
-            FireBehaviour fireBehaviour = isSpreadShot ? spreadAttackBehaviour : attackBehaviour;
+            FireBehaviour fireBehaviour = spreadShotIsActive ? spreadAttackBehaviour : attackBehaviour;
             fireBehaviour.Execute(projectileType, this, shootDirection);
-            
-            //TODO: reimplement speedShot, damageBoost
             
             shootingSounds.Play(audioSource);
             playerController.AnimationController.AttackAnimation.Play();
@@ -87,30 +76,16 @@ namespace Player
 
         private IEnumerator ApplyRicochet(float duration)
         {
-            isRicochet = true;
+            ricochetIsActive = true;
             yield return new WaitForSeconds(duration);
-            isRicochet = false;
+            ricochetIsActive = false;
         }
 
         private IEnumerator ApplySpreadShot(float duration)
         {
-            isSpreadShot = true;
+            spreadShotIsActive = true;
             yield return new WaitForSeconds(duration);
-            isSpreadShot = false;
-        }
-
-        private void ApplySpeedShot(float duration)
-        {
-            if (isSpeedShot) return;
-
-            StartCoroutine(SpeedShotCoroutine(duration));
-        }
-        
-        private IEnumerator SpeedShotCoroutine(float duration)
-        {
-            isSpeedShot = true;
-            yield return new WaitForSeconds(duration);
-            isSpeedShot = false;
+            spreadShotIsActive = false;
         }
     }
 }

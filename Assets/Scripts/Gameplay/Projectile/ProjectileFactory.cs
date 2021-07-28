@@ -4,15 +4,12 @@ using Utility;
 
 namespace Gameplay.Projectile
 {
+    [RequireComponent(typeof(ProjectileConfigurationManager))]
     public class ProjectileFactory : Singleton<ProjectileFactory>
     {
         [SerializeField] private Projectile projectilePrefab;
-        
-        [SerializeField] private ProjectileScriptableObject playerConfiguration;
-        [SerializeField] private ProjectileScriptableObject playerRicochetConfiguration;
-        [SerializeField] private ProjectileScriptableObject enemyConfiguration;
-        [SerializeField] private ProjectileScriptableObject enemyRicochetConfiguration;
 
+        private ProjectileConfigurationManager configurationManager;
         private ObjectPool<Projectile> projectilePool;
         
         public enum ProjectileTypes
@@ -30,6 +27,7 @@ namespace Gameplay.Projectile
         {
             base.Awake();
 
+            configurationManager = GetComponent<ProjectileConfigurationManager>();
             projectilePool = new ObjectPool<Projectile>(projectilePrefab);
         }
 
@@ -39,10 +37,10 @@ namespace Gameplay.Projectile
 
             projectile.projectileConfiguration = type switch
             {
-                ProjectileTypes.Player => playerConfiguration,
-                ProjectileTypes.Enemy => enemyConfiguration,
-                ProjectileTypes.PlayerRicochet => playerRicochetConfiguration,
-                ProjectileTypes.EnemyRicochet => enemyRicochetConfiguration,
+                ProjectileTypes.Player => configurationManager.PlayerConfiguration,
+                ProjectileTypes.Enemy => configurationManager.EnemyConfiguration,
+                ProjectileTypes.PlayerRicochet => configurationManager.PlayerRicochetConfiguration,
+                ProjectileTypes.EnemyRicochet => configurationManager.EnemyRicochetConfiguration,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
             
