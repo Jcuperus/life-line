@@ -284,8 +284,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
   spreadAttackBehaviour: {fileID: 11400000, guid: 8068b4296eded7b41ae69e73f2019b61, type: 2}
+  projectileConfiguration: {fileID: 11400000, guid: 95d64be1e8eff0a40ba77b75c6789740, type: 2}
+  ricochetProjectileConfiguration: {fileID: 11400000, guid: 1effaded6f3495445b897cf56f5ac819, type: 2}
   shootingSounds: {fileID: 11400000, guid: a5c9a5b9b054a004e9cd83aa2e6e498a, type: 2}
-  projectileSpawnOffset: 2
+  speedMultiplier: 2.5
   mouseAim: 1
 --- !u!1 &8648954374883383263
 GameObject:

@@ -44,5 +44,5 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   projectileSpeed: 4000
   playerIsOwner: 1
-  startRicochet: 2
+  ricochetAmount: 0
   damage: 1

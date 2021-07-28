@@ -11,19 +11,16 @@ namespace Player
     {
         [SerializeField] private FireBehaviour attackBehaviour, spreadAttackBehaviour;
         [SerializeField] private AudioEvent shootingSounds;
-
-        [SerializeField] private float projectileSpawnOffset = 2f;
+        
         [SerializeField] private bool mouseAim = true;
 
         private bool isRicochet, isSpreadShot, isSpeedShot;
-        private int damageBoost;
 
         private PlayerController playerController;
         private AudioSource audioSource;
         
         private GameManager.RicochetActivatedAction ricochetActivatedAction;
         private GameManager.SpreadShotActivatedAction spreadShotActivatedAction;
-        private GameManager.SpeedShotActivatedAction speedShotActivatedAction;
 
         private void Awake()
         {
@@ -32,14 +29,13 @@ namespace Player
             
             ricochetActivatedAction = duration => StartCoroutine(ApplyRicochet(duration));
             spreadShotActivatedAction = duration => StartCoroutine(ApplySpreadShot(duration));
-            speedShotActivatedAction = duration => StartCoroutine(ApplySpeedShot(duration));
         }
 
         private void OnEnable()
         {
             GameManager.OnRicochetActivated += ricochetActivatedAction;
             GameManager.OnSpreadShotActivated += spreadShotActivatedAction;
-            GameManager.OnSpeedShotActivated += speedShotActivatedAction;
+            GameManager.OnSpeedShotActivated += ApplySpeedShot;
             PlayerController.OnDamageBoostChanged += UpdateDamageBoost;
         }
 
@@ -47,13 +43,13 @@ namespace Player
         {
             GameManager.OnRicochetActivated -= ricochetActivatedAction;
             GameManager.OnSpreadShotActivated -= spreadShotActivatedAction;
-            GameManager.OnSpeedShotActivated -= speedShotActivatedAction;
+            GameManager.OnSpeedShotActivated -= ApplySpeedShot;
             PlayerController.OnDamageBoostChanged -= UpdateDamageBoost;
         }
 
         private void UpdateDamageBoost(int amount)
         {
-            damageBoost = amount;
+            
         }
 
         private void Update()
@@ -66,62 +62,27 @@ namespace Player
             ProjectileFactory.ProjectileTypes projectileType = isRicochet
                 ? ProjectileFactory.ProjectileTypes.PlayerRicochet
                 : ProjectileFactory.ProjectileTypes.Player;
-
+            
+            Vector3 shootDirection;
+            
+            if (mouseAim)
+            {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePosition.z = 0f;
+                shootDirection = (mousePosition - transform.position).normalized;
+            }
+            else
+            {
+                shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
+            }
+            
+            FireBehaviour fireBehaviour = isSpreadShot ? spreadAttackBehaviour : attackBehaviour;
+            fireBehaviour.Execute(projectileType, this, shootDirection);
+            
+            //TODO: reimplement speedShot, damageBoost
+            
             shootingSounds.Play(audioSource);
             playerController.AnimationController.AttackAnimation.Play();
-
-            // Vector3 shootDirection;
-            //
-            // if (mouseAim)
-            // {
-            //     Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //     mousePosition.z = 0f;
-            //     shootDirection = (mousePosition - transform.position).normalized;
-            // }
-            // else
-            // {
-            //     shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
-            // }
-            //
-            // FireBehaviour fireBehaviour = isSpreadShot ? spreadAttackBehaviour : attackBehaviour;
-            // fireBehaviour.Execute(projectileType, this, shootDirection);
-
-            int shotAmount = isSpreadShot ? 3 : 1;
-            
-            for (int i = 0; i < shotAmount; i++)
-            {
-                Vector3 shootDirection;
-                
-                if (mouseAim)
-                {
-                    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    mousePosition.z = 0f;
-                    shootDirection = (mousePosition - transform.position).normalized;
-                }
-                else
-                {
-                    shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
-                }
-            
-                if (i == 1)
-                {
-                    shootDirection += VectorHelper.GetDirectionFromAngle(30);
-                }
-                else if (i == 2)
-                {
-                    shootDirection -= VectorHelper.GetDirectionFromAngle(-30);
-                }
-            
-                Vector3 projectilePosition = transform.position + shootDirection * projectileSpawnOffset;
-                Projectile projectile = ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition, shootDirection);
-            
-                if (isSpeedShot)
-                {
-                    projectile.velocity *= 2.5f;
-                }
-                
-                projectile.damage += damageBoost;
-            }
         }
 
         private IEnumerator ApplyRicochet(float duration)
@@ -137,7 +98,15 @@ namespace Player
             yield return new WaitForSeconds(duration);
             isSpreadShot = false;
         }
-        private IEnumerator ApplySpeedShot(float duration)
+
+        private void ApplySpeedShot(float duration)
+        {
+            if (isSpeedShot) return;
+
+            StartCoroutine(SpeedShotCoroutine(duration));
+        }
+        
+        private IEnumerator SpeedShotCoroutine(float duration)
         {
             isSpeedShot = true;
             yield return new WaitForSeconds(duration);

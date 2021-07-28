@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace Gameplay.Projectile
@@ -14,7 +15,7 @@ namespace Gameplay.Projectile
         
         [HideInInspector] public Vector2 direction = Vector2.zero;
         [HideInInspector] public int damage;
-        [HideInInspector] public float velocity;
+        [HideInInspector] public float speed;
         
         private Rigidbody2D body;
         private SpriteRenderer spriteRenderer;
@@ -36,7 +37,7 @@ namespace Gameplay.Projectile
             ricochetAmount = projectileConfiguration.ricochetAmount;
             spriteRenderer.sprite = projectileConfiguration.projectileSprite;
             trailRenderer.colorGradient = projectileConfiguration.trailGradient;
-            velocity = projectileConfiguration.projectileSpeed;
+            speed = projectileConfiguration.projectileSpeed;
             transform.eulerAngles = Vector3.forward * VectorHelper.GetAngleFromDirection(direction);
         }
         /**********************************************/
@@ -44,7 +45,7 @@ namespace Gameplay.Projectile
         /******************* LOOP *********************/
         private void FixedUpdate()
         {
-            body.velocity = velocity * Time.deltaTime * direction;
+            body.velocity = speed * Time.deltaTime * direction;
             transform.eulerAngles = Vector3.forward * VectorHelper.GetAngleFromDirection(direction);
         }
         /**********************************************/
