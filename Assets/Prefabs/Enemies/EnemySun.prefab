@@ -339,3 +339,10 @@ MonoBehaviour:
   deathSound: {fileID: 11400000, guid: 122d3d6e38b96164296e62fe43298b1c, type: 2}
   animationController: {fileID: 423127553469471644}
   patternShootDelay: 1.5
+  attackConfigurations:
+  - attackBehaviour: {fileID: 11400000, guid: 1bb5e0d751977764487989ce966f01c4, type: 2}
+    projectileType: 3
+  - attackBehaviour: {fileID: 11400000, guid: b6c86a0292562b24a96c0b268696acff, type: 2}
+    projectileType: 1
+  - attackBehaviour: {fileID: 11400000, guid: 73a6c57ad77682a45937782fb3c695d5, type: 2}
+    projectileType: 3

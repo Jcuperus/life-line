@@ -270,6 +270,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2476359877920224587, guid: 99b1e3ccc0e85244691cc38882ab809a, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2524676174873120658, guid: 99b1e3ccc0e85244691cc38882ab809a, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -378,6 +382,10 @@ PrefabInstance:
     - target: {fileID: 4248781965987725707, guid: 2ef25f680c969b1449f72898b7b576b6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034312787656549550, guid: 2ef25f680c969b1449f72898b7b576b6, type: 3}
+      propertyPath: patternShootDelay
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ef25f680c969b1449f72898b7b576b6, type: 3}

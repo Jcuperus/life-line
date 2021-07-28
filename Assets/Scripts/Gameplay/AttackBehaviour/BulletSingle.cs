@@ -1,20 +1,17 @@
-﻿using System.Collections;
-using Gameplay.Projectile;
+﻿using Gameplay.Projectile;
 using UnityEngine;
 
 namespace Gameplay.AttackBehaviour
 {
+    [CreateAssetMenu(fileName = "BulletSingle", menuName = "ScriptableObjects/AttackBehaviours/BulletSingle", order = 0)]
     public class BulletSingle : FireBehaviour
     {
-        public BulletSingle(Transform origin, Transform target = null) : base(origin, target) {}
-
-        public override IEnumerator Execute(ProjectileFactory.ProjectileTypes projectileType)
+        [SerializeField] private float offset = 2f;
+        
+        public override void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, Vector3 direction)
         {
-            Vector3 currentPosition = origin.position;
-            Vector2 direction = (target.position - currentPosition).normalized;
-            ProjectileFactory.Instance.Instantiate(projectileType, currentPosition, direction);
-            
-            yield return null;
+            Vector3 projectilePosition = source.transform.position + direction * offset;
+            ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition, direction);
         }
     }
 }

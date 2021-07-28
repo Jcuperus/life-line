@@ -1,46 +1,31 @@
-using System.Collections;
 using Gameplay.Projectile;
 using UnityEngine;
 using Utility;
 
 namespace Gameplay.AttackBehaviour
 {
+    [CreateAssetMenu(fileName = "BulletArc", menuName = "ScriptableObjects/AttackBehaviours/BulletArc", order = 1)]
     public class BulletArc : FireBehaviour
     {
-        /**************** VARIABLES *******************/
-        private const int BulletAmount = 5;
-        private const int SalvoAmount = 4;
-        private const float FireDelay = 0.5f;
-        private const float BulletDistance = 15f;
-        private const float CircleRadius = 9.5f;
-        /**********************************************/
-
-        public BulletArc(Transform origin, Transform target = null) : base(origin, target) {}
-
-        /***************** METHODS ********************/
-        public override IEnumerator Execute(ProjectileFactory.ProjectileTypes projectileType)
+        [SerializeField] private int bulletAmount = 5;
+        [SerializeField] private float bulletDistance = 15f, circleRadius = 9.5f;
+        
+        public override void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, Vector3 direction)
         {
-            Vector3 currentPosition = origin.position;
-            Vector3 direction = (target.position - currentPosition).normalized;
+            Vector3 origin = source.transform.position;
             float arcCenterAngle = VectorHelper.GetAngleFromDirection(direction) + 90f;
-            float arcLength = BulletDistance * BulletAmount;
-            float arcStartAngle = arcCenterAngle - arcLength * 0.5f + BulletDistance * 0.5f;
+            float arcLength = bulletDistance * bulletAmount;
+            float arcStartAngle = arcCenterAngle - arcLength * 0.5f + bulletDistance * 0.5f;
 
-            for (int j = 0; j < SalvoAmount; j++)
+            for (int i = 0; i < bulletAmount; i++)
             {
-                yield return new WaitForSeconds(FireDelay);
-            
-                for (int i = 0; i < BulletAmount; i++)
-                {
-                    float angle = (arcStartAngle + BulletDistance * i) * Mathf.Deg2Rad;
-                    var circlePosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle));
-                    Vector3 projectilePosition = currentPosition + circlePosition * CircleRadius;
-                    Vector2 projectileDirection = (projectilePosition - currentPosition).normalized;
-                    ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition,
-                        projectileDirection);
-                }
+                float angle = (arcStartAngle + bulletDistance * i) * Mathf.Deg2Rad;
+                var circlePosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle));
+                Vector3 projectilePosition = origin + circlePosition * circleRadius;
+                Vector2 projectileDirection = (projectilePosition - origin).normalized;
+                ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition,
+                    projectileDirection);
             }
         }
-        /**********************************************/
     }
 }

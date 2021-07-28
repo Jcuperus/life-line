@@ -1,4 +1,3 @@
-using System.Collections;
 using Gameplay.Projectile;
 using UnityEngine;
 
@@ -7,21 +6,20 @@ namespace Gameplay.AttackBehaviour
     /// <summary>
     /// Base class for enemy attack patterns, more easily allowing for complex and varied behaviours.
     /// </summary>
-    public abstract class FireBehaviour
+    public abstract class FireBehaviour : ScriptableObject
     {
-        /**************** VARIABLES *******************/
-        protected readonly Transform origin;
-        protected readonly Transform target;
-        /**********************************************/
-    
-        /****************** METHODS *******************/
-        protected FireBehaviour(Transform origin, Transform target = null)
+        public delegate Vector3 CalculateDirectionAction();
+        
+        public abstract void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, Vector3 direction);
+
+        public virtual void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, CalculateDirectionAction directionAction)
         {
-            this.origin = origin;
-            this.target = target;
+            Execute(projectileType, source, directionAction());
         }
-    
-        public abstract IEnumerator Execute(ProjectileFactory.ProjectileTypes projectileType);
-        /**********************************************/
+        
+        public virtual bool IsFinished()
+        {
+            return true;
+        }
     }
 }

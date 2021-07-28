@@ -9,6 +9,7 @@ namespace Player
     [RequireComponent(typeof(AudioSource))]
     public class FireController : MonoBehaviour
     {
+        [SerializeField] private FireBehaviour attackBehaviour, spreadAttackBehaviour;
         [SerializeField] private AudioEvent shootingSounds;
 
         [SerializeField] private float projectileSpawnOffset = 2f;
@@ -69,8 +70,24 @@ namespace Player
             shootingSounds.Play(audioSource);
             playerController.AnimationController.AttackAnimation.Play();
 
-            int shotAmount = isSpreadShot ? 3 : 1;
+            // Vector3 shootDirection;
+            //
+            // if (mouseAim)
+            // {
+            //     Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //     mousePosition.z = 0f;
+            //     shootDirection = (mousePosition - transform.position).normalized;
+            // }
+            // else
+            // {
+            //     shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
+            // }
+            //
+            // FireBehaviour fireBehaviour = isSpreadShot ? spreadAttackBehaviour : attackBehaviour;
+            // fireBehaviour.Execute(projectileType, this, shootDirection);
 
+            int shotAmount = isSpreadShot ? 3 : 1;
+            
             for (int i = 0; i < shotAmount; i++)
             {
                 Vector3 shootDirection;
@@ -85,7 +102,7 @@ namespace Player
                 {
                     shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
                 }
-
+            
                 if (i == 1)
                 {
                     shootDirection += VectorHelper.GetDirectionFromAngle(30);
@@ -94,10 +111,10 @@ namespace Player
                 {
                     shootDirection -= VectorHelper.GetDirectionFromAngle(-30);
                 }
-
+            
                 Vector3 projectilePosition = transform.position + shootDirection * projectileSpawnOffset;
                 Projectile projectile = ProjectileFactory.Instance.Instantiate(projectileType, projectilePosition, shootDirection);
-
+            
                 if (isSpeedShot)
                 {
                     projectile.velocity *= 2.5f;

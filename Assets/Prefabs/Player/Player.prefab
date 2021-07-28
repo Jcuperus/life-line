@@ -282,6 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5515d1ce6fd44de9be841d15cf5dfb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
+  spreadAttackBehaviour: {fileID: 11400000, guid: 8068b4296eded7b41ae69e73f2019b61, type: 2}
   shootingSounds: {fileID: 11400000, guid: a5c9a5b9b054a004e9cd83aa2e6e498a, type: 2}
   projectileSpawnOffset: 2
   mouseAim: 1

@@ -11,15 +11,16 @@ namespace Enemies
     public class EnemySun : AbstractEnemy
     {
         /**************** VARIABLES *******************/
-        [SerializeField] private float patternShootDelay = 0.5f;
+        [SerializeField] private float patternShootDelay = 1.5f;
 
+        [Serializable]
         private struct AttackConfiguration
         {
             public FireBehaviour attackBehaviour;
             public ProjectileFactory.ProjectileTypes projectileType;
         }
 
-        private AttackConfiguration[] attackConfigurations;
+        [SerializeField] private AttackConfiguration[] attackConfigurations;
         private MultiAttackAnimationBehaviour attackAnimationBehaviour;
 
         public static event Action OnSunDefeated;
@@ -36,28 +37,6 @@ namespace Enemies
             {
                 throw new InvalidCastException("Cast Invalid. Expected: MultiAttackAnimationBehaviour");
             }
-
-            Transform origin = transform;
-            Transform playerTransform = player.transform;
-            
-            attackConfigurations = new[]
-            {
-                new AttackConfiguration
-                {
-                    attackBehaviour = new BulletStream(origin, playerTransform),
-                    projectileType = ProjectileFactory.ProjectileTypes.EnemyRicochet
-                },
-                new AttackConfiguration
-                {
-                    attackBehaviour = new BulletArc(origin, playerTransform),
-                    projectileType = ProjectileFactory.ProjectileTypes.Enemy
-                },
-                new AttackConfiguration
-                {
-                    attackBehaviour = new BulletCircle(origin),
-                    projectileType = ProjectileFactory.ProjectileTypes.EnemyRicochet
-                }
-            };
             
             StartCoroutine(AttackCoroutine());
         }
@@ -75,7 +54,10 @@ namespace Enemies
                 attackAnimationBehaviour.Play(configurationIndex);
                 AttackConfiguration configuration = attackConfigurations[configurationIndex];
 
-                yield return configuration.attackBehaviour.Execute(configuration.projectileType);
+                Vector3 currentPosition = transform.position;
+                configuration.attackBehaviour.Execute(configuration.projectileType, this,
+                    () => (player.transform.position - currentPosition).normalized);
+                yield return new WaitUntil(() => configuration.attackBehaviour.IsFinished());
 
                 configurationIndex = Random.Range(0, attackConfigurations.Length);
             }
