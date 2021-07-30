@@ -1,6 +1,4 @@
 using System.Collections;
-using Spine;
-using Spine.Unity;
 using UnityEngine;
 using Utility;
 
@@ -13,10 +11,6 @@ namespace Enemies
     {
         /**************** VARIABLES *******************/
         [SerializeField] private Vector3 spawnOffset = Vector3.zero;
-
-        [Header("Animation")]
-        [SerializeField] private SkeletonAnimation animator;
-        [SerializeField] private AnimationReferenceAsset spawnAnimation;
 
         public int roomID;
         /**********************************************/
@@ -40,24 +34,14 @@ namespace Enemies
             StartCoroutine(SpawnEnemies(subWave));
         }
 
-        private IEnumerator SpawnEnemies(SubWave subWave)
+        protected virtual IEnumerator SpawnEnemies(SubWave subWave)
         {
-            // SetAnimation(spawnAnimation, true, 0.5f);
-
             for (int i = 0; i < subWave.amount; i++)
             {
                 yield return new WaitForSeconds(subWave.delay);
                 AbstractEnemy spawnedEnemy = Instantiate(subWave.type);
                 spawnedEnemy.transform.position = transform.position + spawnOffset;
             }
-            
-            // animator.ClearState();
-        }
-    
-        private void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
-        {
-            TrackEntry trackEntry = animator.state.SetAnimation(0, animation, loop);
-            trackEntry.TimeScale = timeScale;
         }
         /**********************************************/
     }

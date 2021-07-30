@@ -14,7 +14,7 @@ namespace Player
         
         [SerializeField] private bool mouseAim = true;
 
-        private bool ricochetIsActive = true, spreadShotIsActive;
+        private bool ricochetIsActive, spreadShotIsActive;
 
         private PlayerController playerController;
         private AudioSource audioSource;

@@ -736,6 +736,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy SpawnPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: roomID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5346072442457708139, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: roomID
       value: 3
@@ -1173,6 +1181,18 @@ PrefabInstance:
     - target: {fileID: 4562486020562293295, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: m_Name
       value: Enemy SpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: roomID
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.y
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5346072442457708139, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: roomID
@@ -3234,6 +3254,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy SpawnPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: roomID
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.y
+      value: -40
+      objectReference: {fileID: 0}
     - target: {fileID: 5346072442457708139, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: roomID
       value: 4
@@ -4419,6 +4447,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy SpawnPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: roomID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.y
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 5346072442457708139, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: roomID
       value: 1
@@ -5240,6 +5280,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy SpawnPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.x
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5346072442457708139, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: roomID
       value: 0
@@ -5369,6 +5413,18 @@ PrefabInstance:
     - target: {fileID: 4562486020562293295, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: m_Name
       value: Enemy SpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: roomID
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.y
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5346072442457708139, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: roomID
@@ -6305,6 +6361,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy SpawnPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: roomID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5346072442457708139, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: roomID
       value: 1
@@ -7233,6 +7301,14 @@ PrefabInstance:
     - target: {fileID: 4562486020562293295, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: m_Name
       value: Enemy SpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: roomID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930745375606069326, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
+      propertyPath: spawnOffset.y
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5346072442457708139, guid: 40c622d1515dca94ebb27301acb71f77, type: 3}
       propertyPath: roomID
