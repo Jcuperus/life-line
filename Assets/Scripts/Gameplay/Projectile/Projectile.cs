@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Utility;
 
@@ -19,6 +20,7 @@ namespace Gameplay.Projectile
         private Rigidbody2D body;
         private SpriteRenderer spriteRenderer;
         private TrailRenderer trailRenderer;
+        private Vector2 lastContactNormal;
         private int ricochetAmount;
         /**********************************************/
 
@@ -50,12 +52,27 @@ namespace Gameplay.Projectile
         /**********************************************/
 
         /***************** METHODS ********************/
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(Collision2D other)
         {
+            HandleCollision(other);
+        }
+
+        private void OnCollisionStay2D(Collision2D other)
+        {
+            HandleCollision(other);
+        }
+
+        private void HandleCollision(Collision2D collision)
+        {
+            Vector2 contactNormal = GetNormal(collision);
+
+            if (contactNormal == lastContactNormal) return;
+            
             if (ricochetAmount > 0)
             {
-                direction = Vector2.Reflect(direction, collision.transform.right);
+                direction = Vector2.Reflect(direction, contactNormal);
                 ricochetAmount--;
+                lastContactNormal = contactNormal;
             }
             else
             {
@@ -72,6 +89,18 @@ namespace Gameplay.Projectile
         {
             gameObject.SetActive(false);
             trailRenderer.Clear();
+        }
+
+        private Vector2 GetNormal(Collision2D collision)
+        {
+            Vector2 normal = Vector2.zero;
+            
+            for (int i = 0; i < collision.contactCount; i++)
+            {
+                normal += collision.GetContact(i).normal;
+            }
+
+            return normal.normalized;
         }
         /**********************************************/
     }
