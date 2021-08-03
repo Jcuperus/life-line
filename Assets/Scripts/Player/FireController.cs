@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using Gameplay.AttackBehaviour;
+﻿using Gameplay.AttackBehaviour;
 using Gameplay.Projectile;
 using UnityEngine;
 using Utility;
+using Utility.Extensions;
 
 namespace Player
 {
@@ -18,29 +18,23 @@ namespace Player
 
         private PlayerController playerController;
         private AudioSource audioSource;
-        
-        private GameManager.RicochetActivatedAction ricochetActivatedAction;
-        private GameManager.SpreadShotActivatedAction spreadShotActivatedAction;
 
         private void Awake()
         {
             playerController = GetComponent<PlayerController>();
             audioSource = GetComponent<AudioSource>();
-            
-            ricochetActivatedAction = duration => StartCoroutine(ApplyRicochet(duration));
-            spreadShotActivatedAction = duration => StartCoroutine(ApplySpreadShot(duration));
         }
 
         private void OnEnable()
         {
-            GameManager.OnRicochetActivated += ricochetActivatedAction;
-            GameManager.OnSpreadShotActivated += spreadShotActivatedAction;
+            GameManager.OnRicochetActivated += ApplyRicochet;
+            GameManager.OnSpreadShotActivated += ApplySpreadShot;
         }
 
         private void OnDisable()
         {
-            GameManager.OnRicochetActivated -= ricochetActivatedAction;
-            GameManager.OnSpreadShotActivated -= spreadShotActivatedAction;
+            GameManager.OnRicochetActivated -= ApplyRicochet;
+            GameManager.OnSpreadShotActivated -= ApplySpreadShot;
         }
 
         private void Update()
@@ -74,18 +68,16 @@ namespace Player
             playerController.AnimationController.AttackAnimation.Play();
         }
 
-        private IEnumerator ApplyRicochet(float duration)
+        private void ApplyRicochet(float duration)
         {
             ricochetIsActive = true;
-            yield return new WaitForSeconds(duration);
-            ricochetIsActive = false;
+            this.DelayedAction(() => ricochetIsActive = false, duration);
         }
 
-        private IEnumerator ApplySpreadShot(float duration)
+        private void ApplySpreadShot(float duration)
         {
             spreadShotIsActive = true;
-            yield return new WaitForSeconds(duration);
-            spreadShotIsActive = false;
+            this.DelayedAction(() => spreadShotIsActive = false, duration);
         }
     }
 }

@@ -1,6 +1,6 @@
-using System.Collections;
 using UnityEngine;
 using Utility;
+using Utility.Extensions;
 
 namespace Player
 {
@@ -57,19 +57,11 @@ namespace Player
             velocity = Vector2.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
             rigidbody.velocity = velocity;
         }
-        
-        private IEnumerator SpeedModifierCoroutine(float multiplier, float duration)
-        {
-            speedModifier = multiplier;
-
-            yield return new WaitForSeconds(duration);
-            
-            speedModifier = 1f;
-        }
 
         private void ApplySpeedModifier(float multiplier, float duration = 0f)
         {
-            StartCoroutine(SpeedModifierCoroutine(multiplier, duration));
+            speedModifier = multiplier;
+            this.DelayedAction(() => speedModifier = 1f, duration);
         }
         /**********************************************/
     }

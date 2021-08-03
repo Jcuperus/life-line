@@ -1,7 +1,7 @@
-using System.Collections;
 using Gameplay;
 using UnityEngine;
 using Utility;
+using Utility.Extensions;
 
 namespace Enemies
 {
@@ -43,15 +43,9 @@ namespace Enemies
                 animationController.AttackAnimation.Play();
                 damageable.OnDamaged(damage);
 
-                StartCoroutine(DamageTimeoutCoroutine());
+                canAttack = false;
+                this.DelayedAction(() => canAttack = true, hitDelay);
             }
-        }
-
-        private IEnumerator DamageTimeoutCoroutine()
-        {
-            canAttack = false;
-            yield return new WaitForSeconds(hitDelay);
-            canAttack = true;
         }
         /**********************************************/
     }

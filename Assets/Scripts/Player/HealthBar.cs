@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Utility;
+using Utility.Extensions;
 
 namespace Player
 {
@@ -27,9 +27,9 @@ namespace Player
         public void RemoveFirst()
         {
             segments.RemoveFirst();
-            
+
             canAttach = false;
-            StartCoroutine(ReenableAttachment());
+            this.DelayedAction(() => canAttach = true, attachmentDelay);
         }
 
         public bool IsFirst(LinkedListNode<GameObject> node)
@@ -69,12 +69,6 @@ namespace Player
             Vector3 direction = VectorHelper.GetDirectionFromAngle(node.Value.transform.eulerAngles.y).normalized;
             Vector3 offsetPosition = previousPosition - direction.normalized * GetOffset(node);
             node.Value.transform.position = offsetPosition;
-        }
-
-        private IEnumerator ReenableAttachment()
-        {
-            yield return new WaitForSeconds(attachmentDelay);
-            canAttach = true;
         }
     }
 }
