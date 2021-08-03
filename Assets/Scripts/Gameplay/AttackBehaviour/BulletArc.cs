@@ -1,6 +1,6 @@
 using Gameplay.Projectile;
 using UnityEngine;
-using Utility;
+using Utility.Extensions;
 
 namespace Gameplay.AttackBehaviour
 {
@@ -13,7 +13,7 @@ namespace Gameplay.AttackBehaviour
         public override void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, Vector3 direction)
         {
             Vector3 origin = source.transform.position;
-            float arcCenterAngle = VectorHelper.GetAngleFromDirection(direction) + 90f;
+            float arcCenterAngle = direction.GetAngle() + 90f;
             float arcLength = bulletDistance * bulletAmount;
             float arcStartAngle = arcCenterAngle - arcLength * 0.5f + bulletDistance * 0.5f;
 

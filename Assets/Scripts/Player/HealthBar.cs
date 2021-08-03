@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Utility;
 using Utility.Extensions;
 
 namespace Player
@@ -66,7 +65,7 @@ namespace Player
             if (node.Previous == null) return;
 
             Vector3 previousPosition = node.Previous.Value.transform.position;
-            Vector3 direction = VectorHelper.GetDirectionFromAngle(node.Value.transform.eulerAngles.y).normalized;
+            Vector3 direction = node.Value.transform.eulerAngles.y.GetDirectionVector().normalized;
             Vector3 offsetPosition = previousPosition - direction.normalized * GetOffset(node);
             node.Value.transform.position = offsetPosition;
         }

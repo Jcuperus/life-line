@@ -58,7 +58,7 @@ namespace Player
             }
             else
             {
-                shootDirection = VectorHelper.GetDirectionFromAngle(transform.eulerAngles.z);
+                shootDirection = transform.eulerAngles.z.GetDirectionVector();
             }
             
             FireBehaviour fireBehaviour = spreadShotIsActive ? spreadAttackBehaviour : attackBehaviour;

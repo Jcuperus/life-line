@@ -1,5 +1,4 @@
 using UnityEngine;
-using Utility;
 using Utility.Extensions;
 
 namespace Player
@@ -40,7 +39,7 @@ namespace Player
             inputDirection = Vector2.ClampMagnitude(inputDirection, 1f);
             desiredVelocity = inputDirection * maxSpeed;
             
-            float inputAngle = VectorHelper.GetAngleFromDirection(inputDirection);
+            float inputAngle = inputDirection.GetAngle();
             float smoothRotationAngle = Mathf.LerpAngle(transform.eulerAngles.z, inputAngle,
                 Time.deltaTime * rotationSpeed * inputDirection.magnitude);
             transform.rotation = Quaternion.Euler(0f, 0f, smoothRotationAngle);

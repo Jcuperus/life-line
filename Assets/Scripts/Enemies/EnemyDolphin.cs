@@ -1,6 +1,5 @@
 using Gameplay;
 using UnityEngine;
-using Utility;
 using Utility.Extensions;
 
 namespace Enemies
@@ -23,7 +22,7 @@ namespace Enemies
             moveDirection = (player.transform.position - transform.position).normalized;
             smoothMoveDirection = Vector2.MoveTowards(smoothMoveDirection, moveDirection, Time.deltaTime);
             transform.localEulerAngles =
-                Vector3.forward * (VectorHelper.GetAngleFromDirection(smoothMoveDirection) + 90f);
+                Vector3.forward * (smoothMoveDirection.GetAngle() + 90f);
         }
 
         private void FixedUpdate()

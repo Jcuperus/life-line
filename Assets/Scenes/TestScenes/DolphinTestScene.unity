@@ -364,6 +364,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 524585767}
     m_Modifications:
+    - target: {fileID: -1010042393308141727, guid: 99b1e3ccc0e85244691cc38882ab809a, type: 3}
+      propertyPath: mouseAim
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2476359877920224587, guid: 99b1e3ccc0e85244691cc38882ab809a, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -414,7 +418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2524676174873120659, guid: 99b1e3ccc0e85244691cc38882ab809a, type: 3}
       propertyPath: startingHealthAmount
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2524676174873120668, guid: 99b1e3ccc0e85244691cc38882ab809a, type: 3}
       propertyPath: m_Name

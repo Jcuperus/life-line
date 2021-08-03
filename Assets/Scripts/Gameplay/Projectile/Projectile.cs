@@ -1,6 +1,5 @@
-using System;
 using UnityEngine;
-using Utility;
+using Utility.Extensions;
 
 namespace Gameplay.Projectile
 {
@@ -39,7 +38,7 @@ namespace Gameplay.Projectile
             spriteRenderer.sprite = projectileConfiguration.projectileSprite;
             trailRenderer.colorGradient = projectileConfiguration.trailGradient;
             speed = projectileConfiguration.projectileSpeed;
-            transform.eulerAngles = Vector3.forward * VectorHelper.GetAngleFromDirection(direction);
+            transform.eulerAngles = Vector3.forward * direction.GetAngle();
         }
         /**********************************************/
 
@@ -47,7 +46,7 @@ namespace Gameplay.Projectile
         private void FixedUpdate()
         {
             body.velocity = speed * Time.deltaTime * direction;
-            transform.eulerAngles = Vector3.forward * VectorHelper.GetAngleFromDirection(direction);
+            transform.eulerAngles = Vector3.forward * direction.GetAngle();
         }
         /**********************************************/
 

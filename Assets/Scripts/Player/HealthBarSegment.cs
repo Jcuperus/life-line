@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Gameplay.Projectile;
 using UnityEngine;
-using Utility;
+using Utility.Extensions;
 
 namespace Player
 {
@@ -33,7 +32,7 @@ namespace Player
             Vector3 desiredPosition = previousPosition - moveDirection.normalized * HealthBar.GetOffset(Node);
             transform.SetPositionAndRotation(
                 Vector3.MoveTowards(currentPosition, desiredPosition, Time.deltaTime * moveSpeed),
-                Quaternion.Euler(0f, 0f, VectorHelper.GetAngleFromDirection(moveDirection)));
+                Quaternion.Euler(0f, 0f, moveDirection.GetAngle()));
         }
     }
 }
