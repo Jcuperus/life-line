@@ -373,7 +373,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2524676174873120658, guid: 99b1e3ccc0e85244691cc38882ab809a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2524676174873120658, guid: 99b1e3ccc0e85244691cc38882ab809a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -519,6 +519,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followTransform: {fileID: 974304531}
+  shakeDuration: 0.1
+  shakeIntensity: 0.5
 --- !u!4 &1548033209 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8759438123921415889, guid: 89d09d686e5135a46befdc21efaf92fc, type: 3}
