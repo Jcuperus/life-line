@@ -12,8 +12,7 @@ namespace Utility
         /**************** VARIABLES *******************/
         [SerializeField] private Transform followTransform;
         [SerializeField] private float shakeDuration = 0.1f, shakeIntensity = 0.5f;
-
-        private float currentShakeDuration;
+        private float currentDuration, currentIntensity;
         /**********************************************/
     
         /******************* INIT *********************/
@@ -30,38 +29,50 @@ namespace Utility
                 Follow(followTransform);
             }
 
-            PlayerController.OnPlayerIsDamaged += Shake;
+            PlayerController.OnPlayerIsDamaged += ShakeScreen;
         }
         /**********************************************/
-    
+
         /******************* LOOP *********************/
+        private void LateUpdate()
+        {
+            transform.position = new Vector3(followTransform.position.x, followTransform.position.y, transform.position.z);
+            if (currentDuration > 0)
+            {
+                transform.position += (Vector3)Random.insideUnitCircle * currentIntensity;
+            }
+        }
         private void Follow(Transform target)
         {
             followTransform = target;
-            StartCoroutine(FollowTargetCoroutine());
-        }
-    
-        private IEnumerator FollowTargetCoroutine()
-        {
-            while (isActiveAndEnabled)
-            {
-                transform.position = new Vector3(followTransform.position.x, followTransform.position.y, transform.position.z);
-                
-                if (currentShakeDuration > 0)
-                {
-                    transform.position += (Vector3) Random.insideUnitCircle * shakeIntensity;
-                    currentShakeDuration -= Time.deltaTime;
-                }
-                
-                yield return null;
-            }
         }
         /**********************************************/
-        
+
         /***************** METHODS ********************/
-        private void Shake()
+        private IEnumerator CameraShake(float duration, float intensity)
         {
-            currentShakeDuration = shakeDuration;
+            currentDuration+= duration;
+            currentIntensity+= intensity;
+            while (duration > 0 & Time.timeScale != 0)
+            {
+                yield return new WaitForEndOfFrame();
+                duration -= Time.deltaTime;
+            }
+            currentDuration -= duration;
+            currentIntensity -= intensity;
+        }
+        public void ShakeScreen(float duration, float intensity)
+        {
+            StartCoroutine(CameraShake(duration, intensity));
+        }
+        public void ShakeScreen()
+        {
+            ShakeScreen(shakeDuration, shakeIntensity); 
+        }
+        private void OnDestroy()
+        {
+            PlayerController.OnPlayerIsDamaged -= ShakeScreen;
+            StopAllCoroutines();
         }
         /**********************************************/
 
