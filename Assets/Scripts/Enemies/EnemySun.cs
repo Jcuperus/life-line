@@ -27,7 +27,7 @@ namespace Enemies
         /**********************************************/
     
         /******************* INIT *********************/
-        private void Start()
+        protected override void Start()
         {
             if (animationController.AttackAnimation is MultiAttackAnimationBehaviour behaviour)
             {
@@ -38,13 +38,15 @@ namespace Enemies
                 throw new InvalidCastException("Cast Invalid. Expected: MultiAttackAnimationBehaviour");
             }
             
-            StartCoroutine(AttackCoroutine());
+            base.Start();
         }
         /**********************************************/
     
         /***************** METHODS ********************/
-        private IEnumerator AttackCoroutine()
+        protected override IEnumerator AttackCoroutine()
         {
+            yield return base.AttackCoroutine();
+            
             int configurationIndex = 0;
 
             while (isAlive)
