@@ -10,6 +10,7 @@ namespace Rooms
         [SerializeField] private Tilemap[] enemyLayouts;
         [SerializeField] private TileDictionaryScriptableObject tileDictionary;
         [SerializeField] private PlayerTrigger roomTrigger;
+        [SerializeField] private GameObject entranceDoor, exitDoor;
         [SerializeField] private float waveDelay = 2f;
 
         private int enemyAmount;
@@ -17,6 +18,7 @@ namespace Rooms
         private void OnEnable()
         {
             roomTrigger.onPlayerEnter += StartRoom;
+            entranceDoor.SetActive(false);
         }
 
         private void OnDisable()
@@ -27,6 +29,8 @@ namespace Rooms
         private void StartRoom()
         {
             if (enemyLayouts == null || enemyLayouts.Length == 0) return;
+
+            entranceDoor.SetActive(true);
 
             StartCoroutine(SpawnEnemies());
         }
@@ -56,6 +60,7 @@ namespace Rooms
             }
             
             AbstractEnemy.OnEnemyIsDestroyed -= DecrementEnemyCounter;
+            exitDoor.SetActive(false);
         }
 
         private void DecrementEnemyCounter() => enemyAmount--;
