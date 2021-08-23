@@ -60,7 +60,8 @@ namespace Rooms
             }
             
             AbstractEnemy.OnEnemyIsDestroyed -= DecrementEnemyCounter;
-            exitDoor.SetActive(false);
+            
+            if (exitDoor != null) exitDoor.SetActive(false);
         }
 
         private void DecrementEnemyCounter() => enemyAmount--;
