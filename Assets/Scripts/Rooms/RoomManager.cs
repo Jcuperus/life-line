@@ -11,6 +11,7 @@ namespace Rooms
         [SerializeField] private TileDictionaryScriptableObject tileDictionary;
         [SerializeField] private PlayerTrigger roomTrigger;
         [SerializeField] private GameObject entranceDoor, exitDoor;
+        [SerializeField] private EnemySpawner spawnerPrefab;
         [SerializeField] private float waveDelay = 2f;
 
         private int enemyAmount;
@@ -52,7 +53,8 @@ namespace Rooms
                     if (tile == null || !tileDictionary.ContainsKey(tile)) continue;
                     
                     GameObject tileAsset = tileDictionary[tile];
-                    Instantiate(tileAsset, layout.CellToWorld(tilePosition), tileAsset.transform.rotation);
+                    EnemySpawner spawner = Instantiate(spawnerPrefab, layout.CellToWorld(tilePosition), tileAsset.transform.rotation);
+                    spawner.enemyPrefab = tileAsset;
                     enemyAmount++;
                 }
 

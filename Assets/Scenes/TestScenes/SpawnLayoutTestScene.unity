@@ -2238,6 +2238,7 @@ MonoBehaviour:
   roomTrigger: {fileID: 844056328}
   entranceDoor: {fileID: 262529573}
   exitDoor: {fileID: 890550169}
+  spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
   waveDelay: 2
 --- !u!1001 &1398923446
 PrefabInstance:
@@ -2597,6 +2598,7 @@ MonoBehaviour:
   roomTrigger: {fileID: 819015682}
   entranceDoor: {fileID: 1234999874}
   exitDoor: {fileID: 1524677728}
+  spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
   waveDelay: 2
 --- !u!1 &1536416256
 GameObject:
@@ -2647,15 +2649,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4733312640719507196, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.811466
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4733312640719507196, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 44.74012
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4733312640719507196, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 30.210457
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4733312640719507196, guid: 874874d2fbd0eb74d8699754e5a8536c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3488,6 +3490,7 @@ MonoBehaviour:
   roomTrigger: {fileID: 866911737}
   entranceDoor: {fileID: 1101997167}
   exitDoor: {fileID: 0}
+  spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
   waveDelay: 2
 --- !u!1 &2053384627
 GameObject:
