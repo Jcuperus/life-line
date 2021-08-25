@@ -8,7 +8,6 @@ namespace Rooms
     public class RoomManager : MonoBehaviour
     {
         [SerializeField] private Tilemap[] enemyLayouts;
-        [SerializeField] private TileDictionaryScriptableObject tileDictionary;
         [SerializeField] private PlayerTrigger roomTrigger;
         [SerializeField] private GameObject entranceDoor, exitDoor;
         [SerializeField] private EnemySpawner spawnerPrefab;
@@ -48,13 +47,13 @@ namespace Rooms
 
                 foreach (Vector3Int tilePosition in bounds.allPositionsWithin)
                 {
-                    var tile = layout.GetTile<Tile>(tilePosition);
+                    var tile = layout.GetTile<AssetTile>(tilePosition);
                     
-                    if (tile == null || !tileDictionary.ContainsKey(tile)) continue;
-                    
-                    GameObject tileAsset = tileDictionary[tile];
-                    EnemySpawner spawner = Instantiate(spawnerPrefab, layout.CellToWorld(tilePosition), tileAsset.transform.rotation);
-                    spawner.enemyPrefab = tileAsset;
+                    if (tile == null) continue;
+
+                    EnemySpawner spawner = Instantiate(spawnerPrefab, layout.CellToWorld(tilePosition),
+                        tile.tileAsset.transform.rotation);
+                    spawner.enemyPrefab = tile.tileAsset;
                     enemyAmount++;
                 }
 
