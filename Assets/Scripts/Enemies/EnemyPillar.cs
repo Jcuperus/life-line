@@ -11,14 +11,7 @@ namespace Enemies
         [SerializeField] private FireBehaviour fireBehaviour;
         [SerializeField] private float fireRate = 1f;
         /**********************************************/
-    
-        /******************* INIT *********************/
-        private void Start()
-        {
-            StartCoroutine(FireBulletCoroutine());
-        }
-        /**********************************************/
-    
+
         /***************** METHODS ********************/
         private void FireBullet(Vector2 direction)
         {
@@ -29,8 +22,10 @@ namespace Enemies
             fireBehaviour.Execute(ProjectileFactory.ProjectileTypes.EnemyRicochet, this, direction);
         }
     
-        private IEnumerator FireBulletCoroutine()
+        protected override IEnumerator AttackCoroutine()
         {
+            yield return base.AttackCoroutine();
+            
             while (gameObject.activeSelf)
             {
                 yield return new WaitForSeconds(fireRate);

@@ -10,33 +10,6 @@ namespace Enemies
         /**************** VARIABLES *******************/
         [SerializeField] private FireBehaviour fireBehaviour;
         [SerializeField] private float fireRate = 1f;
-
-        private float timer;
-        /**********************************************/
-
-        /******************* INIT *********************/
-        private void Start()
-        {
-            StartCoroutine(FireBulletCoroutine());
-        }
-        /**********************************************/
-
-        /******************* LOOP *********************/
-        private void Update()
-        {
-            timer += Time.deltaTime;
-            if (timer > 1)
-            {
-                timer = 0;
-                Vector3 target = player.transform.position;
-                moveDirection = (target - transform.position).normalized;
-            }
-        }
-
-        private void FixedUpdate()
-        {
-            body.velocity += moveSpeed * Time.deltaTime * moveDirection;
-        }
         /**********************************************/
 
         /***************** METHODS ********************/
@@ -49,12 +22,14 @@ namespace Enemies
             fireBehaviour.Execute(ProjectileFactory.ProjectileTypes.Enemy, this, direction);
         }
 
-        private IEnumerator FireBulletCoroutine()
+        protected override IEnumerator AttackCoroutine()
         {
+            yield return base.AttackCoroutine();
+            
             while (gameObject.activeSelf)
             {
                 yield return new WaitForSeconds(fireRate);
-                FireBullet(moveDirection);
+                FireBullet(moveBehaviour.moveDirection);
             }
         }
         /**********************************************/

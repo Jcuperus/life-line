@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d7c2d6a0da35c7a4c9a81a650be590fd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - tileDictionary: {instanceID: 0}
+  - roomTrigger: {instanceID: 0}
+  - entranceDoor: {instanceID: 0}
+  - exitDoor: {instanceID: 0}
+  - spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using Animation;
 using Gameplay;
 using Player;
 using UnityEngine;
 using Utility;
+using Utility.Extensions;
 
 namespace Enemies
 {
@@ -15,8 +17,8 @@ namespace Enemies
     {
         /**************** VARIABLES *******************/
         [Header("Stats")]
-        [SerializeField] protected float moveSpeed = 1f;
         [SerializeField] protected int health = 15;
+        [SerializeField] protected float activationDelay = 1f;
 
         [Header("Audio")]
         [SerializeField] protected AudioEvent hitSound;
@@ -28,11 +30,10 @@ namespace Enemies
 
         private new Collider2D collider;
         
+        protected MoveBehaviour moveBehaviour;
         protected AudioSource audioSource;
-        protected Vector2 moveDirection;
-        protected Rigidbody2D body;
         protected PlayerController player;
-        protected bool isAlive = true;
+        protected bool isActive, isAlive = true;
 
         public static event Action OnEnemyIsDestroyed;
         /**********************************************/
@@ -40,20 +41,44 @@ namespace Enemies
         /******************* INIT *********************/
         protected virtual void Awake()
         {
-            body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
             audioSource = GetComponent<AudioSource>();
             player = FindObjectOfType<PlayerController>();
+            moveBehaviour = GetComponent<MoveBehaviour>();
 
             animationController.OnDeathAnimationFinished += DestroyEnemy;
+            
+            DisableEnemy();
+        }
+
+        protected virtual void Start()
+        {
+            StartCoroutine(AttackCoroutine());
         }
         /**********************************************/
     
         /***************** METHODS ********************/
+        private void DisableEnemy()
+        {
+            if (moveBehaviour != null) moveBehaviour.enabled = false;
+            isActive = false;
+            
+            this.DelayedAction(() =>
+            {
+                if (moveBehaviour != null) moveBehaviour.enabled = true;
+                isActive = true;
+            }, activationDelay);
+        }
+        
         protected virtual void DestroyEnemy()
         {
             OnEnemyIsDestroyed?.Invoke();
             Destroy(gameObject);
+        }
+
+        protected virtual IEnumerator AttackCoroutine()
+        {
+            yield return new WaitUntil(() => isActive);
         }
 
         public virtual void OnDamaged(int damage)

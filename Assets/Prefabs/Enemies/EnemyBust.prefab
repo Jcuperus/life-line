@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8249702283864612641}
-  - component: {fileID: 3682994174105516018}
   - component: {fileID: 6676133129262176905}
   - component: {fileID: 2133776803855100422}
   - component: {fileID: -3239578358310741039}
+  - component: {fileID: 3682994174105516018}
+  - component: {fileID: 5838022684935184089}
   m_Layer: 10
   m_Name: EnemyBust
   m_TagString: Enemy
@@ -35,26 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3682994174105516018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3279396833254432946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16f20a7565f05184ba54a4dcaf7fd103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1
-  health: 1
-  hitSound: {fileID: 11400000, guid: 99a412d47fcbcdd45af6387c180a806b, type: 2}
-  fireSound: {fileID: 11400000, guid: dd5c246a37722414e87e8d9886f7d7e5, type: 2}
-  deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
-  animationController: {fileID: 8927054684955885697}
-  fireBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
-  fireRate: 1
 --- !u!70 &6676133129262176905
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -188,6 +169,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3682994174105516018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3279396833254432946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f20a7565f05184ba54a4dcaf7fd103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  health: 1
+  activationDelay: 1
+  hitSound: {fileID: 11400000, guid: 99a412d47fcbcdd45af6387c180a806b, type: 2}
+  fireSound: {fileID: 11400000, guid: dd5c246a37722414e87e8d9886f7d7e5, type: 2}
+  deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
+  animationController: {fileID: 8927054684955885697}
+  fireBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
+  fireRate: 1
+--- !u!114 &5838022684935184089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3279396833254432946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe434976b3748088182ac6296be006b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  moveDirection: {x: 0, y: 0}
+  doesRotate: 0
 --- !u!1 &7335939011798564363
 GameObject:
   m_ObjectHideFlags: 0
