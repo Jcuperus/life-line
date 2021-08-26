@@ -2245,8 +2245,9 @@ MonoBehaviour:
   - {fileID: 1836738896}
   - {fileID: 918496929}
   roomTrigger: {fileID: 844056328}
-  entranceDoor: {fileID: 262529573}
-  exitDoor: {fileID: 890550169}
+  doors:
+  - {fileID: 262529573}
+  - {fileID: 890550169}
   spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
   waveDelay: 2
 --- !u!1001 &1398923446
@@ -2604,8 +2605,9 @@ MonoBehaviour:
   - {fileID: 1067592749}
   - {fileID: 2017791521}
   roomTrigger: {fileID: 819015682}
-  entranceDoor: {fileID: 1234999874}
-  exitDoor: {fileID: 1524677728}
+  doors:
+  - {fileID: 1234999874}
+  - {fileID: 1524677728}
   spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
   waveDelay: 2
 --- !u!1 &1536416256
@@ -3513,8 +3515,8 @@ MonoBehaviour:
   enemyLayouts:
   - {fileID: 816319098}
   roomTrigger: {fileID: 866911737}
-  entranceDoor: {fileID: 1101997167}
-  exitDoor: {fileID: 0}
+  doors:
+  - {fileID: 1101997167}
   spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
   waveDelay: 2
 --- !u!1 &2053384627

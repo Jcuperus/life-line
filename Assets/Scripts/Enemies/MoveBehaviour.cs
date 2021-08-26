@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using System;
+using Player;
 using UnityEngine;
 
 namespace Enemies
@@ -11,7 +12,7 @@ namespace Enemies
         protected new Rigidbody2D rigidbody;
         protected PlayerController player;
 
-        public Vector2 moveDirection;
+        [NonSerialized] public Vector2 moveDirection;
         
         private void Awake()
         {

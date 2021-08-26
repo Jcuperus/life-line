@@ -181,9 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c8463bf4397e046a190b6d57a6904b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
   health: 3
-  activationDelay: 1
+  activationDelay: 0.5
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
@@ -203,7 +202,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  moveDirection: {x: 0, y: 0}
   doesRotate: 1
 --- !u!1 &5609109691058963068
 GameObject:

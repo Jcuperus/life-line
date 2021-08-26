@@ -196,15 +196,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ad1488ebc14027478fcdee2847b5aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
   health: 5
+  activationDelay: 0.5
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 6ab36af98f86a4d44b9518328178b49a, type: 2}
   animationController: {fileID: 1105300197167109875}
   fireBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
   fireRate: 1
-  moveDistance: 2
 --- !u!50 &-61537561848947375
 Rigidbody2D:
   serializedVersion: 4
