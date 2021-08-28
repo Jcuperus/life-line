@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45e5ec486424af445bcea62052c8c03f, type: 3}
-  m_Name: Level1Room0
+  m_Name: 99Pi
   m_EditorClassIdentifier: 
-  waves:
-  - subWaves:
-    - type: {fileID: 3682994174105516018, guid: 99edd251be3813e4cb0d0280f29dac40, type: 3}
-      amount: 1
-      delay: 3
-      continuesWave: 0
+  spawnerConfigs:
+  - prefab: {fileID: 7104698179494510157, guid: 281b8a9f8c513fd488ec082b938fdb1e, type: 3}
+    amount: 99
+    spawnDelay: 5

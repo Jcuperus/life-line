@@ -29,19 +29,11 @@ namespace Enemies
         /**********************************************/
     
         /***************** METHODS ********************/
-        public void SpawnSubWave(SubWave subWave)
+        public virtual IEnumerator SpawnEnemy(AbstractEnemy prefab)
         {
-            StartCoroutine(SpawnEnemies(subWave));
-        }
-
-        protected virtual IEnumerator SpawnEnemies(SubWave subWave)
-        {
-            for (int i = 0; i < subWave.amount; i++)
-            {
-                yield return new WaitForSeconds(subWave.delay);
-                AbstractEnemy spawnedEnemy = Instantiate(subWave.type);
+                yield return new WaitForSeconds(0);
+                AbstractEnemy spawnedEnemy = Instantiate(prefab);
                 spawnedEnemy.transform.position = transform.position + spawnOffset;
-            }
         }
         /**********************************************/
     }

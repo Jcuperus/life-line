@@ -12,11 +12,11 @@ namespace Enemies
         [SerializeField] private SkeletonAnimation animator;
         [SerializeField] private AnimationReferenceAsset spawnAnimation;
         
-        protected override IEnumerator SpawnEnemies(SubWave subWave)
+        public override IEnumerator SpawnEnemy(AbstractEnemy prefab)
         {
             SetAnimation(spawnAnimation, true, 0.5f);
 
-            yield return base.SpawnEnemies(subWave);
+            yield return base.SpawnEnemy(prefab);
             
             animator.ClearState();
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Enemies;
 using UnityEngine;
@@ -7,7 +8,33 @@ namespace Utility
 {
     public class WaveManager : Singleton<WaveManager>
     {
-        [SerializeField] private WaveAsset[] waveConfig;
+        [SerializeField] protected float initialDelay = 7f;
+        public float InitialDelay => initialDelay;
+        [SerializeField] protected float waveDelay = 0f;
+        public float WaveDelay => waveDelay;
+
+        [Serializable]
+        public class SpawnerArray
+        {
+            [Tooltip("Int to match the room the enemies should spawn in. Use multiple with the same roomID to spawn them in waves")] public int roomID;
+            public SpawnConfigAsset config;
+        }
+        [SerializeField] private SpawnerArray[] spawnerArrays;
+        public SpawnerArray[] SpawnerArrays => spawnerArrays;
+        public List<SpawnerArray> SpawnerArraysByRoomID(int value)
+        {
+            List<SpawnerArray> waves = new List<SpawnerArray> { };
+
+            foreach (SpawnerArray spawnerArray in spawnerArrays)
+            {
+                if (spawnerArray.roomID == value)
+                {
+                    waves.Add(spawnerArray);
+                }
+            }
+            return waves;
+        }
+
 
         private readonly List<EnemySpawnPoint> spawnPoints = new List<EnemySpawnPoint>();
         
@@ -44,31 +71,38 @@ namespace Utility
         {
             yield return new WaitUntil(() => !waveIsInProgress);
             waveIsInProgress = true;
-
-            foreach (Wave wave in waveConfig[roomID].Waves)
+            yield return new WaitForSeconds(initialDelay);
+            foreach (SpawnerArray wave in SpawnerArraysByRoomID(roomID))
             {
                 OnPickupWaveTriggered?.Invoke(roomID);
-                foreach (SubWave subWave in wave.subWaves)
+                foreach (EnemySpawnConfig spawnConfig in wave.config.SpawnerConfigs)
                 {
-                    StartSubWave(roomID, subWave);
-                    yield return new WaitUntil(() => subWave.continuesWave || spawnedEnemyAmount <= 0);
+                    SpawnEnemyType(roomID, spawnConfig);
+                    yield return new WaitForSeconds(spawnConfig.spawnDelay);
                 }
+                yield return new WaitUntil(() => spawnedEnemyAmount <= 0);
+                yield return new WaitForSeconds(waveDelay);
             }
-
             waveIsInProgress = false;
             OnRoomIsFinished?.Invoke(roomID);
         }
 
-        private void StartSubWave(int roomID, SubWave subWave)
+        private void SpawnEnemyType(int roomID, EnemySpawnConfig spawnConfig)
         {
+            List<EnemySpawnPoint> possibleSpawnPoints = new List<EnemySpawnPoint> { };
             foreach (EnemySpawnPoint spawnPoint in spawnPoints)
             {
                 if (spawnPoint.roomID == roomID)
                 {
-                    spawnedEnemyAmount += subWave.amount;
-                    spawnPoint.SpawnSubWave(subWave);
+                    possibleSpawnPoints.Add(spawnPoint);
                 }
             }
+            for (int i = 0; i < spawnConfig.amount; i++)
+            {
+                spawnedEnemyAmount++;
+                StartCoroutine(possibleSpawnPoints[UnityEngine.Random.Range(0,possibleSpawnPoints.Count)].SpawnEnemy(spawnConfig.prefab));
+            }
+
         }
 
         public void RegisterSpawnPoint(EnemySpawnPoint spawnPoint)
