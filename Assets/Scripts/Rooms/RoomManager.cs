@@ -18,7 +18,6 @@ namespace Rooms
         private void OnEnable()
         {
             roomTrigger.onPlayerEnter += StartRoom;
-
             SetDoorsClosed(false);
         }
 
@@ -32,7 +31,6 @@ namespace Rooms
             if (roomLayouts == null || roomLayouts.Length == 0) return;
 
             SetDoorsClosed(true);
-
             StartCoroutine(SpawnEnemies());
         }
 
@@ -52,17 +50,18 @@ namespace Rooms
                     
                     if (tile == null) continue;
 
+                    Quaternion assetRotation = tile.tileAsset.transform.rotation;
+
                     if (tile.tileAsset.CompareTag("Enemy"))
                     {
-                        EnemySpawner spawner = Instantiate(spawnerPrefab, layout.CellToWorld(tilePosition),
-                            tile.tileAsset.transform.rotation);
+                        EnemySpawner spawner =
+                            Instantiate(spawnerPrefab, layout.CellToWorld(tilePosition), assetRotation);
                         spawner.enemyPrefab = tile.tileAsset;
                         enemyAmount++;
                     }
-                    else if (tile.tileAsset.CompareTag("Pickup"))
+                    else
                     {
-                        Instantiate(tile.tileAsset, layout.CellToWorld(tilePosition),
-                            tile.tileAsset.transform.rotation);
+                        Instantiate(tile.tileAsset, layout.CellToWorld(tilePosition), assetRotation);
                     }
                 }
 
@@ -74,11 +73,11 @@ namespace Rooms
             SetDoorsClosed(false);
         }
 
-        private void SetDoorsClosed(bool status)
+        private void SetDoorsClosed(bool isClosed)
         {
             foreach (GameObject door in doors)
             {
-                door.SetActive(status);
+                door.SetActive(isClosed);
             }
         }
 
