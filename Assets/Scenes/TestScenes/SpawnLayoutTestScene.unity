@@ -2274,10 +2274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c2d6a0da35c7a4c9a81a650be590fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyLayouts:
-  - {fileID: 1875917044}
-  - {fileID: 1836738896}
-  - {fileID: 918496929}
+  roomLayouts: []
   roomTrigger: {fileID: 844056328}
   doors:
   - {fileID: 262529573}
@@ -2635,7 +2632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c2d6a0da35c7a4c9a81a650be590fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyLayouts:
+  roomLayouts:
   - {fileID: 1067592749}
   - {fileID: 2017791521}
   roomTrigger: {fileID: 819015682}
@@ -3566,7 +3563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c2d6a0da35c7a4c9a81a650be590fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyLayouts:
+  roomLayouts:
   - {fileID: 816319098}
   roomTrigger: {fileID: 866911737}
   doors:

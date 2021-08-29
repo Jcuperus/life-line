@@ -6,6 +6,7 @@ using Player;
 using UnityEngine;
 using Utility;
 using Utility.Extensions;
+using Random = UnityEngine.Random;
 
 namespace Enemies
 {
@@ -18,7 +19,7 @@ namespace Enemies
         /**************** VARIABLES *******************/
         [Header("Stats")]
         [SerializeField] protected int health = 15;
-        [SerializeField] protected float activationDelay = 1f;
+        [SerializeField] protected float minActivationDelay = 0.3f, maxActivationDelay = 10f;
 
         [Header("Audio")]
         [SerializeField] protected AudioEvent hitSound;
@@ -67,7 +68,7 @@ namespace Enemies
             {
                 if (moveBehaviour != null) moveBehaviour.enabled = true;
                 isActive = true;
-            }, activationDelay);
+            }, Random.Range(minActivationDelay, maxActivationDelay));
         }
         
         protected virtual void DestroyEnemy()

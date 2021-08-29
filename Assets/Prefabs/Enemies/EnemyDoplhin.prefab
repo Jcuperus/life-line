@@ -182,7 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
-  activationDelay: 0.5
+  minActivationDelay: 0.3
+  maxActivationDelay: 1
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 5b7a401d35c352e4d8d9f163d6154517, type: 2}
