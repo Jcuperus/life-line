@@ -2274,7 +2274,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c2d6a0da35c7a4c9a81a650be590fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomLayouts: []
+  roomLayouts:
+  - {fileID: 1875917044}
+  - {fileID: 1836738896}
+  - {fileID: 918496929}
   roomTrigger: {fileID: 844056328}
   doors:
   - {fileID: 262529573}
