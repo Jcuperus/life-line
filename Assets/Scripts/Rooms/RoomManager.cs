@@ -7,7 +7,7 @@ namespace Rooms
 {
     public class RoomManager : MonoBehaviour
     {
-        [SerializeField] private Tilemap[] enemyLayouts;
+        [SerializeField] private Tilemap[] roomLayouts;
         [SerializeField] private PlayerTrigger roomTrigger;
         [SerializeField] private GameObject[] doors;
         [SerializeField] private EnemySpawner spawnerPrefab;
@@ -29,7 +29,7 @@ namespace Rooms
 
         private void StartRoom()
         {
-            if (enemyLayouts == null || enemyLayouts.Length == 0) return;
+            if (roomLayouts == null || roomLayouts.Length == 0) return;
 
             SetDoorsClosed(true);
 
@@ -40,7 +40,7 @@ namespace Rooms
         {
             AbstractEnemy.OnEnemyIsDestroyed += DecrementEnemyCounter;
 
-            foreach (Tilemap layout in enemyLayouts)
+            foreach (Tilemap layout in roomLayouts)
             {
                 yield return new WaitForSeconds(waveDelay);
                 
@@ -52,10 +52,18 @@ namespace Rooms
                     
                     if (tile == null) continue;
 
-                    EnemySpawner spawner = Instantiate(spawnerPrefab, layout.CellToWorld(tilePosition),
-                        tile.tileAsset.transform.rotation);
-                    spawner.enemyPrefab = tile.tileAsset;
-                    enemyAmount++;
+                    if (tile.tileAsset.CompareTag("Enemy"))
+                    {
+                        EnemySpawner spawner = Instantiate(spawnerPrefab, layout.CellToWorld(tilePosition),
+                            tile.tileAsset.transform.rotation);
+                        spawner.enemyPrefab = tile.tileAsset;
+                        enemyAmount++;
+                    }
+                    else if (tile.tileAsset.CompareTag("Pickup"))
+                    {
+                        Instantiate(tile.tileAsset, layout.CellToWorld(tilePosition),
+                            tile.tileAsset.transform.rotation);
+                    }
                 }
 
                 yield return new WaitUntil(() => enemyAmount == 0);
