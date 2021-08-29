@@ -6,13 +6,13 @@ namespace Gameplay.Projectile
 {
     public class ProjectileConfigurationManager : MonoBehaviour
     {
-        public ProjectileScriptableObject PlayerConfiguration { get; private set; }
-        public ProjectileScriptableObject PlayerRicochetConfiguration { get; private set; }
-        public ProjectileScriptableObject EnemyConfiguration { get; private set; }
-        public ProjectileScriptableObject EnemyRicochetConfiguration { get; private set; }
+        public ProjectileConfiguration PlayerConfiguration { get; private set; }
+        public ProjectileConfiguration PlayerRicochetConfiguration { get; private set; }
+        public ProjectileConfiguration EnemyConfiguration { get; private set; }
+        public ProjectileConfiguration EnemyRicochetConfiguration { get; private set; }
         
-        [SerializeField] private ProjectileScriptableObject playerConfigurationPrefab, playerRicochetConfigurationPrefab;
-        [SerializeField] private ProjectileScriptableObject enemyConfigurationPrefab, enemyRicochetConfigurationPrefab;
+        [SerializeField] private ProjectileConfiguration playerConfigurationPrefab, playerRicochetConfigurationPrefab;
+        [SerializeField] private ProjectileConfiguration enemyConfigurationPrefab, enemyRicochetConfigurationPrefab;
 
         private bool speedShotIsActive;
 

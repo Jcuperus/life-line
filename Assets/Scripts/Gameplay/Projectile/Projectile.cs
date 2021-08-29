@@ -10,12 +10,14 @@ namespace Gameplay.Projectile
     public class Projectile : MonoBehaviour
     {
         /**************** VARIABLES *******************/
-        public ProjectileScriptableObject projectileConfiguration;
+        public ProjectileConfiguration projectileConfiguration;
         
         [HideInInspector] public Vector2 direction = Vector2.zero;
         [HideInInspector] public int damage;
         [HideInInspector] public float speed;
         
+        private bool IsRicochet => ricochetAmount > 0;
+
         private Rigidbody2D body;
         private SpriteRenderer spriteRenderer;
         private TrailRenderer trailRenderer;
@@ -35,8 +37,7 @@ namespace Gameplay.Projectile
         {
             damage = projectileConfiguration.damage;
             ricochetAmount = projectileConfiguration.ricochetAmount;
-            spriteRenderer.sprite = projectileConfiguration.projectileSprite;
-            trailRenderer.colorGradient = projectileConfiguration.trailGradient;
+            SetProjectileAppearance(IsRicochet);
             speed = projectileConfiguration.projectileSpeed;
             transform.eulerAngles = Vector3.forward * direction.GetAngle();
         }
@@ -67,7 +68,7 @@ namespace Gameplay.Projectile
 
             if (contactNormal == lastContactNormal) return;
             
-            if (ricochetAmount > 0)
+            if (IsRicochet)
             {
                 direction = Vector2.Reflect(direction, contactNormal);
                 ricochetAmount--;
@@ -77,6 +78,8 @@ namespace Gameplay.Projectile
             {
                 Disable();
             }
+            
+            SetProjectileAppearance(IsRicochet);
 
             if (collision.gameObject.TryGetComponent(out IDamageable projectileHit))
             {
@@ -100,6 +103,14 @@ namespace Gameplay.Projectile
             }
 
             return normal.normalized;
+        }
+        
+        private void SetProjectileAppearance(bool isRicochet)
+        {
+            ProjectileAppearance appearance =
+                isRicochet ? projectileConfiguration.ricochetAppearance : projectileConfiguration.appearance;
+            spriteRenderer.sprite = appearance.sprite;
+            trailRenderer.colorGradient = appearance.trailGradient;
         }
         /**********************************************/
     }
