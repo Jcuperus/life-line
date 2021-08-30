@@ -11,6 +11,7 @@ namespace Rooms
         [SerializeField] private PlayerTrigger roomTrigger;
         [SerializeField] private GameObject[] doors;
         [SerializeField] private EnemySpawner spawnerPrefab;
+        [SerializeField] private int waveAdvanceThreshold = 2;
         [SerializeField] private float waveDelay = 2f;
 
         private int enemyAmount;
@@ -38,10 +39,11 @@ namespace Rooms
         {
             AbstractEnemy.OnEnemyIsDestroyed += DecrementEnemyCounter;
 
-            foreach (Tilemap layout in roomLayouts)
+            for (int i = 0; i < roomLayouts.Length; i++)
             {
                 yield return new WaitForSeconds(waveDelay);
                 
+                Tilemap layout = roomLayouts[i];
                 BoundsInt bounds = layout.cellBounds;
 
                 foreach (Vector3Int tilePosition in bounds.allPositionsWithin)
@@ -65,7 +67,7 @@ namespace Rooms
                     }
                 }
 
-                yield return new WaitUntil(() => enemyAmount == 0);
+                yield return new WaitUntil(() => CanAdvanceWave(i));
             }
             
             AbstractEnemy.OnEnemyIsDestroyed -= DecrementEnemyCounter;
@@ -79,6 +81,11 @@ namespace Rooms
             {
                 door.SetActive(isClosed);
             }
+        }
+
+        private bool CanAdvanceWave(int waveIndex)
+        {
+            return waveIndex < roomLayouts.Length - 1 && enemyAmount <= waveAdvanceThreshold || enemyAmount == 0;
         }
 
         private void DecrementEnemyCounter() => enemyAmount--;
