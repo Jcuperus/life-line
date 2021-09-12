@@ -23,6 +23,8 @@ public class GameManager : MonoSingleton<GameManager>
     [Header("Music")]
     [SerializeField] private AudioClip restartSound;
     private AudioSource audioSource;
+
+    private IEnumerator powerupTimerCoroutine;
     
     private float BulletTime { get; set; }
 
@@ -140,6 +142,8 @@ public class GameManager : MonoSingleton<GameManager>
     }
     private void Restart()
     {
+        if (powerupTimerCoroutine != null) StopCoroutine(powerupTimerCoroutine);
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         TransitionToState(State.Running);
         audioSource.PlayOneShot(restartSound);
@@ -188,10 +192,17 @@ public class GameManager : MonoSingleton<GameManager>
         }
         if (duration > 0)
         {
-            StartCoroutine(ShowPowerup(pickup.gameObject.GetComponent<SpriteRenderer>().sprite, duration));
+            ShowPowerup(pickup.gameObject.GetComponent<SpriteRenderer>().sprite, duration);
         }
     }
-    private IEnumerator ShowPowerup(Sprite sprite, float duration)
+
+    private void ShowPowerup(Sprite sprite, float duration)
+    {
+        powerupTimerCoroutine = ShowPowerupCoroutine(sprite, duration);
+        StartCoroutine(powerupTimerCoroutine);
+    }
+    
+    private IEnumerator ShowPowerupCoroutine(Sprite sprite, float duration)
     {
         Slider slider = Instantiate(powerupTimer, FindObjectOfType<Canvas>().transform);
         slider.handleRect.GetComponent<Image>().sprite = sprite;
@@ -203,6 +214,7 @@ public class GameManager : MonoSingleton<GameManager>
             duration -= Time.deltaTime;
         }
         Destroy(slider.gameObject);
+        powerupTimerCoroutine = null;
     }
 
     public void Death()
