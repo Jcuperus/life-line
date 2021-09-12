@@ -2,6 +2,7 @@ using System.Collections;
 using Enemies;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Utility;
 
 namespace Rooms
 {
@@ -14,7 +15,18 @@ namespace Rooms
         [SerializeField] private int waveAdvanceThreshold = 2;
         [SerializeField] private float waveDelay = 2f;
 
+        private MusicSource musicSource;
         private int enemyAmount;
+
+        private void Awake()
+        {
+            musicSource = GetComponent<MusicSource>();
+
+            if (musicSource == null)
+            {
+                musicSource = gameObject.AddComponent<MusicSource>();
+            }
+        }
 
         private void OnEnable()
         {
@@ -31,6 +43,7 @@ namespace Rooms
         {
             if (roomLayouts == null || roomLayouts.Length == 0) return;
 
+            musicSource.Play();
             SetDoorsClosed(true);
             StartCoroutine(SpawnEnemies());
         }
