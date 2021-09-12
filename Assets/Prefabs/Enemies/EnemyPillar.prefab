@@ -158,10 +158,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6166505750636684242}
-  - component: {fileID: 7104698179494510157}
   - component: {fileID: -61537561848947375}
   - component: {fileID: -6355299289054250575}
   - component: {fileID: -4579008265611315964}
+  - component: {fileID: 7104698179494510157}
   m_Layer: 10
   m_Name: EnemyPillar
   m_TagString: Enemy
@@ -184,27 +184,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7104698179494510157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7024805073591739110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ad1488ebc14027478fcdee2847b5aaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 5
-  minActivationDelay: 0.3
-  maxActivationDelay: 1
-  hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
-  fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
-  deathSound: {fileID: 11400000, guid: 6ab36af98f86a4d44b9518328178b49a, type: 2}
-  animationController: {fileID: 1105300197167109875}
-  fireBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
-  fireRate: 2
 --- !u!50 &-61537561848947375
 Rigidbody2D:
   serializedVersion: 4
@@ -220,7 +199,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: cf4d6ca78f10a1540a9c247eb2de5290, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -338,3 +317,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7104698179494510157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7024805073591739110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad1488ebc14027478fcdee2847b5aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
+  minActivationDelay: 0.3
+  maxActivationDelay: 1
+  hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
+  fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
+  deathSound: {fileID: 11400000, guid: 6ab36af98f86a4d44b9518328178b49a, type: 2}
+  animationController: {fileID: 1105300197167109875}
+  fireBehaviour: {fileID: 11400000, guid: 43f4c59fccbdd234f91ae590e423b15a, type: 2}
+  fireRate: 2
