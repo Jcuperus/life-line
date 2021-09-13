@@ -332,17 +332,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23194ea4d9dfbf4e9cbf31663dcbfae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 80
+  health: 120
   minActivationDelay: 0.3
-  maxActivationDelay: 4
+  maxActivationDelay: 3
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
   deathSound: {fileID: 11400000, guid: 122d3d6e38b96164296e62fe43298b1c, type: 2}
   animationController: {fileID: 423127553469471644}
-  patternShootDelay: 3
+  patternShootDelay: 2
   attackConfigurations:
   - attackBehaviour: {fileID: 11400000, guid: 1bb5e0d751977764487989ce966f01c4, type: 2}
-    projectileType: 1
+    projectileType: 3
   - attackBehaviour: {fileID: 11400000, guid: b6c86a0292562b24a96c0b268696acff, type: 2}
     projectileType: 1
   - attackBehaviour: {fileID: 11400000, guid: 73a6c57ad77682a45937782fb3c695d5, type: 2}
