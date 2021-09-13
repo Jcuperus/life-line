@@ -21,7 +21,7 @@ public class MusicManager : MonoSingleton<MusicManager>
         if (clip == audioSource.clip) return;
 
         audioSource.clip = clip;
-        audioSource.Play();;
+        audioSource.Play();
     }
 
     public void Stop()

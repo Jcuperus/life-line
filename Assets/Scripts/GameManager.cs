@@ -152,6 +152,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void StartLevel(string scene)
     {
         SceneManager.LoadScene(scene);
+        MusicManager.Instance.Stop();
         StartCoroutine(OnSceneStart(scene));
     }
     
