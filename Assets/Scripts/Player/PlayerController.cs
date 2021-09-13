@@ -23,10 +23,14 @@ namespace Player
         [SerializeField, Range(0f, 1f)]
         private float healthSegmentWeight = 0.05f;
 
+        [Header("Damage Boost Configuration")]
+        [SerializeField] private float segmentDamageMultiplier = 1f;
+        [SerializeField] private int maxDamageBoost = 5;
+        
         [Header("Sound Effects")] 
         [SerializeField] private AudioEvent damageSounds;
         [SerializeField] private AudioEvent deathSounds;
-        
+
         private AudioSource audioSource;
         private MovementController movementController;
         private FireController fireController;
@@ -115,10 +119,15 @@ namespace Player
         private void DetachHealthBar()
         {
             if (!HasHealthBar()) return;
-            OnDamageBoostChanged?.Invoke(healthBarLength);
+            OnDamageBoostChanged?.Invoke(CalculateDamageBoost(healthBarLength));
             healthBar.RemoveFirst();
             healthBar = null;
             healthBarLength = 0;
+        }
+
+        private int CalculateDamageBoost(int boostAmount)
+        {
+            return Mathf.Min(Mathf.FloorToInt(boostAmount * segmentDamageMultiplier), maxDamageBoost);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

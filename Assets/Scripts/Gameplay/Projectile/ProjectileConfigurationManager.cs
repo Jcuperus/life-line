@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Player;
 using UnityEngine;
 
@@ -48,7 +49,7 @@ namespace Gameplay.Projectile
 
             StartCoroutine(SpeedShotCoroutine(duration));
         }
-        
+
         private IEnumerator SpeedShotCoroutine(float duration)
         {
             speedShotIsActive = true;
