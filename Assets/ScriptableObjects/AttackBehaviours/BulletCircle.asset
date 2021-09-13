@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BulletCircle
   m_EditorClassIdentifier: 
   circleRadius: 9.5
-  bulletAmount: 20
+  bulletAmount: 10

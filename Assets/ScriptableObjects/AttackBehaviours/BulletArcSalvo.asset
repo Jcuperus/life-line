@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BulletArcSalvo
   m_EditorClassIdentifier: 
   attackBehaviour: {fileID: 11400000, guid: dbe12cda0c31ae4419c5bc4ee168157f, type: 2}
-  fireDelay: 0.5
-  amount: 4
+  fireDelay: 2
+  repeatAmount: 5
