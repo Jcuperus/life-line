@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Gameplay.Projectile;
 using UnityEngine;
 
@@ -10,33 +11,26 @@ namespace Gameplay.AttackBehaviour
         [SerializeField] private FireBehaviour attackBehaviour;
         [SerializeField] private float fireDelay = 0.5f;
         [SerializeField] private int repeatAmount = 6;
-        
-        private bool isFinished;
 
         public override void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, Vector3 direction)
         {
-            source.StartCoroutine(ExecuteCoroutine(projectileType, source, () => direction));
+            source.StartCoroutine(ExecuteCoroutine(projectileType, source, () => direction, () => {}));
         }
 
-        public override void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, CalculateDirectionAction directionAction)
+        public override void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, CalculateDirectionAction directionAction, Action finishedCallback)
         {
-            source.StartCoroutine(ExecuteCoroutine(projectileType, source, directionAction));
+            source.StartCoroutine(ExecuteCoroutine(projectileType, source, directionAction, finishedCallback));
         }
 
-        public override bool IsFinished()
-        {
-            return isFinished;
-        }
-
-        private IEnumerator ExecuteCoroutine(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, CalculateDirectionAction directionAction)
+        private IEnumerator ExecuteCoroutine(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, CalculateDirectionAction directionAction, Action finishedCallback)
         {
             for (int i = 0; i < repeatAmount; i++)
             {
-                yield return new WaitForSeconds(fireDelay);
                 attackBehaviour.Execute(projectileType, source, directionAction());
+                yield return new WaitForSeconds(fireDelay);
             }
 
-            isFinished = true;
+            finishedCallback();
         }
     }
 }

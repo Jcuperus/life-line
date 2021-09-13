@@ -12,8 +12,8 @@ namespace Rooms
         [SerializeField] private PlayerTrigger roomTrigger;
         [SerializeField] private GameObject[] doors;
         [SerializeField] private EnemySpawner spawnerPrefab;
-        [SerializeField] private int waveAdvanceThreshold = 2;
-        [SerializeField] private float waveDelay = 2f;
+        [SerializeField, Min(0)] private int waveAdvanceThreshold = 2;
+        [SerializeField, Min(0)] private float waveDelay = 2f;
 
         private MusicSource musicSource;
         private int enemyAmount;

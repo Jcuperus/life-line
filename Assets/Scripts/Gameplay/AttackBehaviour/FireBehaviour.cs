@@ -1,3 +1,4 @@
+using System;
 using Gameplay.Projectile;
 using UnityEngine;
 
@@ -12,14 +13,10 @@ namespace Gameplay.AttackBehaviour
         
         public abstract void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, Vector3 direction);
 
-        public virtual void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, CalculateDirectionAction directionAction)
+        public virtual void Execute(ProjectileFactory.ProjectileTypes projectileType, MonoBehaviour source, CalculateDirectionAction directionAction, Action finishedCallback)
         {
             Execute(projectileType, source, directionAction());
-        }
-        
-        public virtual bool IsFinished()
-        {
-            return true;
+            finishedCallback();
         }
     }
 }

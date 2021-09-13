@@ -11,7 +11,8 @@ namespace Enemies
     public class EnemySun : AbstractEnemy
     {
         /**************** VARIABLES *******************/
-        [SerializeField] private float patternShootDelay = 1.5f;
+        [Header("Enemy Sun")]
+        [SerializeField, Min(0)] private float patternShootDelay = 1.5f;
 
         [Serializable]
         private struct AttackConfiguration
@@ -23,6 +24,8 @@ namespace Enemies
         [SerializeField] private AttackConfiguration[] attackConfigurations;
         private MultiAttackAnimationBehaviour attackAnimationBehaviour;
 
+        private bool isAttacking;
+        
         public static event Action OnSunDefeated;
         /**********************************************/
     
@@ -53,13 +56,15 @@ namespace Enemies
             {
                 yield return new WaitForSeconds(patternShootDelay);
 
+                isAttacking = true;
                 attackAnimationBehaviour.Play(configurationIndex);
                 AttackConfiguration configuration = attackConfigurations[configurationIndex];
 
                 Vector3 currentPosition = transform.position;
                 configuration.attackBehaviour.Execute(configuration.projectileType, this,
-                    () => (player.transform.position - currentPosition).normalized);
-                yield return new WaitUntil(() => configuration.attackBehaviour.IsFinished());
+                    () => (player.transform.position - currentPosition).normalized,
+                    () => isAttacking = false);
+                yield return new WaitUntil(() => !isAttacking);
 
                 configurationIndex = Random.Range(0, attackConfigurations.Length);
             }
