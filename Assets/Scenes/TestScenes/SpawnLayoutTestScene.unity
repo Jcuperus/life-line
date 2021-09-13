@@ -2759,7 +2759,7 @@ MonoBehaviour:
   - {fileID: 2055295022}
   - {fileID: 419226936}
   spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
-  waveAdvanceThreshold: 2
+  waveAdvanceThreshold: 0
   waveDelay: 2
 --- !u!114 &971502539
 MonoBehaviour:
@@ -3007,7 +3007,7 @@ MonoBehaviour:
   - {fileID: 1141866788}
   - {fileID: 1269201673}
   spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
-  waveAdvanceThreshold: 2
+  waveAdvanceThreshold: 0
   waveDelay: 2
 --- !u!114 &1062214029
 MonoBehaviour:
@@ -4004,7 +4004,7 @@ MonoBehaviour:
   - {fileID: 262529573}
   - {fileID: 890550169}
   spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
-  waveAdvanceThreshold: 2
+  waveAdvanceThreshold: 0
   waveDelay: 2
 --- !u!114 &1305101832
 MonoBehaviour:
@@ -4618,7 +4618,7 @@ MonoBehaviour:
   - {fileID: 1234999874}
   - {fileID: 1524677728}
   spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
-  waveAdvanceThreshold: 2
+  waveAdvanceThreshold: 0
   waveDelay: 2
 --- !u!114 &1532822413
 MonoBehaviour:
@@ -5966,7 +5966,7 @@ MonoBehaviour:
   doors:
   - {fileID: 1101997167}
   spawnerPrefab: {fileID: 3319035551502267255, guid: 323eec37a28751648b067546bcb89d86, type: 3}
-  waveAdvanceThreshold: 2
+  waveAdvanceThreshold: 0
   waveDelay: 2
 --- !u!114 &2051447762
 MonoBehaviour:

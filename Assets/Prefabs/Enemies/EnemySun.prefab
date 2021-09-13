@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23194ea4d9dfbf4e9cbf31663dcbfae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 70
+  health: 10
   minActivationDelay: 0.3
   maxActivationDelay: 4
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
