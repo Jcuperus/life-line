@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 120
-  minActivationDelay: 0.3
+  minActivationDelay: 0.8
   maxActivationDelay: 3
   hitSound: {fileID: 11400000, guid: ca5d9dba1ba578b41ae3766eb25396af, type: 2}
   fireSound: {fileID: 11400000, guid: 09141839eb969284488d63539a88ff98, type: 2}
