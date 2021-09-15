@@ -20,8 +20,6 @@ namespace UI
 
         private void UpdateCounter(int amount)
         {
-            Debug.Log(amount);
-            
             for (int i = 0; i < tickContainer.transform.childCount; i++)
             {
                 Destroy(tickContainer.transform.GetChild(i).gameObject);

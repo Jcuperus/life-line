@@ -340,6 +340,7 @@ MonoBehaviour:
   idleAnimation: {fileID: 11400000, guid: 631e01844dfdfbb44aa632dd4867db8d, type: 2}
   hurtAnimation: {fileID: 0}
   deathAnimation: {fileID: 11400000, guid: f3a6383fbbbc7204ba0ff486ee16a568, type: 2}
+  spawnAnimation: {fileID: 11400000, guid: 7e9213148adf4ae4c98ac789a0446665, type: 2}
 --- !u!114 &6312854392209811172
 MonoBehaviour:
   m_ObjectHideFlags: 0

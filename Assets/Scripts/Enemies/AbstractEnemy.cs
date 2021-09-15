@@ -34,7 +34,8 @@ namespace Enemies
         protected MoveBehaviour moveBehaviour;
         protected AudioSource audioSource;
         protected PlayerController player;
-        protected bool isActive, isAlive = true;
+        protected bool isAlive = true;
+        private bool isActive;
 
         public static event Action OnEnemyIsDestroyed;
         /**********************************************/
@@ -48,12 +49,13 @@ namespace Enemies
             moveBehaviour = GetComponent<MoveBehaviour>();
 
             animationController.OnDeathAnimationFinished += DestroyEnemy;
+            animationController.OnSpawnAnimationFinished += EnableEnemy;
             
-            DisableEnemy();
         }
 
         protected virtual void Start()
         {
+            DisableEnemy();
             StartCoroutine(AttackCoroutine());
         }
         /**********************************************/
@@ -63,12 +65,21 @@ namespace Enemies
         {
             if (moveBehaviour != null) moveBehaviour.enabled = false;
             isActive = false;
-            
-            this.DelayedAction(() =>
+
+            if (animationController.HasSpawnAnimation())
             {
-                if (moveBehaviour != null) moveBehaviour.enabled = true;
-                isActive = true;
-            }, Random.Range(minActivationDelay, maxActivationDelay));
+                animationController.PlaySpawnAnimation();
+            }
+            else
+            {
+                this.DelayedAction(EnableEnemy, Random.Range(minActivationDelay, maxActivationDelay));
+            }
+        }
+
+        private void EnableEnemy()
+        {
+            if (moveBehaviour != null) moveBehaviour.enabled = true;
+            isActive = true;
         }
         
         protected virtual void DestroyEnemy()

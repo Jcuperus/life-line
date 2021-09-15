@@ -8,9 +8,7 @@ namespace Animation
     [RequireComponent(typeof(SkeletonAnimation), typeof(AttackAnimationBehaviour))]
     public class ActorAnimationController : MonoBehaviour
     {
-        [SerializeField] private AnimationReferenceAsset idleAnimation; 
-        [SerializeField] private AnimationReferenceAsset hurtAnimation;
-        [SerializeField] private AnimationReferenceAsset deathAnimation;
+        [SerializeField] private AnimationReferenceAsset idleAnimation, hurtAnimation, deathAnimation, spawnAnimation;
         
         private SkeletonAnimation animator;
         public AttackAnimationBehaviour AttackAnimation { get; set; }
@@ -20,7 +18,8 @@ namespace Animation
             Idle,
             Hurt,
             Attacking,
-            Death
+            Death,
+            Spawn
         }
         
         public AnimationState CurrentState
@@ -36,7 +35,7 @@ namespace Animation
         
         private bool canInterruptAnimation = true;
         
-        public event Action OnDeathAnimationFinished;
+        public event Action OnDeathAnimationFinished, OnSpawnAnimationFinished;
 
         private void Awake()
         {
@@ -46,8 +45,15 @@ namespace Animation
 
         private void Start()
         {
-            CurrentState = AnimationState.Idle;
-            SetAnimation(idleAnimation, true, 1f);
+            if (HasSpawnAnimation())
+            {
+                PlaySpawnAnimation();
+            }
+            else
+            {
+                CurrentState = AnimationState.Idle;
+                SetAnimation(idleAnimation, true, 1f);
+            }
         }
 
         private void OnAnimationComplete(TrackEntry trackEntry)
@@ -57,13 +63,17 @@ namespace Animation
                 case AnimationState.Death:
                     OnDeathAnimationFinished?.Invoke();
                     break;
+                case AnimationState.Spawn:
+                    OnSpawnAnimationFinished?.Invoke();
+                    SetAnimation(idleAnimation, true, 1f);
+                    break;
                 default:
                     CurrentState = AnimationState.Idle;
                     SetAnimation(idleAnimation, true, 1f);
                     break;
             }
         }
-        
+
         public void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
         {
             if (!canInterruptAnimation || animation == null) return;
@@ -84,6 +94,17 @@ namespace Animation
             CurrentState = AnimationState.Death;
             SetAnimation(deathAnimation, false, timeScale);
             canInterruptAnimation = false;
+        }
+
+        public void PlaySpawnAnimation(float timeScale = 1f)
+        {
+            CurrentState = AnimationState.Spawn;
+            SetAnimation(spawnAnimation, false, timeScale);
+        }
+
+        public bool HasSpawnAnimation()
+        {
+            return spawnAnimation != null;
         }
     }
 }
