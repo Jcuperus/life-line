@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerDeath
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: ef46a0718cbebe74d8c7ce854e3e80d7, type: 3}
+  - {fileID: 8300000, guid: 6e326e82a893c294691c42d01409b02f, type: 3}
   volumeMin: 1
   volumeMax: 2
   pitchMin: 1

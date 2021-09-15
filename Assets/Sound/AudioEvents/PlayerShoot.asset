@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerShoot
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: e0455a12bf581284aa9092f6c90b5bd3, type: 3}
+  - {fileID: 8300000, guid: c33a41cfc5cad6a42ae25617a8c361f4, type: 3}
   volumeMin: 1
   volumeMax: 2
   pitchMin: 1

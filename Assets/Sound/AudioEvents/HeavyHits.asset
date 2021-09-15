@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: HeavyHits
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: c15cf83bcfd166c4ab54bee25c3ded3b, type: 3}
+  - {fileID: 8300000, guid: 265779ea3753d5d429afc3982500dcb5, type: 3}
+  - {fileID: 8300000, guid: 488455b4fed21f34e86918c260b92867, type: 3}
   volumeMin: 1
   volumeMax: 2
   pitchMin: 1
