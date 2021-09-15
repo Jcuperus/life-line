@@ -105,14 +105,14 @@ namespace Player
             }
             OnDamageBoostChanged?.Invoke(0);
             healthBar.SpawnSegment();
-            healthBarLength = healthBar.Count;
+            UpdateHealthBarLength();
         }
 
         private void AttachHealthBar(HealthBar newHealthBar)
         {
             healthBar = newHealthBar;
             healthBar.AddFirst(Node);
-            healthBarLength = healthBar.Count;
+            UpdateHealthBarLength();
             OnDamageBoostChanged?.Invoke(0);
         }
 
@@ -124,6 +124,8 @@ namespace Player
             healthBar = null;
             healthBarLength = 0;
         }
+        
+        private void UpdateHealthBarLength() => healthBarLength = healthBar.Count - 1;
 
         private int CalculateDamageBoost(int boostAmount)
         {
@@ -151,7 +153,7 @@ namespace Player
         {
             return healthBar != null && healthBar.IsFirst(Node);
         }
-
+        
         private void Death()
         {
             if (!isAlive) return;
@@ -182,6 +184,7 @@ namespace Player
             if (HasHealthBar() && healthBar.Count > 1)
             {
                 healthBar.RemoveLast();
+                UpdateHealthBarLength();
             }
             else
             {

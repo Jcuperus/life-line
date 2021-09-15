@@ -1,19 +1,13 @@
 ﻿using Player;
-using TMPro;
 using UnityEngine;
 
 namespace UI
 {
-    [RequireComponent(typeof(TextMeshProUGUI))]
     public class DamageBoostUIController : MonoBehaviour
     {
-        private TextMeshProUGUI boostCounterText;
+        [SerializeField] private GameObject tickContainer;
+        [SerializeField] private GameObject tickPrefab;
         
-        private void Awake()
-        {
-            boostCounterText = GetComponent<TextMeshProUGUI>();
-        }
-
         private void OnEnable()
         {
             PlayerController.OnDamageBoostChanged += UpdateCounter;
@@ -26,7 +20,17 @@ namespace UI
 
         private void UpdateCounter(int amount)
         {
-            boostCounterText.text = "Damage Boost: " + amount;
+            Debug.Log(amount);
+            
+            for (int i = 0; i < tickContainer.transform.childCount; i++)
+            {
+                Destroy(tickContainer.transform.GetChild(i).gameObject);
+            }
+            
+            for (int i = 0; i < amount; i++)
+            {
+                Instantiate(tickPrefab, tickContainer.transform, false);
+            }
         }
     }
 }
