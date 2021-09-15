@@ -1,0 +1,41 @@
+
+GMTK2021RE - 0psd - Enemy 2.png
+size: 363, 151
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+base
+  rotate: true
+  xy: 2, 4
+  size: 147, 256
+  orig: 147, 256
+  offset: 0, 0
+  index: -1
+mouth
+  rotate: false
+  xy: 260, 5
+  size: 37, 26
+  orig: 37, 26
+  offset: 0, 0
+  index: -1
+static eyes 1
+  rotate: false
+  xy: 260, 113
+  size: 101, 38
+  orig: 101, 38
+  offset: 0, 0
+  index: -1
+static eyes 2
+  rotate: false
+  xy: 260, 73
+  size: 101, 38
+  orig: 101, 38
+  offset: 0, 0
+  index: -1
+static eyes 3
+  rotate: false
+  xy: 260, 33
+  size: 101, 38
+  orig: 101, 38
+  offset: 0, 0
+  index: -1
