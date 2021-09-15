@@ -136,6 +136,7 @@ MonoBehaviour:
   idleAnimation: {fileID: 11400000, guid: c3d09316121cf534f9069adc52a41712, type: 2}
   hurtAnimation: {fileID: 11400000, guid: 9ad4f99769504e240903e8d606645f75, type: 2}
   deathAnimation: {fileID: 11400000, guid: aabfcf86ad702344284ae5380b30ec6c, type: 2}
+  spawnAnimation: {fileID: 0}
 --- !u!114 &8962670866797948973
 MonoBehaviour:
   m_ObjectHideFlags: 0

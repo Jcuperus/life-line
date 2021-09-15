@@ -79,7 +79,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            Application.Quit();
+            Quit();
         }
 
         if (CurrentState == State.Running)
@@ -118,7 +118,7 @@ public class GameManager : MonoSingleton<GameManager>
         CurrentState = state;
         OnStateChanged?.Invoke(state);
     }
-    
+
     private void TogglePause()
     {
         if (CurrentState == State.Paused)
@@ -140,6 +140,7 @@ public class GameManager : MonoSingleton<GameManager>
             pauseScreenObject.gameObject.SetActive(true);
         }
     }
+    
     private void Restart()
     {
         if (powerupTimerCoroutine != null) StopCoroutine(powerupTimerCoroutine);
@@ -230,6 +231,16 @@ public class GameManager : MonoSingleton<GameManager>
         TransitionToState(State.Ended);
         MusicManager.Instance.Stop();
         Instantiate(winScreenPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0), Quaternion.identity);
+    }
+
+    public void ReturnToMenu()
+    {
+        StartLevel("MenuScene");
+    }
+    
+    public void Quit()
+    {
+        Application.Quit();
     }
     /**********************************************/
 }
